@@ -1,0 +1,116 @@
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+@font-face {
+  font-family: "Butterfly Kids";
+  src: url("./assets/font/ButterflyKids-Regular.ttf");
+}
+
+canvas {
+  display: block;
+}
+
+svg {
+  display: block;
+}
+
+.icon-button {
+  background: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  aspect-ratio: 1;
+  border-radius: 8px;
+}
+
+.icon-button:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.link {
+  text-decoration: none;
+  color: #eee;
+}
+
+.link:hover {
+  color: white;
+}
+
+.rotate {
+  animation: rotate 1s infinite;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(180deg);
+  }
+}
+
+.loader {
+  width: 45px;
+  aspect-ratio: 1;
+  --c: no-repeat linear-gradient(currentColor 0 0);
+  background:
+    var(--c) 0% 50%,
+    var(--c) 50% 50%,
+    var(--c) 100% 50%;
+  background-size: 20% 100%;
+  animation: l1 1s infinite linear;
+}
+@keyframes l1 {
+  0% {
+    background-size:
+      20% 100%,
+      20% 100%,
+      20% 100%;
+  }
+  33% {
+    background-size:
+      20% 10%,
+      20% 100%,
+      20% 100%;
+  }
+  50% {
+    background-size:
+      20% 100%,
+      20% 10%,
+      20% 100%;
+  }
+  66% {
+    background-size:
+      20% 100%,
+      20% 100%,
+      20% 10%;
+  }
+  100% {
+    background-size:
+      20% 100%,
+      20% 100%,
+      20% 100%;
+  }
+}

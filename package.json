@@ -3,22 +3,39 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "DEV=true next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "npx @biomejs/biome lint --write src/",
+    "format": "npx @biomejs/biome format --write src/",
+    "check": "npx @biomejs/biome check --write src/",
+    "preview": "vite preview",
+    "gltfjsx": "npx gltfjsx -t --root public/ --transform"
   },
   "dependencies": {
+    "@react-three/drei": "^10.5.1",
+    "@react-three/fiber": "^9.2.0",
+    "@tonejs/midi": "^2.0.28",
+    "@tremolo-ui/functions": "^0.1.0-alpha.2",
+    "@tremolo-ui/react": "^0.1.0-alpha.2",
+    "next": "15.4.4",
     "react": "19.1.0",
     "react-dom": "19.1.0",
-    "next": "15.4.4"
+    "react-icons": "^5.5.0",
+    "react-use": "^17.6.0",
+    "three": "^0.178.0",
+    "tone": "^15.1.22",
+    "zustand": "^5.0.6"
   },
   "devDependencies": {
-    "typescript": "^5",
+    "@biomejs/biome": "2.1.2",
+    "@tailwindcss/postcss": "^4",
+    "@types/audioworklet": "^0.0.77",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "@tailwindcss/postcss": "^4",
-    "tailwindcss": "^4"
+    "@types/three": "^0.178.1",
+    "tailwindcss": "^4",
+    "typescript": "^5"
   }
 }
