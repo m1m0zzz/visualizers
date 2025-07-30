@@ -1,21 +1,17 @@
 "use client"
 
-import {
-  CameraControls,
-  Environment,
-  Fisheye,
-  OrbitControls,
-  PerspectiveCamera,
-} from "@react-three/drei"
+import { Fisheye, OrbitControls, PerspectiveCamera } from "@react-three/drei"
 import { Canvas } from "@react-three/fiber"
-import { type ComponentProps, Suspense } from "react"
+import { type ComponentProps, Suspense, useRef } from "react"
 import { Loading } from "@/components/Loading"
 import { PottedPlant2 } from "@/models/PottedPlant2"
-import { SuspenseGroup } from "@/util/three"
-import { log } from "@/util/util"
+import { CustomDirectionalLight, CustomEnvironment } from "@/util/three"
+import { isDev, log } from "@/util/util"
 
 export function Animation({ style, ...props }: ComponentProps<"div">) {
   log("mount Animation")
+
+  const camera = useRef<typeof PerspectiveCamera>(null)
 
   return (
     <div
@@ -26,33 +22,39 @@ export function Animation({ style, ...props }: ComponentProps<"div">) {
       {...props}
     >
       <Suspense fallback={<Loading />}>
-        <Canvas flat>
-          <Fisheye>
+        <Canvas>
+          <Fisheye zoom={0}>
             {/* camera and lighting */}
-            <PerspectiveCamera makeDefault position={[1, 1, 1]} />
-            <Environment preset="forest" background blur={1} backgroundIntensity={0.8} />
+            {/* @ts-ignore */}
+            <PerspectiveCamera ref={camera} makeDefault position={[1, 1.5, 1]} />
+            <CustomEnvironment preset="forest" background blur={1} backgroundIntensity={0.3} />
+            {/* <Environment  /> */}
             <ambientLight color={"#fff"} intensity={1} />
-            <directionalLight color={"#fff"} intensity={0.8} position={[2, 4, 2]} />
+
+            <CustomDirectionalLight
+              helper={isDev()}
+              color={"#259fef"}
+              intensity={1.3}
+              position={[-1, 5, -0.5]}
+            />
 
             {/* models */}
-            <PottedPlant2 position={[0, -0.7, 0]} scale={3} />
+            <PottedPlant2 position={[0, 0, 0]} scale={3} />
+
+            {/* <Plane position={[0, 0, 0]} rotation={[Math.PI / 2, 0, 0]} scale={20}>
+              <GrassMaterial repeat={4} />
+            </Plane> */}
 
             {/* helpers */}
-            <axesHelper />
-            <gridHelper />
-            <CameraControls
-              minPolarAngle={(Math.PI / 2) * 0.4}
-              maxPolarAngle={(Math.PI / 2) * 0.8}
-              minDistance={1}
-              maxDistance={1.7}
+            {isDev() && <axesHelper />}
+            {isDev() && <gridHelper />}
+            <OrbitControls
+              makeDefault
+              minPolarAngle={(Math.PI / 2) * 0.3}
+              maxPolarAngle={(Math.PI / 2) * 0.7}
+              enableZoom={isDev()}
             />
           </Fisheye>
-          {/* <OrbitControls
-            minPolarAngle={(Math.PI / 2) * 0.4}
-            maxPolarAngle={(Math.PI / 2) * 0.8}
-            minDistance={0.1}
-            maxDistance={2}
-          /> */}
         </Canvas>
       </Suspense>
     </div>

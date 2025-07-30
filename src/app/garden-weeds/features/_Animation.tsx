@@ -1,13 +1,6 @@
 "use client"
 
-import {
-  Environment,
-  type EnvironmentProps,
-  OrbitControls,
-  Plane,
-  useEnvironment,
-  useTexture,
-} from "@react-three/drei"
+import { OrbitControls, Plane, useTexture } from "@react-three/drei"
 import { Canvas } from "@react-three/fiber"
 import { type ComponentProps, Suspense } from "react"
 import { DoubleSide } from "three"
@@ -39,13 +32,13 @@ function GrassMaterial({ repeat = 1 }: { repeat?: number }) {
   return <meshStandardMaterial {...props} side={DoubleSide} />
 }
 
-function GardenEnvironment({ ...props }: Omit<EnvironmentProps, "map">) {
-  const texture = useEnvironment({
-    files: "/hdr/symmetrical_garden_02_4k.hdr",
-  })
+// function GardenEnvironment({ ...props }: Omit<EnvironmentProps, "map">) {
+//   const texture = useEnvironment({
+//     files: "/hdr/symmetrical_garden_02_4k.hdr",
+//   })
 
-  return <Environment map={texture} {...props} />
-}
+//   return <Environment map={texture} {...props} />
+// }
 
 const wallHeight = 0.1
 

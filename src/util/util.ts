@@ -36,9 +36,13 @@ export function arrayMinSafe(ary: number[] | Float32Array) {
   }
 }
 
+export function isDev() {
+  return process.env.NODE_ENV == "development"
+}
+
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 export function log(...message: any[]) {
-  if (process.env.DEV) {
+  if (isDev()) {
     console.log(...message)
   }
 }

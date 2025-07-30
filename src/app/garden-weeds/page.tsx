@@ -1,5 +1,6 @@
 "use client"
 
+import { Leva } from "leva"
 import { useEffect, useRef } from "react"
 import { IoFlowerOutline } from "react-icons/io5"
 import { RiSoundcloudLine } from "react-icons/ri"
@@ -26,7 +27,7 @@ import { Meter } from "@/components/Meter"
 import { MIDIView } from "@/components/MIDIView"
 import { Waveform } from "@/components/Waveform"
 import { useEffectAsync } from "@/hooks/useEffectAsync"
-import { log } from "@/util/util"
+import { isDev, log } from "@/util/util"
 // import lrBufferProcessorUrl from "@/processors/lr-buffer-processor.worklet"
 // import lrBufferWorkerUrl from "@/processors/lr-buffer-processor?worker&url"
 import { Animation } from "./features/Animation"
@@ -88,7 +89,6 @@ export default function Visualizer() {
     masterVolume.current = new Volume(0)
     masterWaveform.current = new ToneWaveform(8192)
     masterMeter.current = new ToneMeter({ channelCount: 2, smoothing: 0.95 })
-    // const splitter = new Split(2)
 
     lrBufferProcessor.current = getContext().createAudioWorkletNode("lr-buffer-processor", {
       channelCount: 2,
@@ -125,112 +125,113 @@ export default function Visualizer() {
   }, [state])
 
   return (
-    <div
-      style={{
-        position: "relative",
-        width: 1280,
-        height: 720,
-      }}
-    >
-      <div className={styles.absolute}>
-        <Base bpm={bpm} />
-      </div>
-      <div className={styles.absolute}>
-        <div
-          style={{
-            padding: 20,
-            height: "100%",
-            display: "flex",
-            flexDirection: "column",
-          }}
-        >
+    <>
+      <div
+        style={{
+          position: "relative",
+          width: 1280,
+          height: 720,
+        }}
+      >
+        <div className={styles.absolute}>
+          <Base bpm={bpm} />
+        </div>
+        <div className={styles.absolute}>
           <div
             style={{
-              flex: "1 1 auto",
+              padding: 20,
+              height: "100%",
               display: "flex",
-              flexDirection: "row",
-              // justifyContent: "space-between",
-              gap: 32,
+              flexDirection: "column",
             }}
           >
-            <Waveforms
-              waveforms={waveforms.current}
-              volumes={volumes.current}
-              masterVolume={masterVolume.current}
-              width={380}
-              height={80}
+            <div
               style={{
-                flex: "1 0 auto",
-                height: "100%",
+                flex: "1 1 auto",
                 display: "flex",
-                flexDirection: "column",
-                justifyContent: "space-between",
-                gap: 8,
+                flexDirection: "row",
+                // justifyContent: "space-between",
+                gap: 32,
               }}
-            />
-            {/* <div
+            >
+              <Waveforms
+                waveforms={waveforms.current}
+                volumes={volumes.current}
+                masterVolume={masterVolume.current}
+                width={380}
+                height={80}
+                style={{
+                  flex: "1 0 auto",
+                  height: "100%",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "space-between",
+                  gap: 8,
+                }}
+              />
+              {/* <div
                 style={{
                   flex: "1 1 auto",
                 }}
               >
                 drum
               </div> */}
-            <Animation
-              style={{
-                border: "1px solid white",
-                aspectRatio: 1,
-              }}
-            />
-            <div
-              style={{
-                height: `calc(100% + 120px - 200px )`,
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "space-between",
-                gap: 24,
-              }}
-            >
-              <MIDIView
-                midiUrls={midiUrls}
-                // colors={midiColors}
-                bpm={bpm}
-                isPlay={isPlay}
-                // width={466 - 80}
-                // height={466 - 80}
-                width={320}
-                height={320}
-                style={{ border: "1px solid white" }}
+              <Animation
+                style={{
+                  border: "1px solid white",
+                  aspectRatio: 1,
+                }}
               />
               <div
                 style={{
+                  height: `calc(100% + 120px - 200px )`,
                   display: "flex",
-                  justifyContent: "space-around",
-                  alignItems: "center",
-                  padding: "0 32px",
+                  flexDirection: "column",
+                  justifyContent: "space-between",
+                  gap: 24,
                 }}
               >
-                <IoFlowerOutline className="rotate" size={24} />
-                <Control
+                <MIDIView
+                  midiUrls={midiUrls}
+                  // colors={midiColors}
+                  bpm={bpm}
                   isPlay={isPlay}
-                  toggleIsPlay={toggleIsPlay}
-                  onStart={() => {
-                    const transport = getTransport()
-                    players.current.forEach((p) => p.start(0, transport.seconds))
-                    masterPlayer.current?.start(0, transport.seconds)
-                  }}
-                  onPause={() => {
-                    players.current.forEach((p) => p.stop())
-                    masterPlayer.current?.stop()
-                  }}
+                  // width={466 - 80}
+                  // height={466 - 80}
+                  width={320}
+                  height={320}
+                  style={{ border: "1px solid white" }}
                 />
-                <a
-                  href="https://soundcloud.com/arnicatunes/garden-weeds"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-around",
+                    alignItems: "center",
+                    padding: "0 32px",
+                  }}
                 >
-                  <RiSoundcloudLine size={24} color="white" />
-                </a>
-                {/* <button
+                  <IoFlowerOutline className="rotate" size={24} />
+                  <Control
+                    isPlay={isPlay}
+                    toggleIsPlay={toggleIsPlay}
+                    onStart={() => {
+                      const transport = getTransport()
+                      players.current.forEach((p) => p.start(0, transport.seconds))
+                      masterPlayer.current?.start(0, transport.seconds)
+                    }}
+                    onPause={() => {
+                      players.current.forEach((p) => p.stop())
+                      masterPlayer.current?.stop()
+                    }}
+                  />
+                  <a
+                    href="https://soundcloud.com/arnicatunes/garden-weeds"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <RiSoundcloudLine size={24} color="white" />
+                  </a>
+                  {/* <button
                     className="icon-button"
                     type="button"
                     onClick={async () => {
@@ -241,92 +242,94 @@ export default function Visualizer() {
                   >
                     <CgMaximize size={24} />
                   </button> */}
+                </div>
               </div>
             </div>
-          </div>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              height: 120,
-              gap: 16,
-              marginTop: 32,
-            }}
-          >
-            <FilterFFT
-              style={{
-                flex: "1 0 auto",
-                border: "1px solid white",
-                // borderRadius: 12,
-              }}
-              fft={masterFft.current}
-              filter={filter.current}
-              width={460}
-              height={120}
-            />
-            {/* <SCEmbed height={120} /> */}
-            <Waveform waveform={masterWaveform.current} style={{ flex: "1 1 auto" }} />
-            <Meter meter={masterMeter.current} width={30} />
-
-            <LissajousMeter
-              lrBufferProcessor={lrBufferProcessor.current}
-              style={{
-                flex: "0 0 auto",
-                transform: "translateY(calc(120px - 200px))",
-                // borderRadius: "40px 0px 40px 0px ",
-                borderRadius: 9999,
-              }}
-              width={200}
-              height={200}
-            />
-          </div>
-          <div
-            style={{
-              height: 30,
-              marginTop: 32,
-              display: "grid",
-              gridTemplateColumns: "15px 1fr",
-              gridTemplateRows: "1fr 4px",
-              columnGap: 8,
-              rowGap: 4,
-            }}
-          >
-            <BeatLamp style={{ gridRow: "1 / span 2" }} bpm={bpm} isPlay={isPlay} />
             <div
               style={{
                 display: "flex",
                 justifyContent: "space-between",
-                // alignItems: "center",
-                // fontSize: 14,
-                lineHeight: 1,
+                height: 120,
+                gap: 16,
+                marginTop: 32,
               }}
             >
-              <BeatCount bpm={bpm} isPlay={isPlay} />
-              <div>
-                <a
-                  className="link"
-                  href="https://soundcloud.com/arnicatunes"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Arnica
-                </a>{" "}
-                -{" "}
-                <a
-                  className="link"
-                  href="https://soundcloud.com/arnicatunes/garden-weeds"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Garden Weeds
-                </a>
-              </div>
+              <FilterFFT
+                style={{
+                  flex: "1 0 auto",
+                  border: "1px solid white",
+                  // borderRadius: 12,
+                }}
+                fft={masterFft.current}
+                filter={filter.current}
+                width={460}
+                height={120}
+              />
+              {/* <SCEmbed height={120} /> */}
+              <Waveform waveform={masterWaveform.current} style={{ flex: "1 1 auto" }} />
+              <Meter meter={masterMeter.current} width={30} />
+
+              <LissajousMeter
+                lrBufferProcessor={lrBufferProcessor.current}
+                style={{
+                  flex: "0 0 auto",
+                  transform: "translateY(calc(120px - 200px))",
+                  // borderRadius: "40px 0px 40px 0px ",
+                  borderRadius: 9999,
+                }}
+                width={200}
+                height={200}
+              />
             </div>
-            <BeatBar bpm={bpm} isPlay={isPlay} />
+            <div
+              style={{
+                height: 30,
+                marginTop: 32,
+                display: "grid",
+                gridTemplateColumns: "15px 1fr",
+                gridTemplateRows: "1fr 4px",
+                columnGap: 8,
+                rowGap: 4,
+              }}
+            >
+              <BeatLamp style={{ gridRow: "1 / span 2" }} bpm={bpm} isPlay={isPlay} />
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  // alignItems: "center",
+                  // fontSize: 14,
+                  lineHeight: 1,
+                }}
+              >
+                <BeatCount bpm={bpm} isPlay={isPlay} />
+                <div>
+                  <a
+                    className="link"
+                    href="https://soundcloud.com/arnicatunes"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Arnica
+                  </a>{" "}
+                  -{" "}
+                  <a
+                    className="link"
+                    href="https://soundcloud.com/arnicatunes/garden-weeds"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Garden Weeds
+                  </a>
+                </div>
+              </div>
+              <BeatBar bpm={bpm} isPlay={isPlay} />
+            </div>
           </div>
         </div>
+        <Cover />
       </div>
-      <Cover />
-    </div>
+      <Leva hidden={!isDev()} />
+    </>
   )
 }
