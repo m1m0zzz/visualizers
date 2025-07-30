@@ -25,7 +25,9 @@ import { LissajousMeter } from "@/components/LissajousMeter"
 import { Meter } from "@/components/Meter"
 import { MIDIView } from "@/components/MIDIView"
 import { Waveform } from "@/components/Waveform"
-// import lrBufferUrl from "@/processors/lr-buffer-processor?url"
+import { useEffectAsync } from "@/hooks/useEffectAsync"
+import { log } from "@/util/util"
+// import lrBufferProcessorUrl from "@/processors/lr-buffer-processor.worklet"
 // import lrBufferWorkerUrl from "@/processors/lr-buffer-processor?worker&url"
 import { Animation } from "./features/Animation"
 import { Base } from "./features/Base"
@@ -58,6 +60,7 @@ export default function Visualizer() {
   const players = useRef<Player[]>([])
   const volumes = useRef<Volume[]>([])
 
+  const lrBufferProcessor = useRef<AudioWorkletNode>(null)
   const masterPlayer = useRef<Player>(null)
   const masterFft = useRef<FFT>(null)
   const filter = useRef<Filter>(null)
@@ -65,7 +68,20 @@ export default function Visualizer() {
   const masterWaveform = useRef<ToneWaveform>(null)
   const masterMeter = useRef<ToneMeter>(null)
 
+  const lrBufferProcessorUrl = new URL("@/processors/lr-buffer-processor", import.meta.url).href
+  log(lrBufferProcessorUrl)
+
+  const { state } = useEffectAsync(
+    new Promise((resolve) => {
+      log("added worklet module")
+      resolve(getContext().addAudioWorkletModule(lrBufferProcessorUrl))
+    }),
+    null,
+    [],
+  )
+
   useEffect(() => {
+    if (state != "ok") return
     masterPlayer.current = new Player("/audio/2mix.wav")
     masterFft.current = new FFT(4096)
     filter.current = new Filter(440, "bandpass", -12)
@@ -73,17 +89,17 @@ export default function Visualizer() {
     masterWaveform.current = new ToneWaveform(8192)
     masterMeter.current = new ToneMeter({ channelCount: 2, smoothing: 0.95 })
     // const splitter = new Split(2)
-    // await getContext().addAudioWorkletModule(lrBufferProcessorUrl)
-    // const lrBufferProcessor = getContext().createAudioWorkletNode("lr-buffer-processor", {
-    //   channelCount: 2,
-    // })
+
+    lrBufferProcessor.current = getContext().createAudioWorkletNode("lr-buffer-processor", {
+      channelCount: 2,
+    })
     // const transport = getTransport()
 
     masterPlayer.current.connect(filter.current)
     filter.current.chain(
       masterVolume.current,
       masterFft.current,
-      /* lrBufferProcessor, */
+      lrBufferProcessor.current,
       masterWaveform.current,
       masterMeter.current,
       getDestination(),
@@ -97,7 +113,7 @@ export default function Visualizer() {
         wf,
         volume,
         masterFft.current,
-        /* lrBufferProcessor, */
+        lrBufferProcessor.current,
         masterWaveform.current,
         masterMeter.current,
         getDestination(),
@@ -106,7 +122,7 @@ export default function Visualizer() {
       waveforms.current.push(wf)
       volumes.current.push(volume)
     }
-  }, [])
+  }, [state])
 
   return (
     <div
@@ -251,9 +267,9 @@ export default function Visualizer() {
             {/* <SCEmbed height={120} /> */}
             <Waveform waveform={masterWaveform.current} style={{ flex: "1 1 auto" }} />
             <Meter meter={masterMeter.current} width={30} />
-            {/*
+
             <LissajousMeter
-              lrBufferProcessor={lrBufferProcessor}
+              lrBufferProcessor={lrBufferProcessor.current}
               style={{
                 flex: "0 0 auto",
                 transform: "translateY(calc(120px - 200px))",
@@ -263,7 +279,6 @@ export default function Visualizer() {
               width={200}
               height={200}
             />
-            */}
           </div>
           <div
             style={{

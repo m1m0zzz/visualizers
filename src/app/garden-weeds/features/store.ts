@@ -21,4 +21,3 @@ export const useIsPlayStore = create<IsPlay>((set) => ({
   setIsPlay: (isPlay: boolean) => set(() => ({ isPlay })),
   toggleIsPlay: () => set((state) => ({ isPlay: !state.isPlay })),
 }))
-

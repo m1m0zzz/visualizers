@@ -36,8 +36,9 @@ export function arrayMinSafe(ary: number[] | Float32Array) {
   }
 }
 
-export function log(message: Parameters<typeof console.log>[0]) {
+// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+export function log(...message: any[]) {
   if (process.env.DEV) {
-    console.log(message)
+    console.log(...message)
   }
 }

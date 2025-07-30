@@ -41,7 +41,11 @@ export function FilterFFT({ fft, filter, ...props }: Props & Parameters<typeof C
 }
 
 const Memorized = memo(
-  ({ fft, onPointerUp }: { fft: ToneFFT | null; onPointerUp: PointerEventHandler<HTMLCanvasElement> }) => (
-    <FFTAnimation fft={fft} onPointerUp={onPointerUp} />
-  ),
+  ({
+    fft,
+    onPointerUp,
+  }: {
+    fft: ToneFFT | null
+    onPointerUp: PointerEventHandler<HTMLCanvasElement>
+  }) => <FFTAnimation fft={fft} onPointerUp={onPointerUp} />,
 )

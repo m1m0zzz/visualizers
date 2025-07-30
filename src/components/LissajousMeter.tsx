@@ -5,7 +5,7 @@ import { log } from "@/util/util"
 import { CanvasWrapper } from "./CanvasWrapper"
 
 interface Props {
-  lrBufferProcessor: AudioWorkletNode
+  lrBufferProcessor: AudioWorkletNode | null
   type?: "dots" | "lines"
   size?: number // dot size or line width
   circular?: boolean
@@ -24,12 +24,14 @@ export function LissajousMeter({
   let leftData: Float32Array = new Float32Array()
   let rightData: Float32Array = new Float32Array()
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
+    if (!lrBufferProcessor) return
     lrBufferProcessor.port.onmessage = (e) => {
       leftData = new Float32Array(e.data.left)
       rightData = new Float32Array(e.data.right)
     }
-  })
+  }, [lrBufferProcessor])
 
   return (
     <CanvasWrapper

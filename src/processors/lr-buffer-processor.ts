@@ -1,3 +1,5 @@
+"use client"
+
 class MidSideProcessor extends AudioWorkletProcessor {
   private bufferL: number[] = []
   private bufferR: number[] = []
