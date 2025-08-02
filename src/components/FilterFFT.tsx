@@ -1,17 +1,23 @@
 import { clamp } from "@tremolo-ui/functions"
 import { memo, type PointerEventHandler, useCallback, useEffect } from "react"
 import { useScratch } from "react-use"
-import { type Filter, getContext, type FFT as ToneFFT } from "tone"
+import { type Filter, getContext } from "tone"
 import { log } from "@/util/util"
-import { FFTAnimation } from "./FFT"
+import { FFTAnimation, type FFTProps } from "./FFT"
 import { CanvasWrapper } from "./ui/CanvasWrapper"
 
 interface Props {
-  fft: ToneFFT | null
   filter: Filter | null
 }
 
-export function FilterFFT({ fft, filter, ...props }: Props & Parameters<typeof CanvasWrapper>[0]) {
+export function FilterFFT({
+  filter,
+  fft,
+  fftSize,
+  lineColor,
+  barColor,
+  ...props
+}: Props & FFTProps & Parameters<typeof CanvasWrapper>[0]) {
   log("mount FilterFFT")
   const [ref, state] = useScratch()
 
@@ -35,17 +41,16 @@ export function FilterFFT({ fft, filter, ...props }: Props & Parameters<typeof C
 
   return (
     <CanvasWrapper ref={ref} {...props}>
-      <Memorized fft={fft} onPointerUp={onPointerUp} />
+      <Memorized {...{ fft, fftSize, lineColor, barColor }} onPointerUp={onPointerUp} />
     </CanvasWrapper>
   )
 }
 
 const Memorized = memo(
   ({
-    fft,
     onPointerUp,
-  }: {
-    fft: ToneFFT | null
+    ...props
+  }: FFTProps & {
     onPointerUp: PointerEventHandler<HTMLCanvasElement>
-  }) => <FFTAnimation fft={fft} onPointerUp={onPointerUp} />,
+  }) => <FFTAnimation onPointerUp={onPointerUp} {...props} />,
 )

@@ -1,0 +1,39 @@
+{
+  "next initial page": {
+    "scope": "typescriptreact",
+    "prefix": "nextinitpage",
+    "body": [
+      "import type { Metadata } from \"next\"",
+      "",
+      "export const metadata: Metadata = {",
+      "  title: \"${1:PageName}\",",
+      "}",
+      "",
+      "export default function ${1:PageName}() {",
+      "  return (",
+      "    <div className=\"w-full h-screen overflow-y-hidden\">",
+      "    </div>",
+      "  )",
+      "}",
+
+    ],
+    "description": "Next.js initial page template"
+  },
+  "react component": {
+    "scope": "typescriptreact",
+    "prefix": "reactfc",
+    "body": [
+      "interface Props {",
+      "  ${2:prop}: any",
+      "}",
+      "",
+      "export function ${1:Component}({ ${2:prop} }: Props) {",
+      "  return (",
+      "    <div>$3</div>",
+      "  )",
+      "}",
+      "",
+    ],
+    "description": "React Component Template",
+  }
+}

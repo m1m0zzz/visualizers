@@ -1,22 +1,18 @@
 "use client"
 
-import type { ComponentProps } from "react"
+import { type ComponentProps, useCallback, useState } from "react"
 import { CgPlayButton, CgPlayPause, CgPlayTrackPrev } from "react-icons/cg"
 import * as Tone from "tone"
 import { getContext, getTransport } from "tone"
 
 interface Props {
-  isPlay: boolean
-  toggleIsPlay: () => void
   iconSize?: number
   onStart?: () => void
   onPause?: () => void
   onPrev?: () => void
 }
 
-export function Control({
-  isPlay,
-  toggleIsPlay,
+export function ControlWithoutState({
   iconSize = 24,
   onStart,
   onPause,
@@ -24,7 +20,9 @@ export function Control({
   style,
   ...props
 }: Props & ComponentProps<"div">) {
-  // const sec = getTransport().seconds
+  const [isPlay, setIsPlay] = useState(false)
+
+  const toggleIsPlay = useCallback(() => setIsPlay((s) => !s), [])
 
   return (
     <div

@@ -20,8 +20,8 @@ export function Card({
         className="absolute inset-0 h-full w-full object-cover duration-300 group-hover:scale-110"
       />
 
-      <div className="relative bg-gradient-to-t from-gray-900/50 to-gray-900/25 pt-32 sm:pt-48 lg:pt-64">
-        <div className="p-4 sm:p-6">
+      <div className="relative bg-gradient-to-t from-gray-900/50 to-gray-900/25 pt-32 sm:pt-48">
+        <div className="p-6">
           <p className="line-clamp-3 text-sm/relaxed text-white/95">{title}</p>
         </div>
       </div>

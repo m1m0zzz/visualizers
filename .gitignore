@@ -23,8 +23,6 @@ raw_models_data
 /build
 
 # misc
-.vscode/*
-!.vscode/extensions.json
 .DS_Store
 *.pem
 

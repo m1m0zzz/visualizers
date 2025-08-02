@@ -5,7 +5,7 @@ import { useEffect, useRef } from "react"
 import { IoFlowerOutline } from "react-icons/io5"
 import { RiSoundcloudLine } from "react-icons/ri"
 import {
-  FFT,
+  type FFT,
   Filter,
   getContext,
   getDestination,
@@ -66,7 +66,7 @@ export default function Visualizer() {
 
   const lrBufferProcessor = useRef<AudioWorkletNode>(null)
   const masterPlayer = useRef<Player>(null)
-  const masterFft = useRef<FFT>(null)
+  const masterFft = useRef<FFT>(null!)
   const filter = useRef<Filter>(null)
   const masterVolume = useRef<Volume>(null)
   const masterWaveform = useRef<ToneWaveform>(null)
@@ -92,7 +92,7 @@ export default function Visualizer() {
     if (state != "ok") return
     log("on update")
     masterPlayer.current = new Player("/audio/2mix.wav")
-    masterFft.current = new FFT(4096)
+    // masterFft.current = new FFT(4096)
     filter.current = new Filter(440, "bandpass", -12)
     masterVolume.current = new Volume(0)
     masterWaveform.current = new ToneWaveform(8192)
@@ -268,10 +268,12 @@ export default function Visualizer() {
                   border: "1px solid white",
                   // borderRadius: 12,
                 }}
-                fft={masterFft.current}
+                fft={masterFft}
                 filter={filter.current}
                 width={460}
                 height={120}
+                lineColor="white"
+                barColor={{ from: "#fff8", to: "#99b88d" }}
               />
               {/* <SCEmbed height={120} /> */}
               <Waveform waveform={masterWaveform.current} style={{ flex: "1 1 auto" }} />

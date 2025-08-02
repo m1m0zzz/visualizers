@@ -1,30 +1,61 @@
 import { clamp, mapValue } from "@tremolo-ui/functions"
 import { AnimationCanvas } from "@tremolo-ui/react"
-import type { ComponentPropsWithoutRef } from "react"
-import { getContext, type FFT as ToneFFT } from "tone"
+import { type ComponentPropsWithoutRef, type RefObject, useEffect } from "react"
+import { getContext, FFT as ToneFFT } from "tone"
 import { lerpColor } from "@/util/canvas"
 import { log } from "@/util/util"
 import { CanvasWrapper } from "./ui/CanvasWrapper"
 
-interface Props {
-  fft: ToneFFT | null
+export interface FFTProps {
+  fft: RefObject<ToneFFT | null>
+  // fft params
+  fftSize?: number
+  smoothing?: number
+  // design
+  lineColor?: string
+  barColor?: string | { from: string; to: string }
 }
 
-export function FFT({ fft, ...props }: Props & Parameters<typeof CanvasWrapper>[0]) {
+export function FFT({
+  fft,
+  fftSize,
+  smoothing,
+  lineColor,
+  barColor,
+  ...props
+}: FFTProps & Parameters<typeof CanvasWrapper>[0]) {
   log("mount FFT")
 
   return (
     <CanvasWrapper {...props}>
-      <FFTAnimation fft={fft} />
+      <FFTAnimation {...{ fft, fftSize, smoothing, lineColor, barColor }} />
     </CanvasWrapper>
   )
 }
 
 export function FFTAnimation({
-  fft,
+  fft: _fft,
+  fftSize = ToneFFT.getDefaults().size,
+  smoothing = ToneFFT.getDefaults().smoothing,
+  lineColor = "white",
+  barColor = "white",
   ...props
-}: { fft: ToneFFT | null } & ComponentPropsWithoutRef<"canvas">) {
+}: FFTProps & ComponentPropsWithoutRef<"canvas">) {
   log("mount FFTAnimation")
+
+  useEffect(() => {
+    const fft = _fft.current
+    if (fft) {
+      fft.size = fftSize
+      fft.smoothing = smoothing
+    } else {
+      _fft.current = new ToneFFT({ size: fftSize, smoothing })
+    }
+
+    return () => {
+      _fft.current = null
+    }
+  }, [_fft, fftSize, smoothing])
 
   return (
     <AnimationCanvas
@@ -33,13 +64,13 @@ export function FFTAnimation({
         const w = width.current
         const h = height.current
         ctx.clearRect(0, 0, w, h)
+        const fft = _fft.current
         if (!fft) return
         fft.normalRange = false
 
         const dataArray = fft.getValue()
         const nyquist = getContext().sampleRate / 2
 
-        ctx.fillStyle = "white"
         ctx.strokeStyle = "none"
 
         ctx.beginPath()
@@ -51,13 +82,16 @@ export function FFTAnimation({
           const x = (logFreq / maxLogFreq) * w
           const data = clamp(mapValue(dataArray[i], -100, 0, 0, 1), 0, 1)
           const y = h * data
-          ctx.fillStyle = lerpColor("#fff8", "#99b88d", data * 100)
+          ctx.fillStyle =
+            typeof barColor == "string"
+              ? barColor
+              : lerpColor(barColor.from, barColor.to, data * 100)
           ctx.fillRect(x, h - y, 1, y)
           ctx.lineTo(x, h - y)
         }
         ctx.lineTo(w, h)
         ctx.closePath()
-        ctx.strokeStyle = "white"
+        ctx.strokeStyle = lineColor
         ctx.stroke()
       }}
       {...props}
