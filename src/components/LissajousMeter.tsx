@@ -1,8 +1,8 @@
 import { clamp } from "@tremolo-ui/functions"
 import { AnimationCanvas } from "@tremolo-ui/react"
-import { useEffect } from "react"
+import { useEffect, useRef } from "react"
 import { log } from "@/util/util"
-import { CanvasWrapper } from "./CanvasWrapper"
+import { CanvasWrapper } from "./ui/CanvasWrapper"
 
 interface Props {
   lrBufferProcessor: AudioWorkletNode | null
@@ -21,22 +21,20 @@ export function LissajousMeter({
 }: Props & Parameters<typeof CanvasWrapper>[0]) {
   log("mount LissajousMeter")
 
-  let leftData: Float32Array = new Float32Array()
-  let rightData: Float32Array = new Float32Array()
+  const leftData = useRef(new Float32Array())
+  const rightData = useRef(new Float32Array())
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (!lrBufferProcessor) return
     lrBufferProcessor.port.onmessage = (e) => {
-      leftData = new Float32Array(e.data.left)
-      rightData = new Float32Array(e.data.right)
+      leftData.current = new Float32Array(e.data.left)
+      rightData.current = new Float32Array(e.data.right)
     }
   }, [lrBufferProcessor])
 
   return (
     <CanvasWrapper
       style={{
-        border: "1px solid white",
         mixBlendMode: "screen",
         ...style,
       }}
@@ -55,9 +53,10 @@ export function LissajousMeter({
           ctx.strokeStyle = "white"
           ctx.fillStyle = "white"
           ctx.lineWidth = size
-          for (let i = 0; i < leftData.length; i += 1) {
-            const m = clamp((leftData[i] + rightData[i]) / 2, -1, 1)
-            const s = clamp((leftData[i] - rightData[i]) / 2, -1, 1)
+
+          for (let i = 0; i < leftData.current.length; i += 1) {
+            const m = clamp((leftData.current[i] + rightData.current[i]) / 2, -1, 1)
+            const s = clamp((leftData.current[i] - rightData.current[i]) / 2, -1, 1)
             let x = ((1 + s) / 2) * w
             let y = ((1 + m) / 2) * h
 

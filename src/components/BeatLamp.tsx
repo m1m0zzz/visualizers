@@ -1,6 +1,6 @@
 import { AnimationCanvas } from "@tremolo-ui/react"
 import { getTransport } from "tone"
-import { CanvasWrapper } from "./CanvasWrapper"
+import { CanvasWrapper } from "./ui/CanvasWrapper"
 
 interface Props {
   bpm: number

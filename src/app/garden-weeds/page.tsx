@@ -53,6 +53,9 @@ const midiUrls = [
 const sources = ["/audio/drums.wav", "/audio/bass.wav", "/audio/inst.wav", "/audio/vocals.wav"]
 const bpm = 110
 
+const lrBufferProcessorUrl = new URL("@/processors/lr-buffer-processor", import.meta.url).href
+log(lrBufferProcessorUrl)
+
 export default function Visualizer() {
   const isPlay = useIsPlayStore((s) => s.isPlay)
   const toggleIsPlay = useIsPlayStore((s) => s.toggleIsPlay)
@@ -69,13 +72,17 @@ export default function Visualizer() {
   const masterWaveform = useRef<ToneWaveform>(null)
   const masterMeter = useRef<ToneMeter>(null)
 
-  const lrBufferProcessorUrl = new URL("@/processors/lr-buffer-processor", import.meta.url).href
-  log(lrBufferProcessorUrl)
+  const count = useRef(0)
 
   const { state } = useEffectAsync(
     new Promise((resolve) => {
-      log("added worklet module")
-      resolve(getContext().addAudioWorkletModule(lrBufferProcessorUrl))
+      if (count.current == 0) {
+        log("added worklet module")
+        count.current += 1
+        resolve(getContext().addAudioWorkletModule(lrBufferProcessorUrl))
+      } else {
+        resolve(() => {})
+      }
     }),
     null,
     [],
@@ -83,6 +90,7 @@ export default function Visualizer() {
 
   useEffect(() => {
     if (state != "ok") return
+    log("on update")
     masterPlayer.current = new Player("/audio/2mix.wav")
     masterFft.current = new FFT(4096)
     filter.current = new Filter(440, "bandpass", -12)
@@ -127,8 +135,8 @@ export default function Visualizer() {
   return (
     <>
       <div
+        className="relative text-white select-none"
         style={{
-          position: "relative",
           width: 1280,
           height: 720,
         }}
@@ -178,7 +186,7 @@ export default function Visualizer() {
               </div> */}
               <Animation
                 style={{
-                  border: "1px solid white",
+                  // border: "1px solid white",
                   aspectRatio: 1,
                 }}
               />
@@ -229,7 +237,7 @@ export default function Visualizer() {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    <RiSoundcloudLine size={24} color="white" />
+                    <RiSoundcloudLine size={24} />
                   </a>
                   {/* <button
                     className="icon-button"
@@ -274,7 +282,7 @@ export default function Visualizer() {
                 style={{
                   flex: "0 0 auto",
                   transform: "translateY(calc(120px - 200px))",
-                  // borderRadius: "40px 0px 40px 0px ",
+                  // border: "1px solid white",
                   borderRadius: 9999,
                 }}
                 width={200}

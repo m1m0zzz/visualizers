@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react"
 import type { Waveform as ToneWaveform, Volume } from "tone"
-import { Edge } from "@/components/Edge"
+import { Edge } from "@/components/ui/Edge"
 import { Waveform } from "@/components/Waveform"
 
 interface Props {

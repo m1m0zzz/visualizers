@@ -24,6 +24,8 @@ export function Control({
 }: Props & ComponentProps<"div">) {
   const iconSize = 24
 
+  // const sec = getTransport().seconds
+
   return (
     <div
       style={{ display: "flex", justifyContent: "center", alignItems: "center", ...style }}
@@ -32,7 +34,7 @@ export function Control({
       <button
         className="icon-button"
         type="button"
-        // disabled={isPlay || getTransport().seconds == 0}
+        disabled={isPlay /* || sec == 0 */}
         onClick={() => {
           getTransport().seconds = 0
           onPrev?.()

@@ -2,7 +2,7 @@ import { AnimationCanvas } from "@tremolo-ui/react"
 import type { Meter as ToneMeter } from "tone"
 import { dbToGain } from "tone"
 import { log } from "@/util/util"
-import { CanvasWrapper } from "./CanvasWrapper"
+import { CanvasWrapper } from "./ui/CanvasWrapper"
 
 interface Props {
   meter: ToneMeter | null

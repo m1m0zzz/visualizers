@@ -3,7 +3,7 @@
 import { Fisheye, OrbitControls, PerspectiveCamera } from "@react-three/drei"
 import { Canvas } from "@react-three/fiber"
 import { type ComponentProps, Suspense, useRef } from "react"
-import { Loading } from "@/components/Loading"
+import { Loading } from "@/components/ui/Loading"
 import { PottedPlant2 } from "@/models/PottedPlant2"
 import { CustomDirectionalLight, CustomEnvironment } from "@/util/three"
 import { isDev, log } from "@/util/util"

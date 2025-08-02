@@ -123,7 +123,7 @@ export function CustomDirectionalLight({
   ...props
 }: CustomDirectionalLightProps & ThreeElements["directionalLight"]) {
   const lightRef = useRef<DirectionalLight>(null)
-  useHelper(lightRef as RefObject<DirectionalLight>, DirectionalLightHelper)
+  useHelper(helper && (lightRef as RefObject<DirectionalLight>), DirectionalLightHelper)
 
   const ranges = {
     min: -10,

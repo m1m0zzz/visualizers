@@ -3,8 +3,8 @@ import { memo, type PointerEventHandler, useCallback, useEffect } from "react"
 import { useScratch } from "react-use"
 import { type Filter, getContext, type FFT as ToneFFT } from "tone"
 import { log } from "@/util/util"
-import { CanvasWrapper } from "./CanvasWrapper"
 import { FFTAnimation } from "./FFT"
+import { CanvasWrapper } from "./ui/CanvasWrapper"
 
 interface Props {
   fft: ToneFFT | null

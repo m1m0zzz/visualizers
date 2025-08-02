@@ -1,7 +1,7 @@
 import { AnimationCanvas } from "@tremolo-ui/react"
 import type { Waveform as ToneWaveform } from "tone"
 import { log } from "@/util/util"
-import { CanvasWrapper } from "./CanvasWrapper"
+import { CanvasWrapper } from "./ui/CanvasWrapper"
 
 interface Props {
   waveform: ToneWaveform | null

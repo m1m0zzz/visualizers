@@ -40,11 +40,17 @@ svg {
   cursor: pointer;
   aspect-ratio: 1;
   border-radius: 8px;
+
+  &:disabled {
+    color: rgba(85, 85, 85, 0.8);
+    cursor: auto;
+  }
+
+  &:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.2);
+  }
 }
 
-.icon-button:hover {
-  background: rgba(255, 255, 255, 0.2);
-}
 
 .link {
   text-decoration: none;

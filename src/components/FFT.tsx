@@ -4,7 +4,7 @@ import type { ComponentPropsWithoutRef } from "react"
 import { getContext, type FFT as ToneFFT } from "tone"
 import { lerpColor } from "@/util/canvas"
 import { log } from "@/util/util"
-import { CanvasWrapper } from "./CanvasWrapper"
+import { CanvasWrapper } from "./ui/CanvasWrapper"
 
 interface Props {
   fft: ToneFFT | null
