@@ -6,6 +6,8 @@ import { lerpColor } from "@/util/canvas"
 import { log } from "@/util/util"
 import { CanvasWrapper } from "./ui/CanvasWrapper"
 
+export type FFTDisplayMode = "both" | "line" | "bar" | "raw-lines"
+
 export interface FFTProps {
   fft: RefObject<ToneFFT | null>
   // fft params
@@ -16,6 +18,7 @@ export interface FFTProps {
   lowDb?: number
   highDb?: number
   // design
+  mode?: FFTDisplayMode
   lineColor?: string
   barColor?: string | { from: string; to: string }
 }
@@ -27,6 +30,7 @@ export function FFT({
   slope,
   lowDb,
   highDb,
+  mode,
   lineColor,
   barColor,
   ...props
@@ -36,7 +40,9 @@ export function FFT({
 
   return (
     <CanvasWrapper {...props}>
-      <FFTAnimation {...{ fft, fftSize, smoothing, slope, lineColor, barColor, lowDb, highDb }} />
+      <FFTAnimation
+        {...{ fft, fftSize, smoothing, slope, mode, lineColor, barColor, lowDb, highDb }}
+      />
     </CanvasWrapper>
   )
 }
@@ -46,8 +52,9 @@ export function FFTAnimation({
   fftSize = ToneFFT.getDefaults().size,
   smoothing = ToneFFT.getDefaults().smoothing,
   slope = 0,
-  lowDb = -100,
+  lowDb = -80,
   highDb = -20,
+  mode = "both",
   lineColor = "white",
   barColor = "white",
   ...props
@@ -71,6 +78,7 @@ export function FFTAnimation({
         const w = width.current
         const h = height.current
         ctx.clearRect(0, 0, w, h)
+        ctx.save()
         const fft = _fft.current
         if (!fft) return
         fft.normalRange = false
@@ -81,7 +89,10 @@ export function FFTAnimation({
         const minHz = sampleRate / fft.size
         const maxHz = nyquist
 
-        ctx.strokeStyle = "none"
+        const gradient = ctx.createLinearGradient(0, 0, width.current, 0)
+
+        gradient.addColorStop(0, "transparent")
+
         ctx.beginPath()
         ctx.moveTo(0, h)
         for (let i = 0; i < fft.size; i++) {
@@ -95,15 +106,27 @@ export function FFTAnimation({
           const slopeFactor = 1 - slope + 2 * slope * px
           const py = clamp(mapValue(dataArray[i], lowDb, highDb, 0, 1) * slopeFactor, 0, 1)
           const y = h * py
-          ctx.fillStyle =
+          const color =
             typeof barColor == "string" ? barColor : lerpColor(barColor.from, barColor.to, py * 100)
-          ctx.fillRect(x, h - y, 1, y)
+          if (mode == "raw-lines") {
+            ctx.fillStyle = color
+            ctx.fillRect(x, h - y, 1, y)
+          } else {
+            gradient.addColorStop(px, lerpColor("transparent", color, py * 100))
+          }
           ctx.lineTo(x, h - y)
         }
         ctx.lineTo(w, h)
         ctx.closePath()
+
+        if (mode == "both" || mode == "line") ctx.clip()
+        ctx.fillStyle = gradient
+        if (mode == "both" || mode == "bar") ctx.fillRect(0, 0, w, h)
+
+        ctx.restore()
+
         ctx.strokeStyle = lineColor
-        ctx.stroke()
+        if (mode == "both" || mode == "line" || mode == "raw-lines") ctx.stroke()
       }}
       {...props}
     />

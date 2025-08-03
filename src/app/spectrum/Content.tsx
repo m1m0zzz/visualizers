@@ -5,8 +5,7 @@ import { useControls } from "leva"
 import { type ComponentProps, useEffect, useRef } from "react"
 import { getDestination, getTransport, Player, type FFT as ToneFFT } from "tone"
 import { ControlWithoutState } from "@/components/ControlWithoutState"
-import { FFT } from "@/components/FFT"
-import { log } from "@/util/util"
+import { FFT, type FFTDisplayMode } from "@/components/FFT"
 import { useObjectUrlStore } from "./store"
 
 type RGBA = { r: number; g: number; b: number; a?: number }
@@ -53,7 +52,7 @@ export function Content({ className, ...props }: ComponentProps<"div">) {
     },
   })
 
-  const { width, height, lineColor, barColorFrom, barColorTo, bg, border } = useControls(
+  const { width, height, mode, lineColor, barColorFrom, barColorTo, bg, border } = useControls(
     "Appearance",
     {
       width: {
@@ -66,9 +65,13 @@ export function Content({ className, ...props }: ComponentProps<"div">) {
         min: 0,
         step: 1,
       },
+      mode: {
+        value: "both",
+        options: ["both", "line", "bar" /* "raw-lines" */],
+      },
       lineColor: { r: 92, g: 171, b: 222, a: 1 }, // #5cabde
       barColorFrom: { r: 48, g: 45, b: 235, a: 1 }, // #302deb
-      barColorTo: { r: 235, g: 30, b: 30, a: 1 }, // #eb1e1e
+      barColorTo: { r: 235, g: 30, b: 81, a: 1 }, // #eb1e51
       bg: "#000",
       border: "#fff",
     },
@@ -90,6 +93,7 @@ export function Content({ className, ...props }: ComponentProps<"div">) {
       <FFT
         fft={fft}
         {...{ fftSize, smoothing, slope, lowDb, highDb }}
+        mode={mode as FFTDisplayMode}
         lineColor={colorString(lineColor)}
         barColor={{ from: colorString(barColorFrom), to: colorString(barColorTo) }}
         className="border"

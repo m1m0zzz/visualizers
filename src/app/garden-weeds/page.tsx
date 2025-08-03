@@ -270,6 +270,8 @@ export default function Visualizer() {
                 }}
                 fft={masterFft}
                 filter={filter.current}
+                mode="raw-lines"
+                slope={0.4}
                 width={460}
                 height={120}
                 lineColor="white"

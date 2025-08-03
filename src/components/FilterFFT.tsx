@@ -14,6 +14,11 @@ export function FilterFFT({
   filter,
   fft,
   fftSize,
+  smoothing,
+  slope,
+  lowDb,
+  highDb,
+  mode,
   lineColor,
   barColor,
   ...props
@@ -41,7 +46,10 @@ export function FilterFFT({
 
   return (
     <CanvasWrapper ref={ref} {...props}>
-      <Memorized {...{ fft, fftSize, lineColor, barColor }} onPointerUp={onPointerUp} />
+      <Memorized
+        {...{ fft, fftSize, smoothing, slope, lowDb, highDb, mode, lineColor, barColor }}
+        onPointerUp={onPointerUp}
+      />
     </CanvasWrapper>
   )
 }
