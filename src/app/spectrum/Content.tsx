@@ -22,9 +22,9 @@ export function Content({ className, ...props }: ComponentProps<"div">) {
   const fft = useRef<ToneFFT>(null!)
   const player = useRef<Player>(null)
 
-  const { fftSize, smoothing } = useControls("FFT", {
+  const { fftSize, smoothing, slope, lowDb, highDb } = useControls("FFT", {
     fftSize: {
-      value: 1024,
+      value: 2 ** 12,
       options: [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14].map((v) => 2 ** v),
     },
     smoothing: {
@@ -33,18 +33,34 @@ export function Content({ className, ...props }: ComponentProps<"div">) {
       max: 0.99,
       step: 0.01,
     },
+    slope: {
+      value: 0.4,
+      min: -1,
+      max: 1,
+      step: 0.1,
+    },
+    lowDb: {
+      value: -80,
+      min: -150,
+      max: -20,
+    },
+    highDb: {
+      value: -25,
+      min: -50,
+      max: 0,
+    },
   })
 
   const { width, height, lineColor, barColorFrom, barColorTo, bg, border } = useControls(
     "Appearance",
     {
       width: {
-        value: 600,
+        value: 400,
         min: 0,
         step: 1,
       },
       height: {
-        value: 300,
+        value: 200,
         min: 0,
         step: 1,
       },
@@ -71,7 +87,7 @@ export function Content({ className, ...props }: ComponentProps<"div">) {
     <div className={clsx(className, "flex justify-center items-center flex-col")} {...props}>
       <FFT
         fft={fft}
-        {...{ fftSize, smoothing }}
+        {...{ fftSize, smoothing, slope, lowDb, highDb }}
         lineColor={colorString(lineColor)}
         barColor={{ from: colorString(barColorFrom), to: colorString(barColorTo) }}
         className="border"

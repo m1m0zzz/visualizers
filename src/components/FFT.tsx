@@ -1,7 +1,7 @@
 import { clamp, mapValue } from "@tremolo-ui/functions"
 import { AnimationCanvas } from "@tremolo-ui/react"
 import { type ComponentPropsWithoutRef, type RefObject, useEffect } from "react"
-import { getContext, FFT as ToneFFT } from "tone"
+import { FFT as ToneFFT } from "tone"
 import { lerpColor } from "@/util/canvas"
 import { log } from "@/util/util"
 import { CanvasWrapper } from "./ui/CanvasWrapper"
@@ -11,6 +11,10 @@ export interface FFTProps {
   // fft params
   fftSize?: number
   smoothing?: number
+  /** -1 ~ 1 */
+  slope?: number
+  lowDb?: number
+  highDb?: number
   // design
   lineColor?: string
   barColor?: string | { from: string; to: string }
@@ -20,6 +24,9 @@ export function FFT({
   fft,
   fftSize,
   smoothing,
+  slope,
+  lowDb,
+  highDb,
   lineColor,
   barColor,
   ...props
@@ -29,7 +36,7 @@ export function FFT({
 
   return (
     <CanvasWrapper {...props}>
-      <FFTAnimation {...{ fft, fftSize, smoothing, lineColor, barColor }} />
+      <FFTAnimation {...{ fft, fftSize, smoothing, slope, lineColor, barColor, lowDb, highDb }} />
     </CanvasWrapper>
   )
 }
@@ -38,6 +45,9 @@ export function FFTAnimation({
   fft: _fft,
   fftSize = ToneFFT.getDefaults().size,
   smoothing = ToneFFT.getDefaults().smoothing,
+  slope = 0,
+  lowDb = -100,
+  highDb = -20,
   lineColor = "white",
   barColor = "white",
   ...props
@@ -66,23 +76,27 @@ export function FFTAnimation({
         fft.normalRange = false
 
         const dataArray = fft.getValue()
-        const nyquist = getContext().sampleRate / 2
+        const sampleRate = fft.context.sampleRate
+        const nyquist = sampleRate / 2
+        const minHz = sampleRate / fft.size
+        const maxHz = nyquist
 
         ctx.strokeStyle = "none"
-
         ctx.beginPath()
         ctx.moveTo(0, h)
         for (let i = 0; i < fft.size; i++) {
           const freq = (i * nyquist) / fft.size
-          const logFreq = Math.log10(freq + 1) // log(0)を防ぐため +1
-          const maxLogFreq = Math.log10(nyquist + 1)
-          const x = (logFreq / maxLogFreq) * w
-          const data = clamp(mapValue(dataArray[i], -100, 0, 0, 1), 0, 1)
-          const y = h * data
+          if (freq < minHz) continue
+          const logMin = Math.log10(minHz)
+          const logMax = Math.log10(maxHz)
+          const logFreq = Math.log10(freq)
+          const px = (logFreq - logMin) / (logMax - logMin)
+          const x = px * w
+          const slopeFactor = 1 - slope + 2 * slope * px
+          const py = clamp(mapValue(dataArray[i], lowDb, highDb, 0, 1) * slopeFactor, 0, 1)
+          const y = h * py
           ctx.fillStyle =
-            typeof barColor == "string"
-              ? barColor
-              : lerpColor(barColor.from, barColor.to, data * 100)
+            typeof barColor == "string" ? barColor : lerpColor(barColor.from, barColor.to, py * 100)
           ctx.fillRect(x, h - y, 1, y)
           ctx.lineTo(x, h - y)
         }

@@ -3,7 +3,7 @@ import Image from "next/image"
 interface Props {
   title: string
   type: string
-  imageSrc?: string
+  imageSrc?: Parameters<typeof Image>[0]["src"]
   imageAlt?: string
 }
 
@@ -16,7 +16,7 @@ export function Card({
   return (
     <article className="relative overflow-hidden rounded-lg shadow-sm transition hover:shadow-lg group">
       <Image
-        fill
+        fill={typeof imageSrc == "string"}
         alt={imageAlt}
         src={imageSrc}
         className="absolute inset-0 h-full w-full object-cover duration-300 group-hover:scale-110"
