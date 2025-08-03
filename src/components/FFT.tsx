@@ -25,6 +25,7 @@ export function FFT({
   ...props
 }: FFTProps & Parameters<typeof CanvasWrapper>[0]) {
   log("mount FFT")
+  log(fftSize)
 
   return (
     <CanvasWrapper {...props}>
@@ -50,10 +51,6 @@ export function FFTAnimation({
       fft.smoothing = smoothing
     } else {
       _fft.current = new ToneFFT({ size: fftSize, smoothing })
-    }
-
-    return () => {
-      _fft.current = null
     }
   }, [_fft, fftSize, smoothing])
 

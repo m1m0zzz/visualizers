@@ -35,27 +35,26 @@ export function Content({ className, ...props }: ComponentProps<"div">) {
     },
   })
 
-  const { width, height, lineColor, barColorFrom, barColorTo } = useControls("Appearance", {
-    width: {
-      value: 600,
-      min: 0,
-      step: 1,
-    },
-    height: {
-      value: 300,
-      min: 0,
-      step: 1,
-    },
-    lineColor: { r: 92, g: 171, b: 222, a: 1 }, // #5cabde
-    barColorFrom: { r: 48, g: 45, b: 235, a: 1 }, // #302deb
-    barColorTo: { r: 235, g: 30, b: 30, a: 1 }, // #eb1e1e
-    bg: {
-      value: "#000",
-      onChange: (v) => {
-        window.document.body.style.background = v
+  const { width, height, lineColor, barColorFrom, barColorTo, bg, border } = useControls(
+    "Appearance",
+    {
+      width: {
+        value: 600,
+        min: 0,
+        step: 1,
       },
+      height: {
+        value: 300,
+        min: 0,
+        step: 1,
+      },
+      lineColor: { r: 92, g: 171, b: 222, a: 1 }, // #5cabde
+      barColorFrom: { r: 48, g: 45, b: 235, a: 1 }, // #302deb
+      barColorTo: { r: 235, g: 30, b: 30, a: 1 }, // #eb1e1e
+      bg: "#000",
+      border: "#fff",
     },
-  })
+  )
 
   useEffect(() => {
     log("content")
@@ -65,7 +64,6 @@ export function Content({ className, ...props }: ComponentProps<"div">) {
 
     return () => {
       player.current?.dispose()
-      player.current = null
     }
   }, [])
 
@@ -76,8 +74,8 @@ export function Content({ className, ...props }: ComponentProps<"div">) {
         {...{ fftSize, smoothing }}
         lineColor={colorString(lineColor)}
         barColor={{ from: colorString(barColorFrom), to: colorString(barColorTo) }}
-        className="border border-white"
-        style={{ width, height }}
+        className="border"
+        style={{ width, height, background: bg, borderColor: border }}
       />
       <ControlWithoutState
         className="mt-4"

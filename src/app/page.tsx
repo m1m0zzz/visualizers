@@ -20,13 +20,13 @@ export default function Home() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-8">
           <Link href="/garden-weeds">
-            <Card title="Arnica - Garden Weeds" />
+            <Card title="Arnica - Garden Weeds" type="visualizer" />
           </Link>
           <Link href="/three-demo">
-            <Card title="Three Demo" />
+            <Card title="Three.js" type="demo" />
           </Link>
           <Link href="/spectrum">
-            <Card title="Spectrum" />
+            <Card title="Spectrum" type="component" />
           </Link>
         </div>
       </main>
