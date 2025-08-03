@@ -1,11 +1,13 @@
 "use client"
 
-import { type ComponentProps, useCallback, useState } from "react"
+import { type ComponentProps, useCallback, useEffect, useState } from "react"
 import { CgPlayButton, CgPlayPause, CgPlayTrackPrev } from "react-icons/cg"
 import * as Tone from "tone"
 import { getContext, getTransport } from "tone"
+import { log } from "@/util/util"
 
 interface Props {
+  loaded?: boolean | null
   iconSize?: number
   onStart?: () => void
   onPause?: () => void
@@ -13,6 +15,7 @@ interface Props {
 }
 
 export function ControlWithoutState({
+  loaded = null,
   iconSize = 24,
   onStart,
   onPause,
@@ -20,9 +23,16 @@ export function ControlWithoutState({
   style,
   ...props
 }: Props & ComponentProps<"div">) {
+  log("mount Control")
   const [isPlay, setIsPlay] = useState(false)
+  const [isHead, setIsHead] = useState(true)
+
+  useEffect(() => {
+    setIsHead(getTransport().seconds == 0)
+  })
 
   const toggleIsPlay = useCallback(() => setIsPlay((s) => !s), [])
+  const disabled = loaded == false
 
   return (
     <div
@@ -32,10 +42,11 @@ export function ControlWithoutState({
       <button
         className="icon-button"
         type="button"
-        disabled={isPlay /* || sec == 0 */}
+        disabled={disabled || isPlay || isHead}
         onClick={() => {
           getTransport().seconds = 0
           onPrev?.()
+          setIsHead(true)
         }}
       >
         <CgPlayTrackPrev size={iconSize} />
@@ -43,6 +54,7 @@ export function ControlWithoutState({
       <button
         className="icon-button"
         type="button"
+        disabled={disabled}
         onClick={async () => {
           if (getContext().state == "suspended") await Tone.start()
 
@@ -53,6 +65,7 @@ export function ControlWithoutState({
             getTransport().pause()
             onPause?.()
           }
+          setIsHead(getTransport().seconds == 0)
           toggleIsPlay()
         }}
       >

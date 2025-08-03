@@ -1,9 +1,10 @@
 "use client"
 
-import type { ComponentProps } from "react"
+import { type ComponentProps, useEffect, useLayoutEffect, useState } from "react"
 import { CgPlayButton, CgPlayPause, CgPlayTrackPrev } from "react-icons/cg"
 import * as Tone from "tone"
 import { getContext, getTransport } from "tone"
+import { log } from "@/util/util"
 
 interface Props {
   isPlay: boolean
@@ -24,7 +25,12 @@ export function Control({
   style,
   ...props
 }: Props & ComponentProps<"div">) {
-  // const sec = getTransport().seconds
+  log("mount Control")
+  const [isHead, setIsHead] = useState(true)
+
+  useEffect(() => {
+    setIsHead(getTransport().seconds == 0)
+  }, [])
 
   return (
     <div
@@ -34,10 +40,11 @@ export function Control({
       <button
         className="icon-button"
         type="button"
-        disabled={isPlay /* || sec == 0 */}
+        disabled={isPlay || isHead}
         onClick={() => {
           getTransport().seconds = 0
           onPrev?.()
+          setIsHead(true)
         }}
       >
         <CgPlayTrackPrev size={iconSize} />
@@ -55,6 +62,7 @@ export function Control({
             getTransport().pause()
             onPause?.()
           }
+          setIsHead(getTransport().seconds == 0)
           toggleIsPlay()
         }}
       >

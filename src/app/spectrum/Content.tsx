@@ -7,6 +7,7 @@ import { getDestination, getTransport, Player, type FFT as ToneFFT } from "tone"
 import { ControlWithoutState } from "@/components/ControlWithoutState"
 import { FFT } from "@/components/FFT"
 import { log } from "@/util/util"
+import { useObjectUrlStore } from "./store"
 
 type RGBA = { r: number; g: number; b: number; a?: number }
 
@@ -21,6 +22,7 @@ function colorString({ r, g, b, a }: RGBA) {
 export function Content({ className, ...props }: ComponentProps<"div">) {
   const fft = useRef<ToneFFT>(null!)
   const player = useRef<Player>(null)
+  const playerUrl = useObjectUrlStore((s) => s.objectUrl)
 
   const { fftSize, smoothing, slope, lowDb, highDb } = useControls("FFT", {
     fftSize: {
@@ -73,15 +75,15 @@ export function Content({ className, ...props }: ComponentProps<"div">) {
   )
 
   useEffect(() => {
-    log("content")
-    player.current = new Player("/audio/2mix.wav")
+    if (!playerUrl) return
+    player.current = new Player(playerUrl)
     player.current.chain(fft.current, getDestination())
     getTransport().seconds = 0
 
     return () => {
       player.current?.dispose()
     }
-  }, [])
+  }, [playerUrl])
 
   return (
     <div className={clsx(className, "flex justify-center items-center flex-col")} {...props}>
@@ -95,6 +97,7 @@ export function Content({ className, ...props }: ComponentProps<"div">) {
       />
       <ControlWithoutState
         className="mt-4"
+        loaded={!!playerUrl}
         onStart={() => {
           player.current?.start(0, getTransport().seconds)
         }}
