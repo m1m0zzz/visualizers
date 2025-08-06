@@ -2,7 +2,7 @@
 
 // 3rd-party
 import { Leva } from "leva"
-import { useEffect, useRef } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import { IoFlowerOutline } from "react-icons/io5"
 import { RiSoundcloudLine } from "react-icons/ri"
 import {
@@ -33,7 +33,7 @@ import { error, isDev } from "@/util/util"
 import { Animation } from "./features/Animation"
 import { Base } from "./features/Base"
 import { Cover } from "./features/Cover"
-import { useIsPlayStore } from "./features/store"
+import { PageProvider } from "./features/provider"
 import { Waveforms } from "./features/Waveforms"
 
 const midiUrls = [
@@ -47,11 +47,10 @@ const midiUrls = [
   "/midi/MELODY.mid",
 ]
 const sources = ["/audio/drums.wav", "/audio/bass.wav", "/audio/inst.wav", "/audio/vocals.wav"]
-const bpm = 110
 
 export default function Visualizer() {
-  const isPlay = useIsPlayStore((s) => s.isPlay)
-  const toggleIsPlay = useIsPlayStore((s) => s.toggleIsPlay)
+  const [isPlay, setIsPlay] = useState(false)
+  const toggleIsPlay = useCallback(() => setIsPlay((s) => !s), [])
 
   const waveforms = useRef<ToneWaveform[]>([])
   const players = useRef<Player[]>([])
@@ -73,6 +72,8 @@ export default function Visualizer() {
       error("Audio node not initialized.")
       return
     }
+    const transport = getTransport()
+    transport.bpm.set({ value: 110 })
     masterPlayer.current = new Player("/audio/2mix.wav")
     filter.current = new Filter(440, "bandpass", -12)
     masterVolume.current = new Volume(0)
@@ -116,10 +117,10 @@ export default function Visualizer() {
   }, [state])
 
   return (
-    <>
+    <PageProvider>
       <div className="relative w-[1280px] h-[720px] text-white select-none">
         <div className="absolute w-full h-full">
-          <Base bpm={bpm} />
+          <Base isPlay={isPlay} setIsPlay={setIsPlay} />
         </div>
         <div className="absolute w-full h-full">
           <div className="p-5 h-full flex flex-col">
@@ -146,10 +147,7 @@ export default function Visualizer() {
                   className="border border-white"
                   midiUrls={midiUrls}
                   // colors={midiColors}
-                  bpm={bpm}
                   isPlay={isPlay}
-                  // width={466 - 80}
-                  // height={466 - 80}
                   width={320}
                   height={320}
                 />
@@ -222,9 +220,9 @@ export default function Visualizer() {
                 gridTemplateRows: "1fr 4px",
               }}
             >
-              <BeatLamp style={{ gridRow: "1 / span 2" }} bpm={bpm} isPlay={isPlay} />
+              <BeatLamp style={{ gridRow: "1 / span 2" }} />
               <div className="flex justify-between leading-none">
-                <BeatCount bpm={bpm} isPlay={isPlay} />
+                <BeatCount />
                 <div>
                   <a
                     className="link"
@@ -245,13 +243,13 @@ export default function Visualizer() {
                   </a>
                 </div>
               </div>
-              <BeatBar bpm={bpm} isPlay={isPlay} />
+              <BeatBar />
             </div>
           </div>
         </div>
         <Cover />
       </div>
       <Leva hidden={!isDev()} />
-    </>
+    </PageProvider>
   )
 }

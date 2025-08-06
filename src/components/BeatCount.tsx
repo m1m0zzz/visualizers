@@ -2,21 +2,15 @@ import { useAnimationFrame } from "@tremolo-ui/react"
 import { type ComponentProps, useState } from "react"
 import { getTransport } from "tone"
 
-interface Props {
-  bpm: number
-  isPlay: boolean
-}
-
-export function BeatCount({ bpm, isPlay, ...props }: Props & ComponentProps<"div">) {
+export function BeatCount(props: ComponentProps<"div">) {
   const [barCount, setBarCount] = useState(1)
   const [beatCount, setBeatCount] = useState(1)
 
   useAnimationFrame(() => {
-    if (!isPlay) return
-    const spb = 60 / bpm // second per beat
-    const spBar = 240 / bpm // second per bar
-    const elapsedTime = getTransport().seconds
-    // log(elapsedTime)
+    const transport = getTransport()
+    const elapsedTime = transport.seconds
+    const spBar = 240 / transport.bpm.value // second per bar
+    const spb = 60 / transport.bpm.value // second per beat
 
     setBeatCount(1 + (Math.floor(elapsedTime / spb) % 4))
     setBarCount(1 + elapsedTime / spBar)

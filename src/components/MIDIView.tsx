@@ -7,8 +7,7 @@ import { CanvasWrapper } from "./ui/CanvasWrapper"
 
 interface Props {
   midiUrls: string[]
-  bpm: number
-  isPlay: boolean
+  isPlay?: boolean
   colors?: string[]
 }
 
@@ -26,7 +25,6 @@ type Note = {
 
 export function MIDIView({
   midiUrls,
-  bpm,
   isPlay,
   colors = [],
   ...props
@@ -43,8 +41,8 @@ export function MIDIView({
         const midi = await Midi.fromUrl(midiUrl)
         midi.tracks[0].notes.forEach((note) => {
           _notes.push({
-            time: note.time * (120 / bpm),
-            duration: note.duration * (120 / bpm),
+            time: note.time,
+            duration: note.duration,
             midi: note.midi,
             name: note.name,
             velocity: note.velocity,
@@ -55,7 +53,7 @@ export function MIDIView({
       setNotes(_notes)
     }
     load()
-  }, [midiUrls, bpm])
+  }, [midiUrls])
 
   return (
     <CanvasWrapper {...props}>
@@ -64,17 +62,20 @@ export function MIDIView({
         draw={(ctx, width, height) => {
           const w = width.current
           const h = height.current
-          const elapsedTime = getTransport().seconds
+          const transport = getTransport()
+          const elapsedTime = transport.seconds
+          const bpm = transport.bpm.value
 
-          /// reset
           ctx.clearRect(0, 0, w, h)
 
-          if (!isPlay) return
+          if (elapsedTime <= 0.001) return
 
           for (const note of notes) {
-            const x = (note.time - elapsedTime) * PIXELS_PER_SECOND
+            const time = note.time * (120 / bpm) // 補正
+            const duration = note.duration * (120 / bpm) // 補正
+            const x = (time - elapsedTime) * PIXELS_PER_SECOND
             const y = (127 - note.midi) * (NOTE_HEIGHT * 0.8) - 150
-            const width = note.duration * 0.7 * PIXELS_PER_SECOND
+            const width = duration * 0.7 * PIXELS_PER_SECOND
 
             if (x + width < 0 || x > w) continue
 

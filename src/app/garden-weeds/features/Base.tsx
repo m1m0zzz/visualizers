@@ -4,10 +4,11 @@ import { useCallback } from "react"
 import { getTransport } from "tone"
 import { lerpColorByCount } from "@/util/canvas"
 import { log } from "@/util/util"
-import { useBlurStore, useIsPlayStore } from "./store"
+import { usePageStore } from "./provider"
 
 interface Props {
-  bpm: number
+  isPlay: boolean
+  setIsPlay: (isPlay: boolean) => void
 }
 
 function cMap(value: number, inMin: number, inMax: number, outMin: number, outMax: number) {
@@ -19,19 +20,18 @@ function cMap(value: number, inMin: number, inMax: number, outMin: number, outMa
 const lerpStart = 15
 const lerpEnd = 17
 
-export function Base({ bpm }: Props) {
+export function Base({ isPlay, setIsPlay }: Props) {
   log("mount Base")
 
-  const isPlay = useIsPlayStore((s) => s.isPlay)
-  const setIsPlay = useIsPlayStore((s) => s.setIsPlay)
-  const setBlur = useBlurStore((s) => s.setBlur)
+  const setBlur = usePageStore((s) => s.setBlur)
 
   const draw = useCallback<DrawFunction>(
     (ctx, width, height) => {
       const w = width.current
       const h = height.current
-      const elapsedTime = getTransport().seconds
-      const spBar = 240 / bpm // second per bar
+      const transport = getTransport()
+      const elapsedTime = transport.seconds
+      const spBar = 240 / transport.bpm.value // second per bar
       const barCount = 1 + elapsedTime / spBar
 
       ctx.fillStyle = lerpColorByCount("#82ad8e", "#b2d48c", barCount, lerpStart, lerpEnd)
@@ -63,43 +63,41 @@ export function Base({ bpm }: Props) {
         // globalThis.location.reload()
       }
     },
-    [isPlay, bpm, setBlur, setIsPlay],
+    [isPlay, setBlur, setIsPlay],
   )
 
-  const draNoise = useCallback<DrawFunction>(
-    (ctx, _width, _height, count) => {
-      const w = ctx.canvas.width
-      const h = ctx.canvas.height
-      const elapsedTime = getTransport().seconds
-      const spBar = 240 / bpm // second per bar
-      const barCount = 1 + elapsedTime / spBar
+  const draNoise = useCallback<DrawFunction>((ctx, _width, _height, count) => {
+    const w = ctx.canvas.width
+    const h = ctx.canvas.height
+    const transport = getTransport()
+    const elapsedTime = transport.seconds
+    const spBar = 240 / transport.bpm.value // second per bar
+    const barCount = 1 + elapsedTime / spBar
 
-      if ((count - 1) % 3 != 0) return
-      const gray = cMap(barCount, lerpStart, lerpEnd, 140, 185)
-      const maxAlpha = cMap(barCount, lerpStart, lerpEnd, 0.7, 0.3)
-      const scale = 1
-      // if (count == 1 || (lerpStart <= barCount && barCount <= lerpEnd)) {
-      const imageData = ctx.createImageData(w, h)
-      for (let x = 0; x < w; x++) {
-        for (let y = 0; y < h; y++) {
-          if (x % scale != 0 || y % scale != 0) continue
-          const v = Math.random() * 255 * maxAlpha
-          for (let i = 0; i < scale; i++) {
-            for (let j = 0; j < scale; j++) {
-              imageData.data[(x + j + (y + i) * w) * 4] = gray
-              imageData.data[(x + j + (y + i) * w) * 4 + 1] = gray
-              imageData.data[(x + j + (y + i) * w) * 4 + 2] = gray
-              imageData.data[(x + j + (y + i) * w) * 4 + 3] = v
-            }
+    if ((count - 1) % 3 != 0) return
+    const gray = cMap(barCount, lerpStart, lerpEnd, 140, 185)
+    const maxAlpha = cMap(barCount, lerpStart, lerpEnd, 0.7, 0.3)
+    const scale = 1
+    // if (count == 1 || (lerpStart <= barCount && barCount <= lerpEnd)) {
+    const imageData = ctx.createImageData(w, h)
+    for (let x = 0; x < w; x++) {
+      for (let y = 0; y < h; y++) {
+        if (x % scale != 0 || y % scale != 0) continue
+        const v = Math.random() * 255 * maxAlpha
+        for (let i = 0; i < scale; i++) {
+          for (let j = 0; j < scale; j++) {
+            imageData.data[(x + j + (y + i) * w) * 4] = gray
+            imageData.data[(x + j + (y + i) * w) * 4 + 1] = gray
+            imageData.data[(x + j + (y + i) * w) * 4 + 2] = gray
+            imageData.data[(x + j + (y + i) * w) * 4 + 3] = v
           }
         }
       }
+    }
 
-      ctx.putImageData(imageData, 0, 0)
-      // }
-    },
-    [bpm],
-  )
+    ctx.putImageData(imageData, 0, 0)
+    // }
+  }, [])
 
   return (
     <>

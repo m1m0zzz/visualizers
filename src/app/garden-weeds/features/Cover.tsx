@@ -1,9 +1,9 @@
 import clsx from "clsx"
 import type { ComponentProps } from "react"
-import { useBlurStore } from "./store"
+import { usePageStore } from "./provider"
 
 export function Cover({ className, style, ...props }: ComponentProps<"div">) {
-  const blur = useBlurStore((s) => s.blur)
+  const blur = usePageStore((s) => s.blur)
 
   return (
     <div

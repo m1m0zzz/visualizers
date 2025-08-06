@@ -3,12 +3,7 @@ import { getTransport } from "tone"
 import { log } from "@/util/util"
 import { CanvasWrapper } from "./ui/CanvasWrapper"
 
-interface Props {
-  bpm: number
-  isPlay: boolean
-}
-
-export function BeatBar({ bpm, isPlay, ...props }: Props & Parameters<typeof CanvasWrapper>[0]) {
+export function BeatBar(props: Parameters<typeof CanvasWrapper>[0]) {
   log("mount BeatBar")
 
   return (
@@ -22,15 +17,12 @@ export function BeatBar({ bpm, isPlay, ...props }: Props & Parameters<typeof Can
         draw={(ctx, width, height) => {
           const w = width.current
           const h = height.current
-          const elapsedTime = getTransport().seconds
-          const spBar = 240 / bpm // second per bar
+          const transport = getTransport()
+          const elapsedTime = transport.seconds
+          const spBar = 240 / transport.bpm.value // second per bar
           const barPercent = (elapsedTime % spBar) / spBar
 
-          /// reset
           ctx.clearRect(0, 0, w, h)
-
-          if (!isPlay) return
-
           ctx.fillRect(0, 0, w * barPercent, h)
         }}
       />
