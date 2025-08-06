@@ -1,7 +1,7 @@
 import { clamp } from "@tremolo-ui/functions"
 import { memo, type PointerEventHandler, useCallback, useEffect } from "react"
 import { useScratch } from "react-use"
-import { type Filter, getContext } from "tone"
+import type { Filter } from "tone"
 import { log } from "@/util/util"
 import { FFTAnimation, type FFTProps } from "./FFT"
 import { CanvasWrapper } from "./ui/CanvasWrapper"
@@ -12,7 +12,7 @@ interface Props {
 
 export function FilterFFT({
   filter,
-  fft,
+  fft: _fft,
   fftSize,
   smoothing,
   slope,
@@ -27,17 +27,24 @@ export function FilterFFT({
   const [ref, state] = useScratch()
 
   useEffect(() => {
-    if (!filter) return
+    const fft = _fft.current
+    if (!filter || !fft) return
     if (state.isScratching) {
+      const sampleRate = fft.context.sampleRate
+      const nyquist = sampleRate / 2
+      const minHz = sampleRate / fft.size
+      const maxHz = nyquist
+      const logMin = Math.log10(minHz)
+      const logMax = Math.log10(maxHz)
       const x = (state.x ?? 0) + (state.dx ?? 0)
-      const p = clamp(x / (state.elW ?? 1), 0, 1)
-      const nyquist = getContext().sampleRate / 2
-      const hz = nyquist ** p
-      filter.set({ type: "bandpass", frequency: hz })
+      const normX = clamp(x / (state.elW ?? 1), 0, 1)
+      const logFreq = normX * (logMax - logMin) + logMin
+      const freq = 10 ** logFreq
+      filter.set({ type: "bandpass", frequency: freq })
     } else {
       filter.set({ type: "allpass" })
     }
-  }, [state, filter])
+  }, [state, _fft, filter])
 
   const onPointerUp = useCallback(() => {
     if (!filter) return
@@ -47,7 +54,8 @@ export function FilterFFT({
   return (
     <CanvasWrapper ref={ref} {...props}>
       <Memorized
-        {...{ fft, fftSize, smoothing, slope, lowDb, highDb, mode, lineColor, barColor }}
+        fft={_fft}
+        {...{ fftSize, smoothing, slope, lowDb, highDb, mode, lineColor, barColor }}
         onPointerUp={onPointerUp}
       />
     </CanvasWrapper>

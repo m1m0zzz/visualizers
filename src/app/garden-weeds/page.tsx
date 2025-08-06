@@ -1,4 +1,3 @@
-/** biome-ignore-all lint/style/noNonNullAssertion: <explanation> */
 "use client"
 
 // 3rd-party
@@ -28,8 +27,8 @@ import { Meter } from "@/components/Meter"
 import { MIDIView } from "@/components/MIDIView"
 import { Waveform } from "@/components/Waveform"
 // hook and util
-import { useEffectAsync } from "@/hooks/useEffectAsync"
-import { error, isDev, log } from "@/util/util"
+import { useWorklet } from "@/hooks/useWorklet"
+import { error, isDev } from "@/util/util"
 // features
 import { Animation } from "./features/Animation"
 import { Base } from "./features/Base"
@@ -50,9 +49,6 @@ const midiUrls = [
 const sources = ["/audio/drums.wav", "/audio/bass.wav", "/audio/inst.wav", "/audio/vocals.wav"]
 const bpm = 110
 
-const lrBufferProcessorUrl = new URL("@/processors/lr-buffer-processor", import.meta.url).href
-log(lrBufferProcessorUrl)
-
 export default function Visualizer() {
   const isPlay = useIsPlayStore((s) => s.isPlay)
   const toggleIsPlay = useIsPlayStore((s) => s.toggleIsPlay)
@@ -69,20 +65,7 @@ export default function Visualizer() {
   const masterWaveform = useRef<ToneWaveform>(null)
   const masterMeter = useRef<ToneMeter>(null)
 
-  // TODO: with worklet component
-  const count = useRef(0)
-
-  const { state } = useEffectAsync(
-    new Promise((resolve) => {
-      if (count.current == 0) {
-        log("added worklet module")
-        count.current += 1
-        resolve(getContext().addAudioWorkletModule(lrBufferProcessorUrl))
-      }
-    }),
-    null,
-    [],
-  )
+  const { state } = useWorklet(undefined, [])
 
   useEffect(() => {
     if (state != "ok") return
@@ -90,7 +73,6 @@ export default function Visualizer() {
       error("Audio node not initialized.")
       return
     }
-    log("effect visualizer")
     masterPlayer.current = new Player("/audio/2mix.wav")
     filter.current = new Filter(440, "bandpass", -12)
     masterVolume.current = new Volume(0)
@@ -122,6 +104,14 @@ export default function Visualizer() {
 
     return () => {
       masterPlayer.current?.dispose()
+      filter.current?.dispose()
+      masterVolume.current?.dispose()
+      masterWaveform.current?.dispose()
+      masterMeter.current?.dispose()
+      lrBufferProcessor.current?.disconnect()
+      players.current = []
+      waveforms.current = []
+      volumes.current = []
     }
   }, [state])
 

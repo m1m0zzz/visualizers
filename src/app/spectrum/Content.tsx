@@ -19,7 +19,7 @@ function colorString({ r, g, b, a }: RGBA) {
 }
 
 export function Content({ className, ...props }: ComponentProps<"div">) {
-  const fft = useRef<ToneFFT>(null!)
+  const fft = useRef<ToneFFT>(null)
   const player = useRef<Player>(null)
   const playerUrl = useObjectUrlStore((s) => s.objectUrl)
 
@@ -78,7 +78,7 @@ export function Content({ className, ...props }: ComponentProps<"div">) {
   )
 
   useEffect(() => {
-    if (!playerUrl) return
+    if (!playerUrl || !fft.current) return
     player.current = new Player(playerUrl)
     player.current.chain(fft.current, getDestination())
     getTransport().seconds = 0

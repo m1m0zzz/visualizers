@@ -68,6 +68,10 @@ export function FFTAnimation({
     } else {
       _fft.current = new ToneFFT({ size: fftSize, smoothing })
     }
+
+    return () => {
+      fft?.dispose()
+    }
   }, [_fft, fftSize, smoothing])
 
   return (
