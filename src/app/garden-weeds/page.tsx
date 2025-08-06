@@ -33,7 +33,6 @@ import { error, isDev } from "@/util/util"
 import { Animation } from "./features/Animation"
 import { Base } from "./features/Base"
 import { Cover } from "./features/Cover"
-import { PageProvider } from "./features/provider"
 import { Waveforms } from "./features/Waveforms"
 
 const midiUrls = [
@@ -117,7 +116,7 @@ export default function Visualizer() {
   }, [state])
 
   return (
-    <PageProvider>
+    <>
       <div className="relative w-[1280px] h-[720px] text-white select-none">
         <div className="absolute w-full h-full">
           <Base isPlay={isPlay} setIsPlay={setIsPlay} />
@@ -250,6 +249,6 @@ export default function Visualizer() {
         <Cover />
       </div>
       <Leva hidden={!isDev()} />
-    </PageProvider>
+    </>
   )
 }

@@ -4,7 +4,6 @@ import { useCallback } from "react"
 import { getTransport } from "tone"
 import { lerpColorByCount } from "@/util/canvas"
 import { log } from "@/util/util"
-import { usePageStore } from "./provider"
 
 interface Props {
   isPlay: boolean
@@ -23,8 +22,6 @@ const lerpEnd = 17
 export function Base({ isPlay, setIsPlay }: Props) {
   log("mount Base")
 
-  const setBlur = usePageStore((s) => s.setBlur)
-
   const draw = useCallback<DrawFunction>(
     (ctx, width, height) => {
       const w = width.current
@@ -39,22 +36,6 @@ export function Base({ isPlay, setIsPlay }: Props) {
 
       if (!isPlay) return
 
-      const adjustFocusStart = 16.2
-      const d = 0.8
-      const maxBlur = 8
-      if (adjustFocusStart <= barCount && barCount <= adjustFocusStart + 1) {
-        const now = barCount - adjustFocusStart
-        if (now <= 0.33 * d) {
-          setBlur(mapValue(now, 0, 0.33 * d, 0, maxBlur))
-        } else if (now <= 0.5 * d) {
-          setBlur(mapValue(now, 0.33 * d, 0.5 * d, maxBlur, 0))
-        } else if (now <= 0.66 * d) {
-          setBlur(mapValue(now, 0.5 * d, 0.66 * d, 0, maxBlur * 0.5))
-        } else {
-          setBlur(mapValue(now, 0.66 * d, 1 * d, maxBlur * 0.5, 0))
-        }
-      }
-
       if (42 <= barCount) {
         const transport = getTransport()
         transport.stop()
@@ -63,7 +44,7 @@ export function Base({ isPlay, setIsPlay }: Props) {
         // globalThis.location.reload()
       }
     },
-    [isPlay, setBlur, setIsPlay],
+    [isPlay, setIsPlay],
   )
 
   const draNoise = useCallback<DrawFunction>((ctx, _width, _height, count) => {
