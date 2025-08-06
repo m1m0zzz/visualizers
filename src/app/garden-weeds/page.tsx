@@ -1,5 +1,7 @@
+/** biome-ignore-all lint/style/noNonNullAssertion: <explanation> */
 "use client"
 
+// 3rd-party
 import { Leva } from "leva"
 import { useEffect, useRef } from "react"
 import { IoFlowerOutline } from "react-icons/io5"
@@ -15,7 +17,6 @@ import {
   Waveform as ToneWaveform,
   Volume,
 } from "tone"
-// midi
 // component
 import { BeatBar } from "@/components/BeatBar"
 import { BeatCount } from "@/components/BeatCount"
@@ -26,19 +27,15 @@ import { LissajousMeter } from "@/components/LissajousMeter"
 import { Meter } from "@/components/Meter"
 import { MIDIView } from "@/components/MIDIView"
 import { Waveform } from "@/components/Waveform"
+// hook and util
 import { useEffectAsync } from "@/hooks/useEffectAsync"
-import { isDev, log } from "@/util/util"
-// import lrBufferProcessorUrl from "@/processors/lr-buffer-processor.worklet"
-// import lrBufferWorkerUrl from "@/processors/lr-buffer-processor?worker&url"
+import { error, isDev, log } from "@/util/util"
+// features
 import { Animation } from "./features/Animation"
 import { Base } from "./features/Base"
 import { Cover } from "./features/Cover"
 import { useIsPlayStore } from "./features/store"
 import { Waveforms } from "./features/Waveforms"
-// css
-import styles from "./styles.module.css"
-
-// const lrBufferProcessorUrl = import.meta.env.PROD ? lrBufferWorkerUrl : lrBufferUrl
 
 const midiUrls = [
   "/midi/BASS.mid",
@@ -66,12 +63,13 @@ export default function Visualizer() {
 
   const lrBufferProcessor = useRef<AudioWorkletNode>(null)
   const masterPlayer = useRef<Player>(null)
-  const masterFft = useRef<FFT>(null!)
+  const masterFft = useRef<FFT>(null)
   const filter = useRef<Filter>(null)
   const masterVolume = useRef<Volume>(null)
   const masterWaveform = useRef<ToneWaveform>(null)
   const masterMeter = useRef<ToneMeter>(null)
 
+  // TODO: with worklet component
   const count = useRef(0)
 
   const { state } = useEffectAsync(
@@ -80,8 +78,6 @@ export default function Visualizer() {
         log("added worklet module")
         count.current += 1
         resolve(getContext().addAudioWorkletModule(lrBufferProcessorUrl))
-      } else {
-        resolve(() => {})
       }
     }),
     null,
@@ -90,116 +86,74 @@ export default function Visualizer() {
 
   useEffect(() => {
     if (state != "ok") return
-    log("on update")
+    if (!masterFft.current) {
+      error("Audio node not initialized.")
+      return
+    }
+    log("effect visualizer")
     masterPlayer.current = new Player("/audio/2mix.wav")
-    // masterFft.current = new FFT(4096)
     filter.current = new Filter(440, "bandpass", -12)
     masterVolume.current = new Volume(0)
     masterWaveform.current = new ToneWaveform(8192)
     masterMeter.current = new ToneMeter({ channelCount: 2, smoothing: 0.95 })
-
     lrBufferProcessor.current = getContext().createAudioWorkletNode("lr-buffer-processor", {
       channelCount: 2,
     })
-    // const transport = getTransport()
 
-    masterPlayer.current.connect(filter.current)
-    filter.current.chain(
-      masterVolume.current,
+    const masterSection = [
       masterFft.current,
-      lrBufferProcessor.current,
       masterWaveform.current,
       masterMeter.current,
+      lrBufferProcessor.current,
       getDestination(),
-    )
+    ]
+
+    masterPlayer.current.chain(filter.current, masterVolume.current, ...masterSection)
 
     for (let i = 0; i < sources.length; i++) {
       const wf = new ToneWaveform(1024)
       const player = new Player(sources[i])
       const volume = new Volume(-100)
-      player.chain(
-        wf,
-        volume,
-        masterFft.current,
-        lrBufferProcessor.current,
-        masterWaveform.current,
-        masterMeter.current,
-        getDestination(),
-      )
+      player.chain(wf, volume, ...masterSection)
       players.current.push(player)
       waveforms.current.push(wf)
       volumes.current.push(volume)
+    }
+
+    return () => {
+      masterPlayer.current?.dispose()
     }
   }, [state])
 
   return (
     <>
-      <div
-        className="relative text-white select-none"
-        style={{
-          width: 1280,
-          height: 720,
-        }}
-      >
-        <div className={styles.absolute}>
+      <div className="relative w-[1280px] h-[720px] text-white select-none">
+        <div className="absolute w-full h-full">
           <Base bpm={bpm} />
         </div>
-        <div className={styles.absolute}>
-          <div
-            style={{
-              padding: 20,
-              height: "100%",
-              display: "flex",
-              flexDirection: "column",
-            }}
-          >
-            <div
-              style={{
-                flex: "1 1 auto",
-                display: "flex",
-                flexDirection: "row",
-                // justifyContent: "space-between",
-                gap: 32,
-              }}
-            >
+        <div className="absolute w-full h-full">
+          <div className="p-5 h-full flex flex-col">
+            <div className="grow shrink flex flex-row gap-8">
               <Waveforms
                 waveforms={waveforms.current}
                 volumes={volumes.current}
                 masterVolume={masterVolume.current}
+                className="grow shrink-0 h-full flex flex-col justify-between gap-2"
                 width={380}
                 height={80}
-                style={{
-                  flex: "1 0 auto",
-                  height: "100%",
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "space-between",
-                  gap: 8,
-                }}
               />
-              {/* <div
-                style={{
-                  flex: "1 1 auto",
-                }}
-              >
+              {/* <div>
                 drum
               </div> */}
-              <Animation
-                style={{
-                  // border: "1px solid white",
-                  aspectRatio: 1,
-                }}
-              />
+              <Animation className="aspect-square" />
               <div
+                className="flex flex-col justify-between gap-6"
                 style={{
                   height: `calc(100% + 120px - 200px )`,
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "space-between",
-                  gap: 24,
                 }}
               >
                 <MIDIView
+                  className="border border-white"
                   midiUrls={midiUrls}
                   // colors={midiColors}
                   bpm={bpm}
@@ -208,16 +162,8 @@ export default function Visualizer() {
                   // height={466 - 80}
                   width={320}
                   height={320}
-                  style={{ border: "1px solid white" }}
                 />
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-around",
-                    alignItems: "center",
-                    padding: "0 32px",
-                  }}
-                >
+                <div className="flex justify-around items-center py-8">
                   <IoFlowerOutline className="rotate" size={24} />
                   <Control
                     isPlay={isPlay}
@@ -253,21 +199,9 @@ export default function Visualizer() {
                 </div>
               </div>
             </div>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                height: 120,
-                gap: 16,
-                marginTop: 32,
-              }}
-            >
+            <div className="h-[120px] flex justify-between gap-4 mt-8">
               <FilterFFT
-                style={{
-                  flex: "1 0 auto",
-                  border: "1px solid white",
-                  // borderRadius: 12,
-                }}
+                className="grow shrink-0 border border-white"
                 fft={masterFft}
                 filter={filter.current}
                 mode="raw-lines"
@@ -278,42 +212,28 @@ export default function Visualizer() {
                 barColor={{ from: "#fff8", to: "#99b88d" }}
               />
               {/* <SCEmbed height={120} /> */}
-              <Waveform waveform={masterWaveform.current} style={{ flex: "1 1 auto" }} />
+              <Waveform waveform={masterWaveform.current} className="grow shrink" />
               <Meter meter={masterMeter.current} width={30} />
 
               <LissajousMeter
                 lrBufferProcessor={lrBufferProcessor.current}
+                className="grow-0 shrink-0 rounded-full"
                 style={{
-                  flex: "0 0 auto",
                   transform: "translateY(calc(120px - 200px))",
-                  // border: "1px solid white",
-                  borderRadius: 9999,
                 }}
                 width={200}
                 height={200}
               />
             </div>
             <div
+              className="h-[30px] mt-8 grid gap-x-2 gap-y-1"
               style={{
-                height: 30,
-                marginTop: 32,
-                display: "grid",
                 gridTemplateColumns: "15px 1fr",
                 gridTemplateRows: "1fr 4px",
-                columnGap: 8,
-                rowGap: 4,
               }}
             >
               <BeatLamp style={{ gridRow: "1 / span 2" }} bpm={bpm} isPlay={isPlay} />
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  // alignItems: "center",
-                  // fontSize: 14,
-                  lineHeight: 1,
-                }}
-              >
+              <div className="flex justify-between leading-none">
                 <BeatCount bpm={bpm} isPlay={isPlay} />
                 <div>
                   <a

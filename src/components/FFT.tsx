@@ -64,8 +64,7 @@ export function FFTAnimation({
   useEffect(() => {
     const fft = _fft.current
     if (fft) {
-      fft.size = fftSize
-      fft.smoothing = smoothing
+      fft.set({ size: fftSize, smoothing })
     } else {
       _fft.current = new ToneFFT({ size: fftSize, smoothing })
     }

@@ -18,6 +18,7 @@ export function useEffectAsync<T>(
       })
       .catch((e) => {
         error.current = e
+        setState("error")
       })
     // biome-ignore lint/correctness/useExhaustiveDependencies: obvious
   }, deps)

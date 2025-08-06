@@ -40,9 +40,23 @@ export function isDev() {
   return process.env.NODE_ENV == "development"
 }
 
-// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+// biome-ignore lint/suspicious/noExplicitAny: Can receive any argument
 export function log(...message: any[]) {
   if (isDev()) {
     console.log(...message)
+  }
+}
+
+// biome-ignore lint/suspicious/noExplicitAny: Can receive any argument
+export function warn(...message: any[]) {
+  if (isDev()) {
+    console.warn(...message)
+  }
+}
+
+// biome-ignore lint/suspicious/noExplicitAny: Can receive any argument
+export function error(...message: any[]) {
+  if (isDev()) {
+    console.error(...message)
   }
 }

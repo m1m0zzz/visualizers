@@ -1,6 +1,4 @@
-"use client"
-
-class MidSideProcessor extends AudioWorkletProcessor {
+class LRBufferProcessor extends AudioWorkletProcessor {
   private bufferL: number[] = []
   private bufferR: number[] = []
   private readonly frameSize = 512
@@ -37,4 +35,4 @@ class MidSideProcessor extends AudioWorkletProcessor {
   }
 }
 
-registerProcessor("lr-buffer-processor", MidSideProcessor)
+registerProcessor("lr-buffer-processor", LRBufferProcessor)
