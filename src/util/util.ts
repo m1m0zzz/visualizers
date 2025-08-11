@@ -36,6 +36,15 @@ export function arrayMinSafe(ary: number[] | Float32Array) {
   }
 }
 
+export function average(ary: number[]) {
+  if (ary.length == 0) return 0
+  let sum = 0
+  ary.forEach((v) => {
+    sum += v
+  })
+  return sum / ary.length
+}
+
 export function isDev() {
   return process.env.NODE_ENV == "development"
 }

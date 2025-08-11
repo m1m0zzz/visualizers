@@ -77,7 +77,7 @@ export default function Visualizer() {
     filter.current = new Filter(440, "bandpass", -12)
     masterVolume.current = new Volume(0)
     masterWaveform.current = new ToneWaveform(8192)
-    masterMeter.current = new ToneMeter({ channelCount: 2, smoothing: 0.95 })
+    masterMeter.current = new ToneMeter({ channelCount: 2, smoothing: 0.98 })
     lrBufferProcessor.current = getContext().createAudioWorkletNode("lr-buffer-processor", {
       channelCount: 2,
     })
@@ -135,7 +135,7 @@ export default function Visualizer() {
               {/* <div>
                 drum
               </div> */}
-              <Animation className="aspect-square" />
+              <Animation className="aspect-square" meter={masterMeter} />
               <div
                 className="flex flex-col justify-between gap-6"
                 style={{

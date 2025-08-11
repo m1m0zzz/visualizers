@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import Link from "next/link"
 import spectrumGif from "@/app/assets/spectrum.gif"
+import threeDemoGif from "@/app/assets/three-demo.gif"
 import { Card } from "@/components/ui/Card"
 
 export const metadata: Metadata = {}
@@ -24,10 +25,13 @@ export default function Home() {
             <Card title="Arnica - Garden Weeds" type="visualizer" />
           </Link>
           <Link href="/three-demo">
-            <Card title="Three.js" type="demo" />
+            <Card title="Three.js" type="demo" imageSrc={threeDemoGif} />
           </Link>
           <Link href="/spectrum">
             <Card title="Spectrum" type="component" imageSrc={spectrumGif} />
+          </Link>
+          <Link href="/audio-nodes">
+            <Card title="Audio Nodes" type="component" />
           </Link>
         </div>
       </main>

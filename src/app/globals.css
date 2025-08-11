@@ -42,7 +42,7 @@ svg {
   border-radius: 8px;
 
   &:disabled {
-    color: rgba(85, 85, 85, 0.8);
+    color: rgba(85, 85, 85, 0.5);
     cursor: auto;
   }
 

@@ -55,7 +55,7 @@ export function Base({ isPlay, setIsPlay }: Props) {
     const spBar = 240 / transport.bpm.value // second per bar
     const barCount = 1 + elapsedTime / spBar
 
-    if ((count - 1) % 3 != 0) return
+    if ((count - 1) % 5 != 0) return
     const gray = cMap(barCount, lerpStart, lerpEnd, 140, 185)
     const maxAlpha = cMap(barCount, lerpStart, lerpEnd, 0.7, 0.3)
     const scale = 1
