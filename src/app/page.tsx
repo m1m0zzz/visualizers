@@ -22,16 +22,19 @@ export default function Home() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-8">
           <Link href="/garden-weeds">
-            <Card title="Arnica - Garden Weeds" type="visualizer" />
+            <Card title="Arnica - Garden Weeds" type="visualizer" bg="oklch(79.2% 0.209 151.711)" />
           </Link>
           <Link href="/three-demo">
-            <Card title="Three.js" type="demo" imageSrc={threeDemoGif} />
+            <Card title="Three.js" type="demo" bg={{ src: threeDemoGif }} />
           </Link>
           <Link href="/spectrum">
-            <Card title="Spectrum" type="component" imageSrc={spectrumGif} />
+            <Card title="Spectrum" type="component" bg={{ src: spectrumGif }} />
+          </Link>
+          <Link href="/noise">
+            <Card title="Monochrome Noise" type="component" bg="oklch(55.4% 0.046 257.417)" />
           </Link>
           <Link href="/audio-nodes">
-            <Card title="Audio Nodes" type="component" />
+            <Card title="Audio Nodes" type="component" bg="oklch(68.5% 0.169 237.323)" />
           </Link>
         </div>
       </main>

@@ -45,6 +45,10 @@ export function average(ary: number[]) {
   return sum / ary.length
 }
 
+export function randRange(min: number, max: number) {
+  return min + Math.random() * (max - min)
+}
+
 export function isDev() {
   return process.env.NODE_ENV == "development"
 }

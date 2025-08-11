@@ -14,10 +14,6 @@ interface Props {
   meter: RefObject<Meter | null>
 }
 
-function randRange(min: number, max: number) {
-  return min + Math.random() * (max - min)
-}
-
 function GrassMaterial({ repeat = 1 }: { repeat?: number }) {
   const props = useTexture({
     map: "/textures/leafy_grass_4k.gltf/textures/leafy_grass_diff_4k.jpg",

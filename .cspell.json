@@ -12,6 +12,7 @@
         "rgba",
         "Soundcloud",
         "tonejs",
-        "turbopack"
+        "turbopack",
+        "xyflow"
     ]
 }

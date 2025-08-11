@@ -91,8 +91,7 @@ export function Content({ className, ...props }: ComponentProps<"div">) {
   return (
     <div className={clsx(className, "flex justify-center items-center flex-col")} {...props}>
       <FFT
-        fft={fft}
-        {...{ fftSize, smoothing, slope, lowDb, highDb }}
+        {...{ fft, fftSize, smoothing, slope, lowDb, highDb }}
         mode={mode as FFTDisplayMode}
         lineColor={colorString(lineColor)}
         barColor={{ from: colorString(barColorFrom), to: colorString(barColorTo) }}
