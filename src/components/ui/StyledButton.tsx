@@ -4,9 +4,11 @@ import clsx from "clsx"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import type { ComponentProps } from "react"
+import { FiArrowLeft } from "react-icons/fi"
 
 interface Props {
   text: string
+  backIcon?: boolean
   color?: string
   borderBg?: string
   bg?: string
@@ -14,6 +16,7 @@ interface Props {
 
 function StyledButtonBase({
   text,
+  backIcon = false,
   color = "text-emerald-600",
   borderBg = "bg-emerald-600",
   bg = "bg-white",
@@ -31,13 +34,19 @@ function StyledButtonBase({
           borderBg,
         )}
       ></span>
-      <span className={clsx("relative block border border-current px-8 py-3", bg)}>{text}</span>
+      <span
+        className={clsx("relative flex items-center gap-1 border border-current px-6 py-2", bg)}
+      >
+        {backIcon && <FiArrowLeft />}
+        {text}
+      </span>
     </span>
   )
 }
 
 export function StyledButton({
   text,
+  backIcon,
   color,
   borderBg,
   bg,
@@ -46,7 +55,7 @@ export function StyledButton({
 }: Props & Omit<ComponentProps<"button">, keyof Props>) {
   return (
     <button type={type} {...props}>
-      <StyledButtonBase {...{ text, color, borderBg, bg }} />
+      <StyledButtonBase {...{ text, backIcon, color, borderBg, bg }} />
     </button>
   )
 }
@@ -59,17 +68,23 @@ export function StyledLinkButton({ href, ...props }: { href: string } & Props) {
   )
 }
 
-export function PrevButton() {
+export function PrevButton({
+  text = "Prev Page",
+  backIcon = true,
+  color = "text-gray-50",
+  borderBg = "bg-gray-50",
+  bg = "bg-emerald-600",
+  ...props
+}: Partial<Parameters<typeof StyledButton>[0]>) {
   const router = useRouter()
-
-  ;("use client")
 
   return (
     <StyledButton
-      text="Prev Page"
+      {...{ text, backIcon, color, borderBg, bg }}
       onClick={() => {
         router.back()
       }}
+      {...props}
     />
   )
 }

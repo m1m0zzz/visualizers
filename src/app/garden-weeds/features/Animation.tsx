@@ -1,9 +1,16 @@
 "use client"
 
-import { Fisheye, OrbitControls, PerspectiveCamera, Plane, useTexture } from "@react-three/drei"
+import {
+  // Fisheye,
+  OrbitControls,
+  PerspectiveCamera,
+  // Plane,
+  Sky,
+  // useTexture,
+} from "@react-three/drei"
 import { Canvas } from "@react-three/fiber"
 import { type ComponentProps, type RefObject, Suspense, useRef } from "react"
-import { DoubleSide } from "three"
+// import { DoubleSide } from "three"
 import type { Meter } from "tone"
 import { Loading } from "@/components/ui/Loading"
 import { PottedPlant2 } from "@/models/PottedPlant2"
@@ -14,16 +21,16 @@ interface Props {
   meter: RefObject<Meter | null>
 }
 
-function GrassMaterial({ repeat = 1 }: { repeat?: number }) {
-  const props = useTexture({
-    map: "/textures/leafy_grass_4k.gltf/textures/leafy_grass_diff_4k.jpg",
-    normalMap: "/textures/leafy_grass_4k.gltf/textures/leafy_grass_nor_gl_4k.jpg",
-    roughnessMap: "/textures/leafy_grass_4k.gltf/textures/leafy_grass_arm_4k.jpg",
-  })
-  Object.values(props).forEach((texture) => setRepeat(texture, repeat))
+// function GrassMaterial({ repeat = 1 }: { repeat?: number }) {
+//   const props = useTexture({
+//     map: "/textures/leafy_grass_4k.gltf/textures/leafy_grass_diff_4k.jpg",
+//     normalMap: "/textures/leafy_grass_4k.gltf/textures/leafy_grass_nor_gl_4k.jpg",
+//     roughnessMap: "/textures/leafy_grass_4k.gltf/textures/leafy_grass_arm_4k.jpg",
+//   })
+//   Object.values(props).forEach((texture) => setRepeat(texture, repeat))
 
-  return <meshStandardMaterial {...props} side={DoubleSide} />
-}
+//   return <meshStandardMaterial {...props} side={DoubleSide} />
+// }
 
 export function Animation({ meter, style, ...props }: Props & ComponentProps<"div">) {
   log("mount Animation")
@@ -43,7 +50,7 @@ export function Animation({ meter, style, ...props }: Props & ComponentProps<"di
           {/* <Fisheye zoom={0}> */}
           {/* camera and lighting */}
           {/* @ts-ignore */}
-          <PerspectiveCamera ref={camera} makeDefault position={[1, 1.5, 1]} />
+          <PerspectiveCamera ref={camera} makeDefault position={[3, 1, 1]} />
           <CustomEnvironment
             preset="forest"
             background
@@ -62,7 +69,7 @@ export function Animation({ meter, style, ...props }: Props & ComponentProps<"di
           />
 
           {/* models */}
-          <PottedPlant2 position={[0, 0, 0]} scale={3} />
+          <PottedPlant2 position={[0, 0, 0]} />
 
           {/* <MeteringContainer meter={meter}>
               <sphereGeometry />
@@ -72,14 +79,22 @@ export function Animation({ meter, style, ...props }: Props & ComponentProps<"di
           {/* <Plane position={[0, 0, 0]} rotation={[Math.PI / 2, 0, 0]} scale={100}>
             <GrassMaterial repeat={10} />
           </Plane> */}
+          <Sky
+            inclination={0.6}
+            turbidity={0.1}
+            rayleigh={0.246}
+            mieCoefficient={0.01}
+            mieDirectionalG={0.99}
+            azimuth={0}
+          />
 
           {/* helpers */}
           {isDev() && <axesHelper />}
           {isDev() && <gridHelper />}
           <OrbitControls
             makeDefault
-            minPolarAngle={(Math.PI / 2) * 0.3}
-            maxPolarAngle={(Math.PI / 2) * 0.7}
+            // minPolarAngle={(Math.PI / 2) * 0.3}
+            // maxPolarAngle={(Math.PI / 2) * 0.7}
             enableZoom={isDev()}
           />
           {/* </Fisheye> */}

@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import Link from "next/link"
+import noiseGif from "@/app/assets/noise.gif"
 import spectrumGif from "@/app/assets/spectrum.gif"
 import threeDemoGif from "@/app/assets/three-demo.gif"
 import { Card } from "@/components/ui/Card"
@@ -31,7 +32,7 @@ export default function Home() {
             <Card title="Spectrum" type="component" bg={{ src: spectrumGif }} />
           </Link>
           <Link href="/noise">
-            <Card title="Monochrome Noise" type="component" bg="oklch(55.4% 0.046 257.417)" />
+            <Card title="Noise" type="component" bg={{ src: noiseGif }} />
           </Link>
           <Link href="/audio-nodes">
             <Card title="Audio Nodes" type="component" bg="oklch(68.5% 0.169 237.323)" />
