@@ -4,6 +4,7 @@ import noiseGif from "@/app/assets/noise.gif"
 import spectrumGif from "@/app/assets/spectrum.gif"
 import threeDemoGif from "@/app/assets/three-demo.gif"
 import { Card } from "@/components/ui/Card"
+import { ThemeDropdown } from "@/components/ui/ThemeDropdown"
 
 export const metadata: Metadata = {}
 
@@ -11,12 +12,15 @@ export default function Home() {
   return (
     <div className="font-sans min-h-screen">
       <main className="p-10">
-        <h1 className="text-2xl sm:text-4xl md:text-5xl xl:text-7xl">
-          <a href="https://m1m0zzz.github.io/" className="text-cyan-200">
-            MIMOZ
-          </a>{" "}
-          COMPONENTS
-        </h1>
+        <div className="flex justify-between items-center gap-8">
+          <h1 className="text-2xl sm:text-4xl md:text-5xl xl:text-7xl">
+            <a href="https://m1m0zzz.github.io/" className="text-cyan-500 dark:text-cyan-200">
+              MIMOZ
+            </a>{" "}
+            COMPONENTS
+          </h1>
+          <ThemeDropdown />
+        </div>
         <p className="mt-1 text-gray-400 xl:text-2xl">
           Exploring the Visual Representation of Sound and its Programming.
         </p>
