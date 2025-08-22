@@ -28,6 +28,7 @@ export default async function Image() {
         alignItems: "center",
         justifyContent: "center",
         flexDirection: "column",
+        background: "white",
       }}
     >
       <div
