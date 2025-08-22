@@ -1,9 +1,9 @@
 "use client"
 
-import { useEffect } from "react"
+import { useLayoutEffect } from "react"
 
 export function ThemeDetector() {
-  useEffect(() => {
+  useLayoutEffect(() => {
     document.documentElement.classList.toggle(
       "dark",
       localStorage.theme === "dark" ||

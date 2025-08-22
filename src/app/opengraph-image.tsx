@@ -5,7 +5,7 @@ import { join } from "node:path"
 import { ImageResponse } from "next/og"
 import { LuBlocks } from "react-icons/lu"
 
-export const alt = "About Acme"
+export const alt = "MIMOZ COMPONENTS"
 export const size = {
   width: 1200,
   height: 630,
@@ -17,10 +17,7 @@ export default async function Image() {
     join(process.cwd(), "src/app/assets/fonts/Inter_18pt-SemiBold.ttf"),
   )
 
-  // const logoData = await readFile(join(process.cwd(), "src/app/assets/cry-mimoz.png"))
-  // const logoSrc = Uint8Array.from(logoData).buffer
-
-  const fontSize = 68
+  const fontSize = 50
 
   return new ImageResponse(
     <div
@@ -51,7 +48,7 @@ export default async function Image() {
           MIMOZ COMPONENTS
         </div>
       </div>
-      <div style={{ marginTop: 16, fontSize: 20 }}>
+      <div style={{ marginTop: 16, fontSize: 16 }}>
         Exploring the Visual Representation of Sound and its Programming.
       </div>
     </div>,

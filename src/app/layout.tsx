@@ -16,11 +16,27 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 })
 
+const title = "MIMOZ COMPONENTS"
+const description = "Exploring the Visual Representation of Sound and its Programming."
+
 export const metadata: Metadata = {
-  title: { default: "MIMOZ COMPONENTS", template: "%s | MIMOZ COMPONENTS" },
-  description: "Exploring the Visual Representation of Sound and its Programming.",
+  title: { default: title, template: "%s | MIMOZ COMPONENTS" },
+  description,
   keywords: ["AudioVisual", "WebDev", "JavaScript", "TypeScript"],
   authors: [{ name: "mimoz", url: "https://m1m0zzz.github.io/" }],
+  openGraph: {
+    type: "website",
+    title,
+    description,
+    siteName: title,
+    url: "https://visualizers.vercel.app/",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title,
+    description,
+    site: "@m1m0zzz",
+  },
 }
 
 export default function RootLayout({
