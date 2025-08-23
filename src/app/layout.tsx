@@ -52,7 +52,7 @@ export default function RootLayout({
       >
         <ToneGlobals />
         <ThemeDetector />
-        <ThemeProvider attribute="data-theme" enableSystem storageKey="theme" >
+        <ThemeProvider attribute="data-theme" enableSystem storageKey="theme">
           {children}
         </ThemeProvider>
       </body>

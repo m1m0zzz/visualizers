@@ -40,7 +40,6 @@ export function ThemeDropdown() {
         </span>
 
         <span className="text-sm font-medium">
-          {/** biome-ignore lint/a11y/noSvgWithoutTitle: <explanation> */}
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -65,7 +64,6 @@ export function ThemeDropdown() {
         >
           {themes.map((theme) => {
             return (
-              // biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
               <div
                 key={theme}
                 className="flex gap-1 items-center px-3 py-2 text-sm font-medium transition-colors hover:bg-gray-50 hover:text-gray-900 dark:text-gray-200 dark:hover:bg-gray-700 dark:hover:text-white"
