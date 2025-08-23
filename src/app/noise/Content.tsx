@@ -1,6 +1,7 @@
 "use client"
 
 import clsx from "clsx"
+import type { Property } from "csstype"
 import { useControls } from "leva"
 import type { ComponentProps } from "react"
 import { Noise } from "@/components/Noise"
@@ -39,7 +40,7 @@ export function Content({ className, ...props }: ComponentProps<"div">) {
     },
   })
 
-  const { width, height, overlay, blur, bg, fontColor } = useControls("Appearance", {
+  const { width, height, blend, blur, blendMode, bg, fontColor } = useControls("Appearance", {
     width: {
       value: 300,
       min: 1,
@@ -50,7 +51,28 @@ export function Content({ className, ...props }: ComponentProps<"div">) {
       min: 1,
       step: 1,
     },
-    overlay: false,
+    blend: false,
+    blendMode: {
+      value: "normal",
+      options: [
+        "normal",
+        "multiply",
+        "screen",
+        "overlay",
+        "darken",
+        "lighten",
+        "color-dodge",
+        "color-burn",
+        "hard-light",
+        "soft-light",
+        "difference",
+        "exclusion",
+        "hue",
+        "saturation",
+        "color",
+        "luminosity",
+      ],
+    },
     blur: {
       value: 0,
       min: 0,
@@ -67,7 +89,7 @@ export function Content({ className, ...props }: ComponentProps<"div">) {
         className="relative"
         style={{ width, height, background: colorString(bg), overflow: "hidden" }}
       >
-        {overlay && (
+        {blend && (
           <div
             className="absolute inset-0 m-auto w-fit h-fit text-4xl"
             style={{ color: fontColor }}
@@ -81,7 +103,7 @@ export function Content({ className, ...props }: ComponentProps<"div">) {
           style={{
             width,
             height,
-            mixBlendMode: overlay ? "overlay" : undefined,
+            mixBlendMode: blend ? (blendMode as Property.MixBlendMode) : undefined,
             filter: `blur(${blur}px)`,
           }}
         />
