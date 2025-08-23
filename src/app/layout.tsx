@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google"
 import "./globals.css"
 import "@xyflow/react/dist/style.css"
 import "./react-flow.css"
+import { ThemeProvider } from "next-themes"
 import { ThemeDetector } from "./ThemeDetector"
 import { ToneGlobals } from "./ToneGlobals"
 
@@ -45,13 +46,15 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground dark:bg-foreground dark:text-background`}
       >
         <ToneGlobals />
         <ThemeDetector />
-        {children}
+        <ThemeProvider attribute="data-theme" enableSystem storageKey="theme" >
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   )
