@@ -1,11 +1,10 @@
 import type { Metadata } from "next"
 import { Geist, Geist_Mono } from "next/font/google"
+import { ThemeProvider } from "next-themes"
+import { ToneGlobals } from "./ToneGlobals"
 import "./globals.css"
 import "@xyflow/react/dist/style.css"
 import "./react-flow.css"
-import { ThemeProvider } from "next-themes"
-import { ThemeDetector } from "./ThemeDetector"
-import { ToneGlobals } from "./ToneGlobals"
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -51,7 +50,6 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground dark:bg-foreground dark:text-background`}
       >
         <ToneGlobals />
-        <ThemeDetector />
         <ThemeProvider attribute="data-theme" enableSystem storageKey="theme">
           {children}
         </ThemeProvider>
