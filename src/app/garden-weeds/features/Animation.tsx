@@ -8,7 +8,7 @@ import { DoubleSide } from "three"
 // import type { Meter } from "tone"
 import { Loading } from "@/components/ui/Loading"
 import { Tree } from "@/models/Tree"
-import { CustomDirectionalLight, CustomEnvironment, setRepeat } from "@/util/three"
+import { Box, CustomDirectionalLight, CustomEnvironment, setRepeat } from "@/util/three"
 import { isDev, log } from "@/util/util"
 
 // interface Props {
@@ -48,7 +48,9 @@ function Impl() {
       />
 
       {/* models */}
-      <Tree position={[0, 0, 0]} scale={0.5} />
+      <Suspense fallback={<Box position={[0, 0.5, 0]} />}>
+        <Tree position={[0, 0, 0]} scale={0.5} />
+      </Suspense>
 
       <Plane position={[0, 0, 0]} rotation={[Math.PI / 2, 0, 0]} scale={100}>
         <GrassMaterial repeat={10} />
