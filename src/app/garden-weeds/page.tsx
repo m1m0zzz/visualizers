@@ -4,7 +4,7 @@
 import { Leva } from "leva"
 import { useCallback, useEffect, useRef, useState } from "react"
 import { IoFlowerOutline } from "react-icons/io5"
-import { RiSoundcloudLine } from "react-icons/ri"
+import { RiSoundcloudLine, RiTwitterXLine } from "react-icons/ri"
 import {
   type FFT,
   Filter,
@@ -21,6 +21,7 @@ import { BeatBar } from "@/components/BeatBar"
 import { BeatCount } from "@/components/BeatCount"
 import { BeatLamp } from "@/components/BeatLamp"
 import { Control } from "@/components/Control"
+import { DrumPad } from "@/components/DrumPad"
 import { FilterFFT } from "@/components/FilterFFT"
 import { LissajousMeter } from "@/components/LissajousMeter"
 import { Meter } from "@/components/Meter"
@@ -33,6 +34,7 @@ import { error, isDev } from "@/util/util"
 import { Animation } from "./features/Animation"
 import { Base } from "./features/Base"
 import { Cover } from "./features/Cover"
+import { SCEmbed } from "./features/SCEmbed"
 import { Waveforms } from "./features/Waveforms"
 
 const midiUrls = [
@@ -123,34 +125,25 @@ export default function Visualizer() {
         </div>
         <div className="absolute w-full h-full">
           <div className="p-5 h-full flex flex-col">
-            <div className="grow shrink flex flex-row gap-8">
+            <div className="grow shrink flex flex-row gap-8 justify-between">
               <Waveforms
                 waveforms={waveforms.current}
                 volumes={volumes.current}
                 masterVolume={masterVolume.current}
-                className="grow shrink-0 h-full flex flex-col justify-between gap-2"
+                className="w-[380px] shrink-0 h-full flex flex-col justify-between gap-2"
                 width={380}
                 height={80}
               />
-              {/* <div>
-                drum
-              </div> */}
-              <Animation className="aspect-square" meter={masterMeter} />
-              <div
-                className="flex flex-col justify-between gap-6"
-                style={{
-                  height: `calc(100% + 120px - 200px )`,
-                }}
-              >
+              <div className="flex flex-col justify-between gap-6">
                 <MIDIView
                   className="border border-white"
                   midiUrls={midiUrls}
                   // colors={midiColors}
                   isPlay={isPlay}
-                  width={320}
-                  height={320}
+                  width={380}
+                  height={380}
                 />
-                <div className="flex justify-around items-center py-8">
+                <div className="flex justify-around items-center pb-4">
                   <IoFlowerOutline className="rotate" size={24} />
                   <Control
                     isPlay={isPlay}
@@ -165,24 +158,42 @@ export default function Visualizer() {
                       masterPlayer.current?.stop()
                     }}
                   />
-                  <a
-                    href="https://soundcloud.com/arnicatunes/garden-weeds"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <RiSoundcloudLine size={24} />
+                  <a href="https://x.com/arnicatunes" target="_blank" rel="noopener noreferrer">
+                    <RiTwitterXLine size={24} />
                   </a>
-                  {/* <button
-                    className="icon-button"
-                    type="button"
-                    onClick={async () => {
-                      const root = rootRef.current
-                      if (!root) return
-                      await root.requestFullscreen()
+                </div>
+              </div>
+              <div
+                className="flex flex-col justify-between gap-8"
+                style={{
+                  width: 380,
+                  height: `calc(100% + 120px - 200px )`,
+                }}
+              >
+                <a
+                  href="https://soundcloud.com/arnicatunes/garden-weeds"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="shrink-0 block w-[380px] h-[120px] relative"
+                >
+                  <div className="absolute inset-0 pointer-events-none">
+                    <SCEmbed width={380} height={120} />
+                  </div>
+                  <div className="absolute inset-0 w-full h-full"></div>
+                </a>
+                <div className="w-full grow flex justify-between">
+                  <div
+                    className="border aspect-square"
+                    style={{
+                      width: "calc(380px - 120px - 2rem)",
+                      height: "calc(380px - 120px - 2rem)",
                     }}
                   >
-                    <CgMaximize size={24} />
-                  </button> */}
+                    <Animation className="aspect-square" />
+                  </div>
+                  <div className="shrink-0 w-[120px] h-[120px] border">
+                    <DrumPad midiUrl={"/midi/DRUMS.mid"} />
+                  </div>
                 </div>
               </div>
             </div>
@@ -198,7 +209,6 @@ export default function Visualizer() {
                 lineColor="white"
                 barColor={{ from: "#fff8", to: "#99b88d" }}
               />
-              {/* <SCEmbed height={120} /> */}
               <Waveform waveform={masterWaveform.current} className="grow shrink" />
               <Meter meter={masterMeter.current} width={30} />
 
