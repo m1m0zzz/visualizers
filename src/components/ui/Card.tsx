@@ -19,7 +19,7 @@ export function Card({ title, type, bg }: Props) {
   }
   const imageOption = isImage ? { ...defaultImageOption, ...bg } : null
   return (
-    <article className="relative overflow-hidden rounded-lg shadow-sm transition hover:shadow-lg group">
+    <article className="relative overflow-hidden rounded-lg shadow-sm transition hover:shadow-lg group text-white/95">
       {isImage ? (
         <Image
           fill={typeof imageOption?.src == "string"}
@@ -35,7 +35,7 @@ export function Card({ title, type, bg }: Props) {
 
       <div className="relative bg-gradient-to-t from-gray-900/50 to-gray-900/25 pt-32 sm:pt-48">
         <div className="p-6">
-          <p className="line-clamp-3 text-sm/relaxed text-white/95">{title}</p>
+          <p className="line-clamp-3 text-sm/relaxed">{title}</p>
         </div>
       </div>
     </article>

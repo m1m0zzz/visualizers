@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import Link from "next/link"
+import gardenWeedsGit from "@/app/assets/garden-weeds.gif"
 import noiseGif from "@/app/assets/noise.gif"
 import spectrumGif from "@/app/assets/spectrum.gif"
 import threeDemoGif from "@/app/assets/three-demo.gif"
@@ -27,7 +28,7 @@ export default function Home() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-8">
           <Link href="/garden-weeds">
-            <Card title="Arnica - Garden Weeds" type="visualizer" bg="oklch(79.2% 0.209 151.711)" />
+            <Card title="Arnica - Garden Weeds" type="visualizer" bg={{ src: gardenWeedsGit }} />
           </Link>
           <Link href="/three-demo">
             <Card title="Three.js" type="demo" bg={{ src: threeDemoGif }} />
@@ -38,9 +39,9 @@ export default function Home() {
           <Link href="/noise">
             <Card title="Noise" type="component" bg={{ src: noiseGif }} />
           </Link>
-          <Link href="/audio-nodes">
+          {/* <Link href="/audio-nodes">
             <Card title="Audio Nodes" type="component" bg="oklch(68.5% 0.169 237.323)" />
-          </Link>
+          </Link> */}
         </div>
       </main>
     </div>
