@@ -14,6 +14,7 @@
     "gltfjsx": "npx gltfjsx -t --root public/ --transform"
   },
   "dependencies": {
+    "@next/third-parties": "^15.5.0",
     "@react-three/drei": "^10.5.1",
     "@react-three/fiber": "^9.2.0",
     "@tonejs/midi": "^2.0.28",
