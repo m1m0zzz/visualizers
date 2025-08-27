@@ -12,12 +12,13 @@ export const metadata: Metadata = {}
 export default function Home() {
   return (
     <div className="font-sans min-h-screen">
-      <main className="p-10">
-        <div className="flex justify-between items-center gap-8">
-          <h1 className="text-2xl sm:text-4xl md:text-5xl xl:text-7xl">
+      <main className="p-6 sm:p-8 md:p-10">
+        <div className="flex justify-between items-start gap-2">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl">
             <a href="https://m1m0zzz.github.io/" className="text-cyan-500 dark:text-cyan-200">
               MIMOZ
-            </a>{" "}
+            </a>
+            <br />
             COMPONENTS
           </h1>
           <ThemeDropdown />

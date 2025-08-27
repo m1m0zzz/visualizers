@@ -1,11 +1,5 @@
 # Visualizers
 
-## TODO
-- texture
-- effects
-  - レンズフレア
-  - 風
-
 ## Getting Started
 
 First, run the development server:

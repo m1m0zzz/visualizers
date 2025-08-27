@@ -3,16 +3,23 @@
 import { useTheme } from "next-themes"
 import { useEffect, useState } from "react"
 import { LuMonitor, LuMoon, LuSun } from "react-icons/lu"
+import { useMediaQuery } from "@/hooks/useMediaQuery"
 
 export function ThemeDropdown() {
   const [isOpen, setIsOpen] = useState(false)
-
   const [mounted, setMounted] = useState(false)
+
   const { theme, setTheme, themes } = useTheme()
+
+  const md = useMediaQuery("md")
 
   useEffect(() => {
     setMounted(true)
   }, [])
+
+  if (md == null) {
+    return null
+  }
 
   if (!mounted) {
     return null
@@ -26,7 +33,7 @@ export function ThemeDropdown() {
         aria-label="Menu"
         onClick={() => setIsOpen((t) => !t)}
       >
-        <span className="flex gap-1 items-center w-[70px] text-sm font-medium">
+        <span className="flex gap-1 items-center md:w-[70px] text-sm font-medium">
           {(() => {
             if (theme == "light") {
               return <LuSun />
@@ -36,7 +43,7 @@ export function ThemeDropdown() {
               return <LuMonitor />
             }
           })()}
-          {theme}
+          {md && theme}
         </span>
 
         <span className="text-sm font-medium">
@@ -47,10 +54,6 @@ export function ThemeDropdown() {
             strokeWidth="1.5"
             stroke="currentColor"
             className="size-4"
-            style={{
-              transform: isOpen ? "rotate(180deg)" : undefined,
-              transition: "180ms transform",
-            }}
           >
             <path strokeLinecap="round" strokeLinejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
           </svg>
@@ -60,7 +63,7 @@ export function ThemeDropdown() {
       {isOpen && (
         <div
           role="menu"
-          className="absolute end-0 top-12 z-1000 w-full overflow-hidden rounded border border-gray-300 bg-white text-gray-700 shadow-sm dark:border-gray-600 dark:bg-foreground"
+          className="absolute end-0 top-12 z-1000 w-full min-w-[100px] overflow-hidden rounded border border-gray-300 bg-white text-gray-700 shadow-sm dark:border-gray-600 dark:bg-foreground"
         >
           {themes.map((theme) => {
             return (
