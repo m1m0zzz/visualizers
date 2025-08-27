@@ -44,4 +44,4 @@ export function Tree(props: ThreeElements["group"]) {
   )
 }
 
-// useGLTF.preload("/models/island_tree_01_4k-transformed.glb")
+useGLTF.preload("/models/island_tree_01_4k-transformed.glb")

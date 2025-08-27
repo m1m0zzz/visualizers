@@ -47,7 +47,7 @@ const midiUrls = [
   "/midi/TRUMPET.mid",
   "/midi/MELODY.mid",
 ]
-const sources = ["/audio/drums.wav", "/audio/bass.wav", "/audio/inst.wav", "/audio/vocals.wav"]
+const sources = ["/audio/drums.mp3", "/audio/bass.mp3", "/audio/inst.mp3", "/audio/vocals.mp3"]
 
 type LoadState = {
   waveforms: number
@@ -91,7 +91,7 @@ export default function Visualizer() {
     const transport = getTransport()
     transport.bpm.set({ value: 110 })
     masterPlayer.current = new Player({
-      url: "/audio/2mix.wav",
+      url: "/audio/2mix.mp3",
       onload: () => {
         setLoadState((beforeState) => ({ ...beforeState, master: true }))
       },

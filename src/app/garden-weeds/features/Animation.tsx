@@ -17,9 +17,9 @@ import { isDev, log } from "@/util/util"
 
 function GrassMaterial({ repeat = 1 }: { repeat?: number }) {
   const props = useTexture({
-    map: "/textures/leafy_grass_4k.gltf/textures/leafy_grass_diff_4k.jpg",
-    normalMap: "/textures/leafy_grass_4k.gltf/textures/leafy_grass_nor_gl_4k.jpg",
-    roughnessMap: "/textures/leafy_grass_4k.gltf/textures/leafy_grass_arm_4k.jpg",
+    map: "/textures/leafy_grass_4k/leafy_grass_diff_4k.jpg",
+    normalMap: "/textures/leafy_grass_4k/leafy_grass_nor_gl_4k.jpg",
+    roughnessMap: "/textures/leafy_grass_4k/leafy_grass_arm_4k.jpg",
   })
   Object.values(props).forEach((texture) => setRepeat(texture, repeat))
 
