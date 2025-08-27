@@ -2,24 +2,28 @@
 
 import { useEffect, useState } from "react"
 
-const breakpoints = ["sm", "md", "lg", "xl", "2xl"] as const
-type Breakpoint = (typeof breakpoints)[number]
+// NOTE: window.getComputedStyle によるスタイルの取得が出来ないため、一時的な処置
+// ref: https://tailwindcss.com/docs/theme#referencing-in-javascript
+const breakpoints = {
+  sm: "40rem",
+  md: "48rem",
+  lg: "64rem",
+  xl: "80rem",
+  "2xl": "96rem",
+}
+
+type Breakpoint = keyof typeof breakpoints
 
 const createMediaQueryList = <T extends Breakpoint>(breakpoint: T) => {
-  const width = window
-    .getComputedStyle(document.documentElement)
-    .getPropertyValue(`--breakpoint-${breakpoint}`)
-  return window.matchMedia(`(min-width: ${width})`)
+  return window.matchMedia(`(min-width: ${breakpoints[breakpoint]})`)
 }
 
 export const useMediaQuery = <T extends Breakpoint>(breakpoint: T) => {
   const [matches, setMatches] = useState<boolean | null>(null)
 
   useEffect(() => {
-    console.log("a")
     const mediaQueryList = createMediaQueryList(breakpoint)
-    // for first time
-    setMatches(mediaQueryList.matches)
+    setMatches(mediaQueryList.matches) // for first time
     const handler = (e: MediaQueryListEvent) => setMatches(e.matches)
     mediaQueryList.addEventListener("change", handler)
     return () => {
