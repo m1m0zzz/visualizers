@@ -4,7 +4,7 @@
 import { Leva } from "leva"
 import { useCallback, useEffect, useRef, useState } from "react"
 import { IoFlowerOutline } from "react-icons/io5"
-import { RiSoundcloudLine, RiTwitterXLine } from "react-icons/ri"
+import { RiTwitterXLine } from "react-icons/ri"
 import {
   type FFT,
   Filter,
@@ -49,9 +49,24 @@ const midiUrls = [
 ]
 const sources = ["/audio/drums.wav", "/audio/bass.wav", "/audio/inst.wav", "/audio/vocals.wav"]
 
+type LoadState = {
+  waveforms: number
+  master: boolean
+}
+
+const waveformsMaxCount = 4
+function isLoadAll(loadState: LoadState) {
+  return loadState.master && loadState.waveforms == waveformsMaxCount
+}
+
 export default function Visualizer() {
   const [isPlay, setIsPlay] = useState(false)
   const toggleIsPlay = useCallback(() => setIsPlay((s) => !s), [])
+
+  const [loadState, setLoadState] = useState<LoadState>({
+    waveforms: 0,
+    master: false,
+  })
 
   const waveforms = useRef<ToneWaveform[]>([])
   const players = useRef<Player[]>([])
@@ -75,7 +90,12 @@ export default function Visualizer() {
     }
     const transport = getTransport()
     transport.bpm.set({ value: 110 })
-    masterPlayer.current = new Player("/audio/2mix.wav")
+    masterPlayer.current = new Player({
+      url: "/audio/2mix.wav",
+      onload: () => {
+        setLoadState((beforeState) => ({ ...beforeState, master: true }))
+      },
+    })
     filter.current = new Filter(440, "bandpass", -12)
     masterVolume.current = new Volume(0)
     masterWaveform.current = new ToneWaveform(8192)
@@ -96,7 +116,12 @@ export default function Visualizer() {
 
     for (let i = 0; i < sources.length; i++) {
       const wf = new ToneWaveform(1024)
-      const player = new Player(sources[i])
+      const player = new Player({
+        url: sources[i],
+        onload: () => {
+          setLoadState((beforeState) => ({ ...beforeState, waveforms: beforeState.waveforms + 1 }))
+        },
+      })
       const volume = new Volume(-100)
       player.chain(wf, volume, ...masterSection)
       players.current.push(player)
@@ -148,6 +173,7 @@ export default function Visualizer() {
                   <Control
                     isPlay={isPlay}
                     toggleIsPlay={toggleIsPlay}
+                    disabled={!isLoadAll(loadState)}
                     onStart={() => {
                       const transport = getTransport()
                       players.current.forEach((p) => p.start(0, transport.seconds))

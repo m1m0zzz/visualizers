@@ -9,6 +9,7 @@ import { log } from "@/util/util"
 interface Props {
   isPlay: boolean
   toggleIsPlay: () => void
+  disabled?: boolean
   iconSize?: number
   onStart?: () => void
   onPause?: () => void
@@ -18,6 +19,7 @@ interface Props {
 export function Control({
   isPlay,
   toggleIsPlay,
+  disabled = false,
   iconSize = 24,
   onStart,
   onPause,
@@ -40,7 +42,7 @@ export function Control({
       <button
         className="icon-button"
         type="button"
-        disabled={isPlay || isHead}
+        disabled={isPlay || isHead || disabled}
         onClick={() => {
           getTransport().seconds = 0
           onPrev?.()
@@ -52,6 +54,7 @@ export function Control({
       <button
         className="icon-button"
         type="button"
+        disabled={disabled}
         onClick={async () => {
           if (getContext().state == "suspended") await Tone.start()
 
