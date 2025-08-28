@@ -1,19 +1,12 @@
-"use client"
-
 import { Fisheye, OrbitControls, Plane, Sky, useTexture } from "@react-three/drei"
 import { Canvas, useFrame, useThree } from "@react-three/fiber"
 import { useControls } from "leva"
 import { type ComponentProps, Suspense } from "react"
 import { DoubleSide } from "three"
-// import type { Meter } from "tone"
 import { Loading } from "@/components/ui/Loading"
 import { Tree } from "@/models/Tree"
 import { Box, CustomDirectionalLight, CustomEnvironment, setRepeat } from "@/util/three"
 import { isDev, log } from "@/util/util"
-
-// interface Props {
-//   meter: RefObject<Meter | null>
-// }
 
 function GrassMaterial({ repeat = 1 }: { repeat?: number }) {
   const props = useTexture({

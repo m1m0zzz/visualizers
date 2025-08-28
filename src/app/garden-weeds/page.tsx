@@ -2,6 +2,7 @@
 
 // 3rd-party
 import { Leva } from "leva"
+import dynamic from "next/dynamic"
 import { useCallback, useEffect, useRef, useState } from "react"
 import { IoFlowerOutline } from "react-icons/io5"
 import { RiTwitterXLine } from "react-icons/ri"
@@ -31,11 +32,14 @@ import { Waveform } from "@/components/Waveform"
 import { useWorklet } from "@/hooks/useWorklet"
 import { error, isDev } from "@/util/util"
 // features
-import { Animation } from "./features/Animation"
 import { Base } from "./features/Base"
 import { Cover } from "./features/Cover"
 import { SCEmbed } from "./features/SCEmbed"
 import { Waveforms } from "./features/Waveforms"
+
+const Animation = dynamic(() => import("./features/Animation").then((mod) => mod.Animation), {
+  ssr: false,
+})
 
 const midiUrls = [
   "/midi/BASS.mid",
