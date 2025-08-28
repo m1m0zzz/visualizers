@@ -1,5 +1,3 @@
-"use client"
-
 import { useEffect, useState } from "react"
 
 // NOTE: window.getComputedStyle によるスタイルの取得が出来ないため、一時的な処置
