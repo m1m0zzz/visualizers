@@ -1,11 +1,9 @@
 import type { Metadata } from "next"
 import Link from "next/link"
-import gardenWeedsGit from "@/app/assets/garden-weeds.gif"
-import noiseGif from "@/app/assets/noise.gif"
-import spectrumGif from "@/app/assets/spectrum.gif"
-import threeDemoGif from "@/app/assets/three-demo.gif"
-import { Card } from "@/components/ui/Card"
+import { Card } from "@/components/ui/Card/"
+import { CardBase } from "@/components/ui/Card/CardBase"
 import { ThemeDropdown } from "@/components/ui/ThemeDropdown"
+import { VideoAsGif } from "@/components/ui/VideoAsGif"
 
 export const metadata: Metadata = {}
 
@@ -29,16 +27,32 @@ export default function Home() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-8">
           <Link href="/garden-weeds">
-            <Card title="Arnica - Garden Weeds" type="visualizer" bg={{ src: gardenWeedsGit }} />
+            <CardBase title="Arnica - Garden Weeds" type="visualizer">
+              <VideoAsGif>
+                <source src="/movie/garden-weeds.mp4" type="video/mp4" />
+              </VideoAsGif>
+            </CardBase>
           </Link>
           <Link href="/three-demo">
-            <Card title="Three.js" type="demo" bg={{ src: threeDemoGif }} />
+            <CardBase title="Three.js" type="demo">
+              <VideoAsGif>
+                <source src="/movie/three-demo.mp4" type="video/mp4" />
+              </VideoAsGif>
+            </CardBase>
           </Link>
           <Link href="/spectrum">
-            <Card title="Spectrum" type="component" bg={{ src: spectrumGif }} />
+            <CardBase title="Spectrum" type="component">
+              <VideoAsGif>
+                <source src="/movie/spectrum.mp4" type="video/mp4" />
+              </VideoAsGif>
+            </CardBase>
           </Link>
           <Link href="/noise">
-            <Card title="Noise" type="component" bg={{ src: noiseGif }} />
+            <CardBase title="Noise" type="component">
+              <VideoAsGif>
+                <source src="/movie/noise.mp4" type="video/mp4" />
+              </VideoAsGif>
+            </CardBase>
           </Link>
           {/* <Link href="/audio-nodes">
             <Card title="Audio Nodes" type="component" bg="oklch(68.5% 0.169 237.323)" />
