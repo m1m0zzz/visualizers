@@ -6,6 +6,7 @@
     "dev": "DEV=true next dev",
     "dev:turbo": "DEV=true next dev --turbopack",
     "build": "next build",
+    "analyzed-build": "ANALYZE=true npm run build",
     "start": "next start",
     "lint": "npx @biomejs/biome lint --write src/",
     "format": "npx @biomejs/biome format --write src/",
@@ -35,6 +36,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "2.1.2",
+    "@next/bundle-analyzer": "^15.5.2",
     "@tailwindcss/postcss": "^4",
     "@types/audioworklet": "^0.0.77",
     "@types/node": "^20",
