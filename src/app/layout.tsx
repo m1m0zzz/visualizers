@@ -2,7 +2,9 @@ import { GoogleAnalytics } from "@next/third-parties/google"
 import type { Metadata } from "next"
 import { Geist, Geist_Mono } from "next/font/google"
 import { ThemeProvider } from "next-themes"
+import { PreloadResources } from "./preload-resources"
 import { ToneGlobals } from "./ToneGlobals"
+// css
 import "./globals.css"
 import "@xyflow/react/dist/style.css"
 import "./react-flow.css"
@@ -51,9 +53,11 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground dark:bg-foreground dark:text-background`}
       >
         <ToneGlobals />
-        <ThemeProvider attribute="data-theme" enableSystem storageKey="theme">
-          {children}
-        </ThemeProvider>
+        <PreloadResources>
+          <ThemeProvider attribute="data-theme" enableSystem storageKey="theme">
+            {children}
+          </ThemeProvider>
+        </PreloadResources>
       </body>
       <GoogleAnalytics gaId="G-N8X1VCH9RG" />
     </html>
