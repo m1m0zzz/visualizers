@@ -43,6 +43,7 @@ export function Control({
         className="icon-button"
         type="button"
         disabled={isPlay || isHead || disabled}
+        aria-label={"Prev"}
         onClick={() => {
           getTransport().seconds = 0
           onPrev?.()
@@ -55,6 +56,7 @@ export function Control({
         className="icon-button"
         type="button"
         disabled={disabled}
+        aria-label={isPlay ? "Pause" : "Play"}
         onClick={async () => {
           if (getContext().state == "suspended") await Tone.start()
 
