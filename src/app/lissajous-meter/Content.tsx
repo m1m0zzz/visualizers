@@ -65,21 +65,25 @@ export function Content({ className, ...props }: ComponentProps<"div">) {
 
   return (
     <div className={clsx(className, "flex justify-center items-center flex-col")} {...props}>
-      <LissajousMeter
-        lrBufferProcessor={lrBufferProcessor.current}
-        type={type}
-        color={colorString(color)}
-        size={dotsSize}
-        smooth={smooth}
-        circular={circular}
-        width={size}
-        height={size}
+      <div
+        className={clsx(circular && "rounded-full")}
         style={{
           backgroundColor: colorString(bg),
           // TODO: clipPath と mixBlendMode の相性が悪い
           // clipPath: !circular ? "polygon(0 50%, 50% 100%, 100% 50%, 50% 0)" : undefined,
         }}
-      />
+      >
+        <LissajousMeter
+          lrBufferProcessor={lrBufferProcessor.current}
+          type={type}
+          color={colorString(color)}
+          size={dotsSize}
+          smooth={smooth}
+          circular={circular}
+          width={size}
+          height={size}
+        />
+      </div>
       <ControlWithoutState
         className="mt-4"
         loaded={isLoad}

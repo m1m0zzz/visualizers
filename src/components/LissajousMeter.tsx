@@ -23,7 +23,7 @@ export function LissajousMeter({
   size = 1,
   smooth = 0.92,
   circular = true,
-  className,
+  style,
   ...props
 }: Props & Omit<Parameters<typeof CanvasWrapper>[0], keyof Props>) {
   log("mount LissajousMeter", lrBufferProcessor)
@@ -40,12 +40,15 @@ export function LissajousMeter({
   }, [lrBufferProcessor])
 
   return (
-    <CanvasWrapper className={clsx(className, circular && "rounded-full")} {...props}>
+    <CanvasWrapper
+      style={{
+        mixBlendMode: "screen",
+        ...style,
+      }}
+      {...props}
+    >
       <AnimationCanvas
         relativeSize
-        style={{
-          mixBlendMode: "screen",
-        }}
         draw={(ctx, width, height) => {
           const w = width.current
           const h = height.current
