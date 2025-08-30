@@ -33,13 +33,6 @@ export default function Home() {
               </VideoAsGif>
             </CardBase>
           </Link>
-          <Link href="/three-demo">
-            <CardBase title="Three.js" type="demo">
-              <VideoAsGif>
-                <source src="/movie/three-demo.mp4" type="video/mp4" />
-              </VideoAsGif>
-            </CardBase>
-          </Link>
           <Link href="/spectrum">
             <CardBase title="Spectrum" type="component">
               <VideoAsGif>
@@ -47,10 +40,24 @@ export default function Home() {
               </VideoAsGif>
             </CardBase>
           </Link>
+          <Link href="/lissajous-meter">
+            <CardBase title="Lissajous Meter" type="component">
+              <VideoAsGif>
+                <source src="/movie/lissajous-meter.mp4" type="video/mp4" />
+              </VideoAsGif>
+            </CardBase>
+          </Link>
           <Link href="/noise">
             <CardBase title="Noise" type="component">
               <VideoAsGif>
                 <source src="/movie/noise.mp4" type="video/mp4" />
+              </VideoAsGif>
+            </CardBase>
+          </Link>
+          <Link href="/three-demo">
+            <CardBase title="Three.js" type="demo">
+              <VideoAsGif>
+                <source src="/movie/three-demo.mp4" type="video/mp4" />
               </VideoAsGif>
             </CardBase>
           </Link>

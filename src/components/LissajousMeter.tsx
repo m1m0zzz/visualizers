@@ -1,25 +1,32 @@
 import { clamp } from "@tremolo-ui/functions"
 import { AnimationCanvas } from "@tremolo-ui/react"
+import clsx from "clsx"
 import { useEffect, useRef } from "react"
 import { log } from "@/util/util"
 import { CanvasWrapper } from "./ui/CanvasWrapper"
 
+export type LissajousMeterType = "dots" | "lines"
 interface Props {
   lrBufferProcessor: AudioWorkletNode | null
-  type?: "dots" | "lines"
-  size?: number // dot size or line width
+  type?: LissajousMeterType
+  color?: string
+  /** dot size or line width */
+  size?: number
+  smooth?: number
   circular?: boolean
 }
 
 export function LissajousMeter({
   lrBufferProcessor,
   type = "dots",
+  color = "white",
   size = 1,
+  smooth = 0.92,
   circular = true,
-  style,
+  className,
   ...props
-}: Props & Parameters<typeof CanvasWrapper>[0]) {
-  log("mount LissajousMeter")
+}: Props & Omit<Parameters<typeof CanvasWrapper>[0], keyof Props>) {
+  log("mount LissajousMeter", lrBufferProcessor)
 
   const leftData = useRef(new Float32Array())
   const rightData = useRef(new Float32Array())
@@ -33,25 +40,21 @@ export function LissajousMeter({
   }, [lrBufferProcessor])
 
   return (
-    <CanvasWrapper
-      style={{
-        mixBlendMode: "screen",
-        ...style,
-      }}
-      {...props}
-    >
+    <CanvasWrapper className={clsx(className, circular && "rounded-full")} {...props}>
       <AnimationCanvas
         relativeSize
+        style={{
+          mixBlendMode: "screen",
+        }}
         draw={(ctx, width, height) => {
           const w = width.current
           const h = height.current
-          // ctx.clearRect(0, 0, w, h)
-          ctx.fillStyle = "rgba(0, 0, 0, 0.08)"
+          ctx.fillStyle = `rgba(0, 0, 0, ${1 - clamp(smooth, 0, 1)})`
           ctx.fillRect(0, 0, w, h)
 
           if (type == "lines") ctx.beginPath()
-          ctx.strokeStyle = "white"
-          ctx.fillStyle = "white"
+          ctx.strokeStyle = color
+          ctx.fillStyle = color
           ctx.lineWidth = size
 
           for (let i = 0; i < leftData.current.length; i += 1) {
@@ -61,11 +64,13 @@ export function LissajousMeter({
             let y = ((1 + m) / 2) * h
 
             if (circular) {
+              // TODO
               const theta = Math.atan2(m, s)
-              const d = Math.sqrt(s ** 2 + m ** 2 / 2)
-              x = w * (0.5 + d * Math.cos(theta))
-              y = h * (0.5 + d * Math.sin(theta))
+              const r = Math.min(Math.sqrt(s ** 2 + m ** 2), 1)
+              x = (0.5 + r * Math.cos(theta)) * w
+              y = (0.5 + r * Math.sin(theta)) * h
             }
+
             if (type == "lines") {
               if (i === 0) ctx.moveTo(x, y)
               else ctx.lineTo(x, y)
