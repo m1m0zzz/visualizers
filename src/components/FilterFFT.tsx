@@ -22,7 +22,7 @@ export function FilterFFT({
   lineColor,
   barColor,
   ...props
-}: Props & FFTProps & Parameters<typeof CanvasWrapper>[0]) {
+}: Props & FFTProps & Omit<Parameters<typeof CanvasWrapper>[0], keyof Props & FFTProps>) {
   log("mount FilterFFT")
   const [ref, state] = useScratch()
 

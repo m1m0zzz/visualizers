@@ -5,16 +5,7 @@ import type { Property } from "csstype"
 import { useControls } from "leva"
 import type { ComponentProps } from "react"
 import { Noise } from "@/components/Noise"
-
-type RGBA = { r: number; g: number; b: number; a?: number }
-
-function colorString({ r, g, b, a }: RGBA) {
-  if (a != undefined) {
-    return `rgba(${r}, ${g}, ${b}, ${a})`
-  } else {
-    return `rgb(${r}, ${g}, ${b})`
-  }
-}
+import { colorString } from "@/util/leva"
 
 export function Content({ className, ...props }: ComponentProps<"div">) {
   const { color, minAlpha, maxAlpha, noiseSize, frameLimit } = useControls("Noise", {

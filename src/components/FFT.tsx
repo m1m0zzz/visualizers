@@ -34,7 +34,7 @@ export function FFT({
   lineColor,
   barColor,
   ...props
-}: FFTProps & Parameters<typeof CanvasWrapper>[0]) {
+}: FFTProps & Omit<Parameters<typeof CanvasWrapper>[0], keyof FFTProps>) {
   log("mount FFT")
   log(fftSize)
 

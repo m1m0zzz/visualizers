@@ -22,14 +22,10 @@ export function ControlWithoutState({
   onPrev,
   style,
   ...props
-}: Props & ComponentProps<"div">) {
+}: Props & Omit<ComponentProps<"div">, keyof Props>) {
   log("mount Control")
   const [isPlay, setIsPlay] = useState(false)
   const [isHead, setIsHead] = useState(true)
-
-  useEffect(() => {
-    setIsHead(getTransport().seconds == 0)
-  })
 
   const toggleIsPlay = useCallback(() => setIsPlay((s) => !s), [])
   const disabled = loaded == false

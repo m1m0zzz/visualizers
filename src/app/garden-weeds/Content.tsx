@@ -84,10 +84,10 @@ export function Content() {
   const masterWaveform = useRef<ToneWaveform>(null)
   const masterMeter = useRef<ToneMeter>(null)
 
-  const { state } = useWorklet(undefined, [])
+  const workletState = useWorklet(undefined, [])
 
   useEffect(() => {
-    if (state != "ok") return
+    if (workletState != "ok") return
     if (!masterFft.current) {
       error("Audio node not initialized.")
       return
@@ -144,7 +144,7 @@ export function Content() {
       waveforms.current = []
       volumes.current = []
     }
-  }, [state])
+  }, [workletState])
 
   return (
     <>

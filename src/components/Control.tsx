@@ -26,13 +26,9 @@ export function Control({
   onPrev,
   style,
   ...props
-}: Props & ComponentProps<"div">) {
+}: Props & Omit<ComponentProps<"div">, keyof Props>) {
   log("mount Control")
   const [isHead, setIsHead] = useState(true)
-
-  useEffect(() => {
-    setIsHead(getTransport().seconds == 0)
-  }, [])
 
   return (
     <div

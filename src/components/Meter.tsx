@@ -8,7 +8,7 @@ interface Props {
   meter: ToneMeter | null
 }
 
-export function Meter({ meter, ...props }: Props & Parameters<typeof CanvasWrapper>[0]) {
+export function Meter({ meter, ...props }: Props & Omit<Parameters<typeof CanvasWrapper>[0], keyof Props>) {
   log("mount Meter")
 
   return (

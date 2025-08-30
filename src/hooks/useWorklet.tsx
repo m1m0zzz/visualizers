@@ -8,7 +8,7 @@ const lrBufferProcessorUrl = new URL("@/processors/lr-buffer-processor", import.
 export function useWorklet(urls: string[] = [lrBufferProcessorUrl], deps?: DependencyList) {
   const count = useRef(0)
 
-  return useEffectAsync(
+  const { state } = useEffectAsync(
     new Promise((resolve) => {
       if (count.current == 0) {
         log("added worklet module")
@@ -20,4 +20,5 @@ export function useWorklet(urls: string[] = [lrBufferProcessorUrl], deps?: Depen
     null,
     deps,
   )
+  return state
 }

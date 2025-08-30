@@ -34,7 +34,7 @@ export function DrumPad({
   yCount = 4,
   midiNumberOffset = 0,
   ...props
-}: Props & Parameters<typeof CanvasWrapper>[0]) {
+}: Props & Omit<Parameters<typeof CanvasWrapper>[0], keyof Props>) {
   log("mount MIDIView")
 
   const [notes, setNotes] = useState<Note[]>([])

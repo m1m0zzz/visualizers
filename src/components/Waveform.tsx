@@ -16,7 +16,7 @@ export function Waveform({
   color = "white",
   lineWidth = 1,
   ...props
-}: Props & Parameters<typeof CanvasWrapper>[0]) {
+}: Props & Omit<Parameters<typeof CanvasWrapper>[0], keyof Props>) {
   log("mount Waveform")
 
   return (

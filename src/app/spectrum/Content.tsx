@@ -6,17 +6,8 @@ import { type ComponentProps, useEffect, useRef } from "react"
 import { getDestination, getTransport, Player, type FFT as ToneFFT } from "tone"
 import { ControlWithoutState } from "@/components/ControlWithoutState"
 import { FFT, type FFTDisplayMode } from "@/components/FFT"
+import { colorString } from "@/util/leva"
 import { useObjectUrlStore } from "./store"
-
-type RGBA = { r: number; g: number; b: number; a?: number }
-
-function colorString({ r, g, b, a }: RGBA) {
-  if (a != undefined) {
-    return `rgba(${r}, ${g}, ${b}, ${a})`
-  } else {
-    return `rgb(${r}, ${g}, ${b})`
-  }
-}
 
 export function Content({ className, ...props }: ComponentProps<"div">) {
   const fft = useRef<ToneFFT>(null)
