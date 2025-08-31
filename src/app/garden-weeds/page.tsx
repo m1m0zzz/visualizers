@@ -1,5 +1,5 @@
 import type { Metadata } from "next"
-import { Content } from "./Content"
+import { Main } from "./Main"
 
 export const metadata: Metadata = {
   title: "Arnica - Garden Weeds",
@@ -7,5 +7,5 @@ export const metadata: Metadata = {
 }
 
 export default function GardenWeeds() {
-  return <Content />
+  return <Main />
 }

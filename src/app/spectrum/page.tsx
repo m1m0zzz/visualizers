@@ -1,5 +1,5 @@
 import type { Metadata } from "next"
-import { Content } from "./Content"
+import { Main } from "./Main"
 import { Editor } from "./Editor"
 
 export const metadata: Metadata = {
@@ -12,7 +12,7 @@ export default function Spectrum() {
       <main className="grow flex flex-col">
         <h1 className="text-2xl lg:text-3xl xl:text-4xl shrink">Spectrum</h1>
         <div className="overflow-auto h-full">
-          <Content className="grow shrink h-full" />
+          <Main className="grow shrink h-full" />
         </div>
       </main>
       <Editor />
