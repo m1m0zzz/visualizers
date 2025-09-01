@@ -1,8 +1,8 @@
 import { mapValue } from "@tremolo-ui/functions"
 import { useAnimationFrame } from "@tremolo-ui/react"
-import clsx from "clsx"
 import { type ComponentProps, useState } from "react"
 import { getTransport } from "tone"
+import { cn } from "@/util/util"
 
 export function Cover({ className, style, ...props }: ComponentProps<"div">) {
   const [blur, setBlur] = useState(0)
@@ -32,7 +32,7 @@ export function Cover({ className, style, ...props }: ComponentProps<"div">) {
 
   return (
     <div
-      className={clsx(className, "absolute w-full h-full pointer-events-none")}
+      className={cn(className, "absolute w-full h-full pointer-events-none")}
       style={{
         backdropFilter: blur > 0.1 ? `blur(${blur}px)` : undefined,
         ...style,

@@ -1,12 +1,12 @@
 "use client"
 
-import clsx from "clsx"
 import { useControls } from "leva"
 import { type ComponentProps, useEffect, useRef } from "react"
 import { getDestination, getTransport, Player, type FFT as ToneFFT } from "tone"
 import { ControlWithoutState } from "@/components/ControlWithoutState"
 import { FFT, type FFTDisplayMode } from "@/components/FFT"
 import { colorString } from "@/util/leva"
+import { cn } from "@/util/util"
 import { useObjectUrlStore } from "./store"
 
 export function Main({ className, ...props }: ComponentProps<"div">) {
@@ -80,7 +80,7 @@ export function Main({ className, ...props }: ComponentProps<"div">) {
   }, [playerUrl])
 
   return (
-    <div className={clsx(className, "flex justify-center items-center flex-col")} {...props}>
+    <div className={cn(className, "flex justify-center items-center flex-col")} {...props}>
       <FFT
         {...{ fft, fftSize, smoothing, slope, lowDb, highDb }}
         mode={mode as FFTDisplayMode}

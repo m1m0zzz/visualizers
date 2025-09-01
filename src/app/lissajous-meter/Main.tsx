@@ -1,6 +1,5 @@
 "use client"
 
-import clsx from "clsx"
 import { useControls } from "leva"
 import { type ComponentProps, useEffect, useRef, useState } from "react"
 import { getContext, getDestination, getTransport, Player } from "tone"
@@ -8,6 +7,7 @@ import { ControlWithoutState } from "@/components/ControlWithoutState"
 import { LissajousMeter, type LissajousMeterType } from "@/components/LissajousMeter"
 import { useWorklet } from "@/hooks/useWorklet"
 import { colorString } from "@/util/leva"
+import { cn } from "@/util/util"
 import { useObjectUrlStore } from "./store"
 
 export function Main({ className, ...props }: ComponentProps<"div">) {
@@ -64,9 +64,9 @@ export function Main({ className, ...props }: ComponentProps<"div">) {
   }, [playerUrl, workletState])
 
   return (
-    <div className={clsx(className, "flex justify-center items-center flex-col")} {...props}>
+    <div className={cn(className, "flex justify-center items-center flex-col")} {...props}>
       <div
-        className={clsx(circular && "rounded-full")}
+        className={cn(circular && "rounded-full")}
         style={{
           backgroundColor: colorString(bg),
           // TODO: clipPath と mixBlendMode の相性が悪い

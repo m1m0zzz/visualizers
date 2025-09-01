@@ -1,11 +1,11 @@
 "use client"
 
-import clsx from "clsx"
 import type { Property } from "csstype"
 import { useControls } from "leva"
 import type { ComponentProps } from "react"
 import { Noise } from "@/components/Noise"
 import { colorString } from "@/util/leva"
+import { cn } from "@/util/util"
 
 export function Content({ className, ...props }: ComponentProps<"div">) {
   const { color, minAlpha, maxAlpha, noiseSize, frameLimit } = useControls("Noise", {
@@ -75,7 +75,7 @@ export function Content({ className, ...props }: ComponentProps<"div">) {
   })
 
   return (
-    <div className={clsx(className, "flex justify-center items-center flex-col")} {...props}>
+    <div className={cn(className, "flex justify-center items-center flex-col")} {...props}>
       <div
         className="relative"
         style={{ width, height, background: colorString(bg), overflow: "hidden" }}

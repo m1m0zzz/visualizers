@@ -1,3 +1,10 @@
+import { type ClassValue, clsx } from "clsx"
+import { twMerge } from "tailwind-merge"
+
+export function cn(...inputs: ClassValue[]): string {
+  return twMerge(clsx(inputs))
+}
+
 /**
  * @param ary An array or Float32Array with a length greater than or equal to 1.
  */
