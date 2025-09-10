@@ -1,11 +1,31 @@
 import type { Metadata } from "next"
 import Link from "next/link"
+import type { IconType } from "react-icons"
+import { LuCloud, LuExternalLink, LuGithub, LuInstagram, LuTwitter } from "react-icons/lu"
+// assets
 import { Card } from "@/components/ui/Card/"
 import { CardBase } from "@/components/ui/Card/CardBase"
 import { ThemeDropdown } from "@/components/ui/ThemeDropdown"
 import { VideoAsGif } from "@/components/ui/VideoAsGif"
 
-export const metadata: Metadata = {}
+const footerLinks: {
+  href: string
+  text: string
+  external?: boolean
+}[] = [
+  { href: "/commentary", text: "Commentary" },
+  { href: "https://github.com/m1m0zzz/visualizers", text: "Repository", external: true },
+]
+
+const footerSNSLinks: {
+  href: string
+  Icon: IconType
+}[] = [
+  { href: "https://github.com/m1m0zzz", Icon: LuGithub },
+  { href: "https://soundcloud.com/mimozzz", Icon: LuCloud },
+  { href: "https://twitter.com/m1m0zzz", Icon: LuTwitter },
+  { href: "https://www.instagram.com/m1m0zzz/", Icon: LuInstagram },
+]
 
 export default function Home() {
   return (
@@ -24,7 +44,6 @@ export default function Home() {
         <p className="mt-1 text-gray-400 xl:text-2xl">
           Exploring the Visual Representation of Sound and its Programming.
         </p>
-
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-8">
           <Link href="/garden-weeds">
             <CardBase title="Arnica - Garden Weeds" type="visualizer">
@@ -66,6 +85,52 @@ export default function Home() {
           </Link> */}
         </div>
       </main>
+      <footer className="bg-neutral-100 dark:bg-neutral-800">
+        <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8">
+          <ul className="flex flex-wrap justify-center gap-6 md:gap-8 lg:gap-12">
+            {footerLinks.map(({ href, text, external }) => {
+              const c =
+                "text-gray-700 transition hover:text-gray-700/75 dark:text-white dark:hover:text-white/75"
+              return (
+                <li key={href}>
+                  {external ? (
+                    <a
+                      href={href}
+                      rel="noreferrer"
+                      target="_blank"
+                      className={`flex items-center gap-1 ${c}`}
+                    >
+                      {text}
+                      <LuExternalLink />
+                    </a>
+                  ) : (
+                    <Link className={c} href={href}>
+                      {text}
+                    </Link>
+                  )}
+                </li>
+              )
+            })}
+          </ul>
+
+          <ul className="mt-12 flex justify-center gap-6 md:gap-8">
+            {footerSNSLinks.map(({ href, Icon }) => {
+              return (
+                <li key={href}>
+                  <a
+                    href={href}
+                    rel="noreferrer"
+                    target="_blank"
+                    className="text-gray-700 transition hover:text-gray-700/75 dark:text-white dark:hover:text-white/75"
+                  >
+                    <Icon size={24} />
+                  </a>
+                </li>
+              )
+            })}
+          </ul>
+        </div>
+      </footer>
     </div>
   )
 }
