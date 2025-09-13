@@ -1,7 +1,13 @@
-import type { Metadata } from "next"
 import Link from "next/link"
 import type { IconType } from "react-icons"
-import { LuCloud, LuExternalLink, LuGithub, LuInstagram, LuTwitter } from "react-icons/lu"
+import {
+  LuAudioWaveform,
+  LuCloud,
+  LuExternalLink,
+  LuGithub,
+  LuInstagram,
+  LuTwitter,
+} from "react-icons/lu"
 // assets
 import { Card } from "@/components/ui/Card/"
 import { CardBase } from "@/components/ui/Card/CardBase"
@@ -44,7 +50,7 @@ export default function Home() {
         <p className="mt-1 text-gray-400 xl:text-2xl">
           Exploring the Visual Representation of Sound and its Programming.
         </p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-8">
           <Link href="/garden-weeds">
             <CardBase title="Arnica - Garden Weeds" type="visualizer">
               <VideoAsGif>
@@ -78,6 +84,13 @@ export default function Home() {
               <VideoAsGif>
                 <source src="/movie/three-demo.mp4" type="video/mp4" />
               </VideoAsGif>
+            </CardBase>
+          </Link>
+          <Link href="/wav-gen">
+            <CardBase title="WavGen" type="demo">
+              <div className="absolute inset-0 h-full w-full bg-purple-300 flex justify-center items-center">
+                <LuAudioWaveform size={100} />
+              </div>
             </CardBase>
           </Link>
           {/* <Link href="/audio-nodes">

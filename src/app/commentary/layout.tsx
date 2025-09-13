@@ -12,7 +12,7 @@ export default function MdxLayout({ children }: { children: ReactNode }) {
           </Link>
         </div>
       </header>
-      <main className="prose mx-auto p-4 md:prose-xl lg:prose-2xl dark:text-white dark:prose-headings:text-white">
+      <main className="prose mx-auto p-4 md:prose-xl lg:prose-2xl dark:prose-invert">
         {children}
       </main>
     </div>

@@ -1,6 +1,6 @@
 "use client"
 
-import { type ComponentProps, useEffect, useState } from "react"
+import { type ComponentProps, useState } from "react"
 import { CgPlayButton, CgPlayPause, CgPlayTrackPrev } from "react-icons/cg"
 import * as Tone from "tone"
 import { getContext, getTransport } from "tone"
