@@ -2,7 +2,7 @@ export function audioBufferToFloat32Array(buffer: AudioBuffer) {
   const numChannels = buffer.numberOfChannels
   const result: Float32Array<ArrayBuffer>[] = []
   for (let i = 0; i < numChannels; i++) {
-    result.push(buffer.getChannelData(i))
+    result.push(buffer.getChannelData(i) as Float32Array<ArrayBuffer>)
   }
   return result
 }

@@ -87,7 +87,7 @@ export default function Home() {
             </CardBase>
           </Link>
           <Link href="/wav-gen">
-            <CardBase title="WavGen" type="demo">
+            <CardBase title="WavGen" type="tool">
               <div className="absolute inset-0 h-full w-full bg-purple-300 flex justify-center items-center">
                 <LuAudioWaveform size={100} />
               </div>
