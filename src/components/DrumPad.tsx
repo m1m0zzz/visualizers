@@ -3,8 +3,8 @@ import { mod } from "@tremolo-ui/functions"
 import { AnimationCanvas } from "@tremolo-ui/react"
 import { useEffect, useState } from "react"
 import { getTransport } from "tone"
-import { lerpColor } from "@/util/canvas"
-import { log } from "@/util/util"
+import { lerpColor } from "@/lib/canvas"
+import { log } from "@/lib/util"
 import { CanvasWrapper } from "./ui/CanvasWrapper"
 
 interface Props {

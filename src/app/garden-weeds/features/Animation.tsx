@@ -4,9 +4,9 @@ import { useControls } from "leva"
 import { type ComponentProps, Suspense } from "react"
 import { DoubleSide } from "three"
 import { Loading } from "@/components/ui/Loading"
+import { Box, CustomDirectionalLight, CustomEnvironment, setRepeat } from "@/lib/three"
+import { isDev, log } from "@/lib/util"
 import { Tree } from "@/models/Tree"
-import { Box, CustomDirectionalLight, CustomEnvironment, setRepeat } from "@/util/three"
-import { isDev, log } from "@/util/util"
 
 function GrassMaterial({ repeat = 1 }: { repeat?: number }) {
   const props = useTexture({

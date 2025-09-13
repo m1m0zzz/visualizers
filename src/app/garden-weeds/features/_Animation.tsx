@@ -5,6 +5,8 @@ import { Canvas } from "@react-three/fiber"
 import { type ComponentProps, Suspense } from "react"
 import { DoubleSide } from "three"
 import { Loading } from "@/components/ui/Loading"
+import { SuspenseGroup, setRepeat } from "@/lib/three"
+import { log } from "@/lib/util"
 import { CompostBags } from "@/models/CompostBags"
 import { MarbleBust } from "@/models/MarbleBust"
 import { PlasticMonoblocChair } from "@/models/PlasticMonoblocChair"
@@ -13,8 +15,6 @@ import { PottedPlant4 } from "@/models/PottedPlant4"
 import { Tree } from "@/models/Tree"
 import { WateringCanMetal } from "@/models/WateringCanMetal"
 import { WoodenStool } from "@/models/WoodenStool"
-import { SuspenseGroup, setRepeat } from "@/util/three"
-import { log } from "@/util/util"
 
 interface Props {
   width?: number | string

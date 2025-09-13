@@ -4,10 +4,10 @@ import type { Property } from "csstype"
 import { useControls } from "leva"
 import type { ComponentProps } from "react"
 import { Noise } from "@/components/Noise"
-import { colorString } from "@/util/leva"
-import { cn } from "@/util/util"
+import { colorString } from "@/lib/leva"
+import { cn } from "@/lib/util"
 
-export function Content({ className, ...props }: ComponentProps<"div">) {
+export function Main({ className, ...props }: ComponentProps<"div">) {
   const { color, minAlpha, maxAlpha, noiseSize, frameLimit } = useControls("Noise", {
     color: { r: 128, g: 128, b: 128 },
     minAlpha: {

@@ -1,14 +1,17 @@
 import { AnimationCanvas } from "@tremolo-ui/react"
 import type { Meter as ToneMeter } from "tone"
 import { dbToGain } from "tone"
-import { log } from "@/util/util"
+import { log } from "@/lib/util"
 import { CanvasWrapper } from "./ui/CanvasWrapper"
 
 interface Props {
   meter: ToneMeter | null
 }
 
-export function Meter({ meter, ...props }: Props & Omit<Parameters<typeof CanvasWrapper>[0], keyof Props>) {
+export function Meter({
+  meter,
+  ...props
+}: Props & Omit<Parameters<typeof CanvasWrapper>[0], keyof Props>) {
   log("mount Meter")
 
   return (

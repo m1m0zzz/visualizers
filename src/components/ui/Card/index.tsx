@@ -1,5 +1,5 @@
 import Image from "next/image"
-import { cn, filterUndefinedProperties } from "@/util/util"
+import { cn, filterUndefinedProperties } from "@/lib/util"
 import { CardBase } from "./CardBase"
 
 interface Props {

@@ -1,6 +1,6 @@
 import { type DependencyList, useRef } from "react"
 import { getContext } from "tone"
-import { log } from "@/util/util"
+import { log } from "@/lib/util"
 import { useEffectAsync } from "./useEffectAsync"
 
 const lrBufferProcessorUrl = new URL("@/processors/lr-buffer-processor", import.meta.url).href

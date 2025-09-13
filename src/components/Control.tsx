@@ -4,7 +4,7 @@ import { type ComponentProps, useEffect, useState } from "react"
 import { CgPlayButton, CgPlayPause, CgPlayTrackPrev } from "react-icons/cg"
 import * as Tone from "tone"
 import { getContext, getTransport } from "tone"
-import { log } from "@/util/util"
+import { log } from "@/lib/util"
 
 interface Props {
   isPlay: boolean

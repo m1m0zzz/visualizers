@@ -10,7 +10,7 @@ export default function NotFound() {
         <div className="text-4xl">Not Found</div>
         <div className="mt-8 flex gap-4 justify-center flex-wrap">
           <PrevButton />
-          <StyledLinkButton href="/" text="Top Page" />
+          <StyledLinkButton href="/">Top Page</StyledLinkButton>
         </div>
       </div>
       <div className="h-[80%]">

@@ -1,6 +1,6 @@
 import { AnimationCanvas, type DrawFunction } from "@tremolo-ui/react"
 import { useCallback } from "react"
-import { randRange } from "@/util/util"
+import { randRange } from "@/lib/util"
 import { CanvasWrapper } from "./ui/CanvasWrapper"
 
 interface NoiseProps {

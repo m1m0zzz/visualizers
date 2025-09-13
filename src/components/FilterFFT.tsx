@@ -2,7 +2,7 @@ import { clamp } from "@tremolo-ui/functions"
 import { memo, type PointerEventHandler, useCallback, useEffect } from "react"
 import { useScratch } from "react-use"
 import type { Filter } from "tone"
-import { log } from "@/util/util"
+import { log } from "@/lib/util"
 import { FFTAnimation, type FFTProps } from "./FFT"
 import { CanvasWrapper } from "./ui/CanvasWrapper"
 

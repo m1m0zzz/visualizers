@@ -17,6 +17,7 @@
         "Soundcloud",
         "tonejs",
         "turbopack",
+        "wavetable",
         "xyflow"
     ]
 }

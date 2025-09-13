@@ -6,8 +6,8 @@ export default function Notice() {
       <p>スマートフォン非推奨のページです。動作が重くフリーズする可能性があります。</p>
       <p>それでも、開きますか？</p>
       <div className="mt-8 flex gap-4 justify-center flex-wrap">
-        <StyledLinkButton href="/garden-weeds?app=mobile" text="開く" />
-        <StyledLinkButton href="/" text="トップページへ" />
+        <StyledLinkButton href="/garden-weeds?app=mobile">開く</StyledLinkButton>
+        <StyledLinkButton href="/">トップページへ</StyledLinkButton>
       </div>
     </div>
   )

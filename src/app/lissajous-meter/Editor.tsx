@@ -2,7 +2,7 @@
 
 import { Leva } from "leva"
 import { FileInput } from "@/components/ui/FileInput"
-import { log } from "@/util/util"
+import { log } from "@/lib/util"
 import { useObjectUrlStore } from "./store"
 
 export function Editor() {

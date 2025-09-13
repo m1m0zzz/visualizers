@@ -3,7 +3,7 @@
 import { usePathname } from "next/navigation"
 import { useEffect, useRef } from "react"
 import { getTransport } from "tone"
-import { log } from "@/util/util"
+import { log } from "@/lib/util"
 
 export function ToneGlobals() {
   const pathname = usePathname()

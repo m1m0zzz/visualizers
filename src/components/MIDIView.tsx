@@ -2,7 +2,7 @@ import { Midi } from "@tonejs/midi"
 import { AnimationCanvas } from "@tremolo-ui/react"
 import { useEffect, useState } from "react"
 import { getTransport } from "tone"
-import { log } from "@/util/util"
+import { log } from "@/lib/util"
 import { CanvasWrapper } from "./ui/CanvasWrapper"
 
 interface Props {

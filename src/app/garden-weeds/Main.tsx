@@ -30,7 +30,7 @@ import { MIDIView } from "@/components/MIDIView"
 import { Waveform } from "@/components/Waveform"
 // hook and util
 import { useWorklet } from "@/hooks/useWorklet"
-import { error, isDev } from "@/util/util"
+import { error, isDev } from "@/lib/util"
 // features
 import { Base } from "./features/Base"
 import { Cover } from "./features/Cover"

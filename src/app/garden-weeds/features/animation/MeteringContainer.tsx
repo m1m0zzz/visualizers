@@ -2,7 +2,7 @@ import { type ThreeElements, useFrame } from "@react-three/fiber"
 import { type RefObject, useRef } from "react"
 import type { Mesh } from "three"
 import { dbToGain, type Meter } from "tone"
-import { average } from "@/util/util"
+import { average } from "@/lib/util"
 
 interface MeteringBoxProps {
   meter: RefObject<Meter | null>

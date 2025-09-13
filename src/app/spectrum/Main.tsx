@@ -5,8 +5,8 @@ import { type ComponentProps, useEffect, useRef } from "react"
 import { getDestination, getTransport, Player, type FFT as ToneFFT } from "tone"
 import { ControlWithoutState } from "@/components/ControlWithoutState"
 import { FFT, type FFTDisplayMode } from "@/components/FFT"
-import { colorString } from "@/util/leva"
-import { cn } from "@/util/util"
+import { colorString } from "@/lib/leva"
+import { cn } from "@/lib/util"
 import { useObjectUrlStore } from "./store"
 
 export function Main({ className, ...props }: ComponentProps<"div">) {

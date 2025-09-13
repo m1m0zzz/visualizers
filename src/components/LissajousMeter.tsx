@@ -1,8 +1,7 @@
 import { clamp } from "@tremolo-ui/functions"
 import { AnimationCanvas } from "@tremolo-ui/react"
-import clsx from "clsx"
 import { useEffect, useRef } from "react"
-import { log } from "@/util/util"
+import { log } from "@/lib/util"
 import { CanvasWrapper } from "./ui/CanvasWrapper"
 
 export type LissajousMeterType = "dots" | "lines"

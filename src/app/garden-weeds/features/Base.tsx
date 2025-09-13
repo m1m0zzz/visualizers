@@ -2,8 +2,8 @@ import { clamp, mapValue } from "@tremolo-ui/functions"
 import { AnimationCanvas, type DrawFunction } from "@tremolo-ui/react"
 import { useCallback } from "react"
 import { getTransport } from "tone"
-import { lerpColorByCount } from "@/util/canvas"
-import { log } from "@/util/util"
+import { lerpColorByCount } from "@/lib/canvas"
+import { log } from "@/lib/util"
 
 interface Props {
   isPlay: boolean

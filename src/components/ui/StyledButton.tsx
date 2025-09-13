@@ -2,12 +2,12 @@
 
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import type { ComponentProps } from "react"
+import type { ComponentProps, ReactNode } from "react"
 import { FiArrowLeft } from "react-icons/fi"
-import { cn } from "@/util/util"
+import { cn } from "@/lib/util"
 
 interface Props {
-  text: string
+  children: ReactNode
   backIcon?: boolean
   color?: string
   borderBg?: string
@@ -15,7 +15,7 @@ interface Props {
 }
 
 function StyledButtonBase({
-  text,
+  children,
   backIcon = false,
   color = "text-emerald-600",
   borderBg = "bg-emerald-600",
@@ -36,14 +36,14 @@ function StyledButtonBase({
       ></span>
       <span className={cn("relative flex items-center gap-1 border border-current px-6 py-2", bg)}>
         {backIcon && <FiArrowLeft />}
-        {text}
+        {children}
       </span>
     </span>
   )
 }
 
 export function StyledButton({
-  text,
+  children,
   backIcon,
   color,
   borderBg,
@@ -53,7 +53,7 @@ export function StyledButton({
 }: Props & Omit<ComponentProps<"button">, keyof Props>) {
   return (
     <button type={type} {...props}>
-      <StyledButtonBase {...{ text, backIcon, color, borderBg, bg }} />
+      <StyledButtonBase {...{ children, backIcon, color, borderBg, bg }} />
     </button>
   )
 }
@@ -67,7 +67,7 @@ export function StyledLinkButton({ href, ...props }: { href: string } & Props) {
 }
 
 export function PrevButton({
-  text = "Prev Page",
+  children = "Prev Page",
   backIcon = true,
   color = "text-gray-50",
   borderBg = "bg-gray-50",
@@ -78,7 +78,7 @@ export function PrevButton({
 
   return (
     <StyledButton
-      {...{ text, backIcon, color, borderBg, bg }}
+      {...{ children, backIcon, color, borderBg, bg }}
       onClick={() => {
         router.back()
       }}
