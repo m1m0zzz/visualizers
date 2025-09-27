@@ -18,10 +18,8 @@ export function Meter({
     <CanvasWrapper {...props}>
       <AnimationCanvas
         relativeSize
-        draw={(ctx, width, height) => {
-          const w = width.current
-          const h = height.current
-          ctx.clearRect(0, 0, w, h)
+        draw={(ctx, { width, height }) => {
+          ctx.clearRect(0, 0, width, height)
           // fft.normalRange = true
 
           if (!meter) return
@@ -29,13 +27,13 @@ export function Meter({
           const _ = meter.getValue()
           const levels = typeof _ == "number" ? [_] : _
           const pad = 2
-          const _w = w / levels.length - pad * (levels.length - 1)
+          const _w = width / levels.length - pad * (levels.length - 1)
 
           ctx.fillStyle = "white"
           for (let i = 0; i < levels.length; i++) {
             const gain = dbToGain(levels[i])
             const invGain = 1 - gain
-            ctx.fillRect((_w + pad) * i, h * invGain, _w, h)
+            ctx.fillRect((_w + pad) * i, height * invGain, _w, height)
           }
         }}
       />

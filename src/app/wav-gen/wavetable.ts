@@ -46,7 +46,7 @@ export function none(_t: number) {
   return 0
 }
 
-export type Fn = (p: number) => number
+export type Fn = (t: number) => number
 
 /* ---------- 1フレーム生成 ---------- */
 export function generateFrame(fn: Fn, frameSize: number, normalize = true) {

@@ -26,12 +26,12 @@ export function Noise({
   ...props
 }: NoiseProps & Omit<Parameters<typeof CanvasWrapper>[0], keyof NoiseProps>) {
   const draNoise = useCallback<DrawFunction>(
-    (ctx, _width, _height, count) => {
+    (ctx, { count }) => {
       const w = ctx.canvas.width
       const h = ctx.canvas.height
       if (w <= 0 || h <= 0) return
 
-      if ((count - 1) % frameLimit != 0) return
+      if (count % frameLimit != 0) return
       const c = typeof color == "number" ? { r: color, g: color, b: color } : color
       const imageData = ctx.createImageData(w, h)
       for (let x = 0; x < w; x++) {

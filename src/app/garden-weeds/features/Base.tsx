@@ -23,16 +23,14 @@ export function Base({ isPlay, setIsPlay }: Props) {
   log("mount Base")
 
   const draw = useCallback<DrawFunction>(
-    (ctx, width, height) => {
-      const w = width.current
-      const h = height.current
+    (ctx, { width, height }) => {
       const transport = getTransport()
       const elapsedTime = transport.seconds
       const spBar = 240 / transport.bpm.value // second per bar
       const barCount = 1 + elapsedTime / spBar
 
       ctx.fillStyle = lerpColorByCount("#82ad8e", "#b2d48c", barCount, lerpStart, lerpEnd)
-      ctx.fillRect(0, 0, w, h)
+      ctx.fillRect(0, 0, width, height)
 
       if (!isPlay) return
 
@@ -47,7 +45,7 @@ export function Base({ isPlay, setIsPlay }: Props) {
     [isPlay, setIsPlay],
   )
 
-  const draNoise = useCallback<DrawFunction>((ctx, _width, _height, count) => {
+  const draNoise = useCallback<DrawFunction>((ctx, { count }) => {
     const w = ctx.canvas.width
     const h = ctx.canvas.height
     const transport = getTransport()
@@ -55,7 +53,7 @@ export function Base({ isPlay, setIsPlay }: Props) {
     const spBar = 240 / transport.bpm.value // second per bar
     const barCount = 1 + elapsedTime / spBar
 
-    if ((count - 1) % 5 != 0) return
+    if (count % 5 != 0) return
     const gray = cMap(barCount, lerpStart, lerpEnd, 140, 185)
     const maxAlpha = cMap(barCount, lerpStart, lerpEnd, 0.7, 0.3)
     const scale = 1

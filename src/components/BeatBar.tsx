@@ -14,16 +14,14 @@ export function BeatBar(props: Parameters<typeof CanvasWrapper>[0]) {
           ctx.fillStyle = "none"
           ctx.fillStyle = "white"
         }}
-        draw={(ctx, width, height) => {
-          const w = width.current
-          const h = height.current
+        draw={(ctx, { width, height }) => {
           const transport = getTransport()
           const elapsedTime = transport.seconds
           const spBar = 240 / transport.bpm.value // second per bar
           const barPercent = (elapsedTime % spBar) / spBar
 
-          ctx.clearRect(0, 0, w, h)
-          ctx.fillRect(0, 0, w * barPercent, h)
+          ctx.clearRect(0, 0, width, height)
+          ctx.fillRect(0, 0, width * barPercent, height)
         }}
       />
     </CanvasWrapper>

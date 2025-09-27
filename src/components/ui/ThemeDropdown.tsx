@@ -29,7 +29,7 @@ export function ThemeDropdown() {
     <div className="relative inline-flex">
       <button
         type="button"
-        className="inline-flex overflow-hidden rounded border items-center px-3 py-2 gap-2 border-gray-300 bg-white text-gray-700 shadow-sm dark:divide-gray-600 dark:border-gray-600 dark:bg-foreground transition-colors hover:bg-gray-50 hover:text-gray-900 dark:text-gray-200 dark:hover:bg-white/10 dark:hover:text-white"
+        className="inline-flex overflow-hidden rounded border items-center px-3 py-2 gap-2 border-gray-300  text-gray-700 shadow-sm dark:divide-gray-600 dark:border-gray-600 transition-colors hover:bg-gray-50 hover:text-gray-900 dark:text-gray-200 dark:hover:bg-white/10 dark:hover:text-white"
         aria-label="Menu"
         onClick={() => setIsOpen((t) => !t)}
       >
@@ -63,7 +63,7 @@ export function ThemeDropdown() {
       {isOpen && (
         <div
           role="menu"
-          className="absolute end-0 top-12 z-1000 w-full min-w-[100px] overflow-hidden rounded border border-gray-300 bg-white text-gray-700 shadow-sm dark:border-gray-600 dark:bg-foreground"
+          className="absolute end-0 top-12 z-1000 w-full min-w-[100px] overflow-hidden rounded border border-gray-300 text-gray-700 shadow-sm dark:border-gray-600 "
         >
           {themes.map((theme) => {
             return (

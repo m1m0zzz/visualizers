@@ -7,8 +7,8 @@ export const metadata: Metadata = {
 
 export default function WavGen() {
   return (
-    <div className="min-h-screen p-4 sm:p-6">
-      <h1 className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl mb-6">WavGen</h1>
+    <div className="min-h-screen prose prose-stone prose-xl xl:prose-2xl dark:prose-invert p-4 sm:p-6 mx-auto">
+      <h1 className="text-3xl lg:text-4xl xl:text-5xl mb-6">WavGen</h1>
       <Main />
     </div>
   )

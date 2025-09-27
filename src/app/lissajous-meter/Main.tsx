@@ -6,8 +6,8 @@ import { getContext, getDestination, getTransport, Player } from "tone"
 import { ControlWithoutState } from "@/components/ControlWithoutState"
 import { LissajousMeter, type LissajousMeterType } from "@/components/LissajousMeter"
 import { useWorklet } from "@/hooks/useWorklet"
+import { cn } from "@/lib/cn"
 import { colorString } from "@/lib/leva"
-import { cn } from "@/lib/util"
 import { useObjectUrlStore } from "./store"
 
 export function Main({ className, ...props }: ComponentProps<"div">) {

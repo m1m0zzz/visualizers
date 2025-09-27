@@ -1,24 +1,26 @@
 {
-    "words": [
-        "Ableton",
-        "audioworklet",
-        "Avenir",
-        "blockout",
-        "drei",
-        "GLTF",
-        "gltfjsx",
-        "lerp",
-        "mimoz",
-        "monobloc",
-        "nyquist",
-        "oklch",
-        "opengraph",
-        "rgba",
-        "shiki",
-        "Soundcloud",
-        "tonejs",
-        "turbopack",
-        "wavetable",
-        "xyflow"
-    ]
+  "words": [
+    "Ableton",
+    "audioworklet",
+    "Avenir",
+    "blockout",
+    "drei",
+    "GLTF",
+    "gltfjsx",
+    "lerp",
+    "mimoz",
+    "monobloc",
+    "nyquist",
+    "oklch",
+    "opengraph",
+    "rgba",
+    "shadcn",
+    "shiki",
+    "Soundcloud",
+    "tonejs",
+    "turbopack",
+    "wavetable",
+    "Xfer",
+    "xyflow"
+  ]
 }

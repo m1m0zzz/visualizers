@@ -63,19 +63,17 @@ export function DrumPad({
     <CanvasWrapper {...props}>
       <AnimationCanvas
         relativeSize
-        draw={(ctx, width, height) => {
-          const w = width.current
-          const h = height.current
+        draw={(ctx, { width, height }) => {
           const transport = getTransport()
           const elapsedTime = transport.seconds
           const bpm = transport.bpm.value
 
-          ctx.clearRect(0, 0, w, h)
+          ctx.clearRect(0, 0, width, height)
 
           if (elapsedTime <= 0.001) return
 
-          const padW = w / xCount
-          const padH = h / yCount
+          const padW = width / xCount
+          const padH = height / yCount
 
           for (const note of notes) {
             const time = note.time * (120 / bpm) // 補正
@@ -89,7 +87,7 @@ export function DrumPad({
                 "#fff",
                 getBaseLog(2, 1 + note.velocity) * 100,
               )
-              ctx.fillRect(x * padW, h - y * padH, padW, padH)
+              ctx.fillRect(x * padW, height - y * padH, padW, padH)
             }
           }
         }}

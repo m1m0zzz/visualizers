@@ -48,11 +48,9 @@ export function LissajousMeter({
     >
       <AnimationCanvas
         relativeSize
-        draw={(ctx, width, height) => {
-          const w = width.current
-          const h = height.current
+        draw={(ctx, { width, height }) => {
           ctx.fillStyle = `rgba(0, 0, 0, ${1 - clamp(smooth, 0, 1)})`
-          ctx.fillRect(0, 0, w, h)
+          ctx.fillRect(0, 0, width, height)
 
           if (type == "lines") ctx.beginPath()
           ctx.strokeStyle = color
@@ -62,15 +60,15 @@ export function LissajousMeter({
           for (let i = 0; i < leftData.current.length; i += 1) {
             const m = clamp((leftData.current[i] + rightData.current[i]) / 2, -1, 1)
             const s = clamp((leftData.current[i] - rightData.current[i]) / 2, -1, 1)
-            let x = ((1 + s) / 2) * w
-            let y = ((1 + m) / 2) * h
+            let x = ((1 + s) / 2) * width
+            let y = ((1 + m) / 2) * height
 
             if (circular) {
               // TODO
               const theta = Math.atan2(m, s)
               const r = Math.min(Math.sqrt(s ** 2 + m ** 2), 1)
-              x = (0.5 + r * Math.cos(theta)) * w
-              y = (0.5 + r * Math.sin(theta)) * h
+              x = (0.5 + r * Math.cos(theta)) * width
+              y = (0.5 + r * Math.sin(theta)) * height
             }
 
             if (type == "lines") {

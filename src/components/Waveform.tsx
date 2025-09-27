@@ -27,29 +27,27 @@ export function Waveform({
           ctx.fillStyle = "none"
           ctx.lineWidth = lineWidth
         }}
-        draw={(ctx, width, height) => {
-          const w = width.current
-          const h = height.current
-          ctx.clearRect(0, 0, w, h)
+        draw={(ctx, { width, height }) => {
+          ctx.clearRect(0, 0, width, height)
 
           if (!waveform) return
           if (isPlay == false) return
 
           const _ = waveform.getValue()
           const dataArray = (typeof _ == "object" ? _ : _[0]) as Float32Array // L channel only
-          const sliceWidth = w / waveform.size
+          const sliceWidth = width / waveform.size
 
           let x = 0
           ctx.beginPath()
-          ctx.moveTo(0, h / 2)
+          ctx.moveTo(0, height / 2)
           for (let i = 0; i < waveform.size; i++) {
             const data = dataArray[i] // -1 ~ 1
-            const y = h / 2 + (data * h) / 2
+            const y = height / 2 + (data * height) / 2
             ctx.lineTo(x, y)
             x += sliceWidth
           }
-          ctx.lineTo(w, h / 2)
-          ctx.closePath()
+          ctx.lineTo(width, height / 2)
+          // ctx.closePath()
           ctx.strokeStyle = color
           ctx.stroke()
         }}

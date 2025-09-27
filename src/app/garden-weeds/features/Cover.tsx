@@ -2,7 +2,7 @@ import { mapValue } from "@tremolo-ui/functions"
 import { useAnimationFrame } from "@tremolo-ui/react"
 import { type ComponentProps, useState } from "react"
 import { getTransport } from "tone"
-import { cn } from "@/lib/util"
+import { cn } from "@/lib/cn"
 
 export function Cover({ className, style, ...props }: ComponentProps<"div">) {
   const [blur, setBlur] = useState(0)

@@ -4,7 +4,7 @@ import Link from "next/link"
 import { useRouter } from "next/navigation"
 import type { ComponentProps, ReactNode } from "react"
 import { FiArrowLeft } from "react-icons/fi"
-import { cn } from "@/lib/util"
+import { cn } from "@/lib/cn"
 
 interface Props {
   children: ReactNode

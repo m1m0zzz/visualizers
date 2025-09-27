@@ -59,14 +59,12 @@ export function MIDIView({
     <CanvasWrapper {...props}>
       <AnimationCanvas
         relativeSize
-        draw={(ctx, width, height) => {
-          const w = width.current
-          const h = height.current
+        draw={(ctx, { width, height }) => {
           const transport = getTransport()
           const elapsedTime = transport.seconds
           const bpm = transport.bpm.value
 
-          ctx.clearRect(0, 0, w, h)
+          ctx.clearRect(0, 0, width, height)
 
           if (elapsedTime <= 0.001) return
 
@@ -75,14 +73,14 @@ export function MIDIView({
             const duration = note.duration * (120 / bpm) // 補正
             const x = (time - elapsedTime) * PIXELS_PER_SECOND
             const y = (127 - note.midi) * (NOTE_HEIGHT * 0.8) - 150
-            const width = duration * 0.7 * PIXELS_PER_SECOND
+            const noteWidth = duration * 0.7 * PIXELS_PER_SECOND
 
-            if (x + width < 0 || x > w) continue
+            if (x + noteWidth < 0 || x > width) continue
 
             // ctx.fillStyle = lerpColor("transparent", colors?.[note.track] ?? `#fff`, 60)
             ctx.fillStyle = colors?.[note.track] ?? `#fff`
             // ctx.fillStyle = lerpColor("transparent", `#fff`, 60)
-            ctx.fillRect(x, y, width, NOTE_HEIGHT)
+            ctx.fillRect(x, y, noteWidth, NOTE_HEIGHT)
           }
         }}
       />

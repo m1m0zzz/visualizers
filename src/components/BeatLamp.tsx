@@ -10,17 +10,15 @@ export function BeatLamp(props: Parameters<typeof CanvasWrapper>[0]) {
         init={(ctx) => {
           ctx.fillStyle = "none"
         }}
-        draw={(ctx, width, height) => {
-          const w = width.current
-          const h = height.current
+        draw={(ctx, { width, height }) => {
           const transport = getTransport()
           const elapsedTime = transport.seconds
           const spb = 60 / transport.bpm.value // second per beat
 
-          ctx.clearRect(0, 0, w, h)
+          ctx.clearRect(0, 0, width, height)
           const a = elapsedTime / spb - Math.floor(elapsedTime / spb)
           ctx.fillStyle = `rgba(255, 255, 255, ${1 - a})`
-          ctx.fillRect(0, 0, w, h)
+          ctx.fillRect(0, 0, width, height)
         }}
       />
     </CanvasWrapper>

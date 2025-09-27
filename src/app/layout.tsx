@@ -5,9 +5,10 @@ import { ThemeProvider } from "next-themes"
 import { PreloadResources } from "./preload-resources"
 import { ToneGlobals } from "./ToneGlobals"
 // css
+import "@tremolo-ui/react/styles/index.css"
 import "./globals.css"
-import "@xyflow/react/dist/style.css"
-import "./react-flow.css"
+// import "@xyflow/react/dist/style.css"
+// import "./react-flow.css"
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -49,12 +50,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground dark:bg-foreground dark:text-background`}
-      >
+      <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <ToneGlobals />
         <PreloadResources>
-          <ThemeProvider attribute="data-theme" enableSystem storageKey="theme">
+          <ThemeProvider attribute="class" enableSystem storageKey="theme">
             {children}
           </ThemeProvider>
         </PreloadResources>
