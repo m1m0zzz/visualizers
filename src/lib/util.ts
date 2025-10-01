@@ -9,6 +9,14 @@ export function downloadBlob(blob: Blob, filename: string) {
   URL.revokeObjectURL(url)
 }
 
+export function setClipboard(text: string) {
+  const type = "text/plain"
+  const blob = new Blob([text], { type })
+  const data = [new ClipboardItem({ [type]: blob })]
+
+  return navigator.clipboard.write(data)
+}
+
 /**
  * @param ary An array or Float32Array with a length greater than or equal to 1.
  */

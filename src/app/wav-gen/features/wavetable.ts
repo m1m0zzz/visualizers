@@ -9,13 +9,13 @@
 
 import { downloadBlob } from "@/lib/util"
 import { encodeWAVBlob } from "@/lib/web-audio"
+import { type Fn, MAX_FRAMES } from "./const"
 
 const DEFAULT_SAMPLE_RATE = 48000
 const DEFAULT_FRAME_SIZE = 2048
-const MAX_FRAMES = 256
 
 export function sine(t: number) {
-  return Math.sin(t * 2 * Math.PI)
+  return Math.sin(2 * Math.PI * t)
 }
 
 export function triangle(t: number) {
@@ -45,8 +45,6 @@ export function square(t: number) {
 export function none(_t: number) {
   return 0
 }
-
-export type Fn = (t: number) => number
 
 /* ---------- 1フレーム生成 ---------- */
 export function generateFrame(fn: Fn, frameSize: number, normalize = true) {

@@ -1,5 +1,6 @@
 "use client"
 
+import { useSearchParams } from "next/navigation"
 import { useState } from "react"
 import {
   Select,
@@ -8,10 +9,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/shadcn/select"
-import { PreviewCard } from "./features/PreviewCard"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/shadcn/tabs"
+import { type Fn, type FrameSize, filenameUtil, frameSizeMap } from "./features/const"
+import { type PresetItem, PreviewCard } from "./features/PreviewCard"
+import { WavGenProvider } from "./features/provider"
+import { WaveCreator } from "./features/WaveCreator"
 import {
   DEFAULT_NUM_FRAMES,
-  type Fn,
   generateFrame,
   generateWavetable,
   generateWavetableLerp,
@@ -21,18 +25,9 @@ import {
   sine,
   square,
   triangle,
-} from "./wavetable"
+} from "./features/wavetable"
 
 const basicShapes = [sine, triangle, saw, square]
-const frameSizeMap: Record<number, string> = {
-  1024: "1024 (Ableton Wavetable)",
-  2048: "2048 (Vital, Xfer Serum)",
-}
-
-function filenameUtil(name: string, frameSize: number) {
-  return `${name}${frameSize == 1024 ? " (Live)" : ""}.wav`
-}
-
 const dcOffset: Fn[] = [(_: number) => -1, (_: number) => 1]
 
 function generatePhaseShiftSawFrames(numFrames = DEFAULT_NUM_FRAMES) {
@@ -46,25 +41,6 @@ function generatePhaseShiftSaw(frameSize: number, numFrames = DEFAULT_NUM_FRAMES
     return generateFrame(f, frameSize)
   })
 }
-
-export type FrameSize = 1024 | 2048
-
-export type GenerateFunction = (frameSize: FrameSize) => void
-
-export type PresetItem =
-  | {
-      title: string
-      functions: Fn[]
-      func: GenerateFunction
-    }
-  | {
-      title: string
-      functions: Fn[]
-      options: {
-        title: string
-        func: GenerateFunction
-      }[]
-    }
 
 const presetItems: PresetItem[] = [
   {
@@ -138,14 +114,14 @@ const presetItems: PresetItem[] = [
 
 export function Main() {
   const [frameSize, setFrameSize] = useState<FrameSize>(1024)
-
-  console.log("a")
+  const searchParams = useSearchParams()
+  const defaultOpen = searchParams.get("tab") == "formula" ? "formula" : "presets"
 
   return (
-    <div>
-      <h2 className="text-2xl md:text-3xl mb-2 md:mb-4">wavetable</h2>
+    <WavGenProvider searchParams={searchParams}>
+      <div className="text-2xl md:text-3xl mb-2 md:mb-4">wavetable</div>
       <section className="mb-6">
-        <div className="text-stone-600 dark:text-stone-300 mb-8">
+        <div className="text-base text-stone-600 dark:text-stone-300 mb-8">
           <div className="mt-1">wavetable generator. Creating a wavetable from a function.</div>
           <div className="mt-1">NOTE: Load in Raw mode in Ableton Wavetable.</div>
         </div>
@@ -169,12 +145,25 @@ export function Main() {
             </SelectContent>
           </Select>
         </div>
-        <div className="mt-4">
-          {presetItems.map((item) => (
-            <PreviewCard key={item.title} item={item} frameSize={frameSize} />
-          ))}
-        </div>
+        <Tabs defaultValue={defaultOpen} className="mt-4">
+          <TabsList>
+            <TabsTrigger value="presets">Presets</TabsTrigger>
+            <TabsTrigger value="formula">Create from formula</TabsTrigger>
+          </TabsList>
+          <TabsContent value="presets">
+            <div className="mt-4 flex flex-col gap-6">
+              {presetItems.map((item) => (
+                <PreviewCard key={item.title} item={item} frameSize={frameSize} />
+              ))}
+            </div>
+          </TabsContent>
+          <TabsContent value="formula">
+            <div className="mt-4 flex flex-col gap-6">
+              <WaveCreator frameSize={frameSize} />
+            </div>
+          </TabsContent>
+        </Tabs>
       </section>
-    </div>
+    </WavGenProvider>
   )
 }

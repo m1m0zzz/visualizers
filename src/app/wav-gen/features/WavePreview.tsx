@@ -1,8 +1,8 @@
 import { mapValue } from "@tremolo-ui/functions"
-import { AnimationCanvas, type AnimationCanvasProps } from "@tremolo-ui/react"
+import { AnimationCanvas } from "@tremolo-ui/react"
 import { useTheme } from "next-themes"
 import type { ComponentProps } from "react"
-import type { Fn } from "../wavetable"
+import type { Fn } from "./const"
 
 // 区間数は2以上
 // t 0-1
