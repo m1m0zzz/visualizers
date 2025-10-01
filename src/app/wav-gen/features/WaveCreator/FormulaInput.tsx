@@ -3,6 +3,7 @@ import { useDebounce } from "react-use"
 import { Input } from "@/components/ui/shadcn/input"
 import { cn } from "@/lib/cn"
 import type { Fn } from "../const"
+import { defaultFormula } from "../provider"
 import { createFormula } from "."
 
 function createFormulaSafe(f: string) {
@@ -41,7 +42,8 @@ export function FormulaInput({ value, onChange, debounceMs = 350 }: Props) {
   return (
     <Input
       type="text"
-      placeholder="formula"
+      placeholder={defaultFormula}
+      autoComplete="off"
       className={cn(
         "w-full",
         createFormulaSafe(value).ok ||

@@ -121,6 +121,7 @@ export function Configs({ frameSize, functions, formulas }: Props) {
             type="text"
             name="filename"
             placeholder="wavetable"
+            autoComplete="off"
             className="grow"
             defaultValue={filename}
             maxLength={255 - 11} // xxx (Live).wav
