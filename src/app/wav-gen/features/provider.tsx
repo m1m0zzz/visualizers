@@ -40,9 +40,9 @@ const defaultInitState: State = {
   frames: 64,
   filename: defaultFilename,
   formulas: [
-    { id: 0, f: "Math.sin(2 * Math.PI * t)" }, // sine
-    { id: 1, f: "t < 0.5 ? 1 - 4 * Math.abs(t - 0.25) : -1 + 4 * Math.abs(t - 0.75)" }, // triangle
-    { id: 2, f: "2 * (t + 0.5 - Math.floor(t + 0.5)) - 1" }, // saw
+    { id: 0, f: "sin(2 * PI * t)" }, // sine
+    { id: 1, f: "t < 0.5 ? 1 - 4 * abs(t - 0.25) : -1 + 4 * abs(t - 0.75)" }, // triangle
+    { id: 2, f: "2 * (t + 0.5 - floor(t + 0.5)) - 1" }, // saw
     { id: 3, f: "t < 0.5 ? 1 : -1" }, // pulse
   ],
 }

@@ -1,4 +1,4 @@
-import { mapValue } from "@tremolo-ui/functions"
+import { clamp, mapValue } from "@tremolo-ui/functions"
 import { AnimationCanvas } from "@tremolo-ui/react"
 import { useTheme } from "next-themes"
 import type { ComponentProps } from "react"
@@ -52,7 +52,7 @@ export function WavePreview({
         ctx.beginPath()
         for (let x = 1; x < w; x++) {
           const p = x / w
-          const y = 1 + mapValue(f(p), -1, 1, 1, 0) * (height - 2)
+          const y = 1 + clamp(mapValue(f(p), -1, 1, 1, 0), 0, 1) * (height - 2)
           if (x == 1) {
             ctx.moveTo(x, y)
           } else {

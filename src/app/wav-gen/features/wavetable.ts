@@ -7,6 +7,7 @@
  * - mono 16-bit PCM
  */
 
+import { clamp } from "@tremolo-ui/functions"
 import { downloadBlob } from "@/lib/util"
 import { encodeWAVBlob } from "@/lib/web-audio"
 import { type Fn, MAX_FRAMES } from "./const"
@@ -51,7 +52,7 @@ export function generateFrame(fn: Fn, frameSize: number, normalize = true) {
   const frame = new Float32Array(frameSize)
   for (let i = 0; i < frameSize; i++) {
     const t = i / frameSize
-    frame[i] = fn(t)
+    frame[i] = clamp(fn(t), -1, 1)
   }
   if (normalize) {
     const mean = frame.reduce((a, b) => a + b, 0) / frameSize

@@ -10,12 +10,7 @@ import { WavePreview } from "../WavePreview"
 import { Configs } from "./Configs"
 import { FormulaInput } from "./FormulaInput"
 import { Title } from "./Title"
-
-const wrapReturn = (s: string) => `return (${s})`
-
-export function createFormula(f: string) {
-  return new Function("t", wrapReturn(f)) as Fn
-}
+import { createFormula } from "./parser"
 
 interface Props {
   frameSize: FrameSize
