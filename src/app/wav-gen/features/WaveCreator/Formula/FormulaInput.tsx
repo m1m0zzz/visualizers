@@ -2,8 +2,8 @@ import { useState } from "react"
 import { useDebounce } from "react-use"
 import { Input } from "@/components/ui/shadcn/input"
 import { cn } from "@/lib/cn"
-import { defaultFormula } from "../provider"
-import { createFormulaSafe } from "./parser"
+import { defaultFormula } from "../../provider"
+import { createFormulaSafe } from "../parser"
 
 interface Props {
   value: string

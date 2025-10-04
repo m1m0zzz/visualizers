@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { LuBug, LuEraser, LuPlus } from "react-icons/lu"
+import { LuBug, LuPlus } from "react-icons/lu"
 import { Button } from "@/components/ui/shadcn/button"
 import { Card, CardContent } from "@/components/ui/shadcn/card"
 import { Slider } from "@/components/ui/shadcn/slider"
@@ -8,9 +8,9 @@ import type { Fn, FrameSize } from "../const"
 import { MAX_FORMULAS, useWavGenStore } from "../provider"
 import { WavePreview } from "../WavePreview"
 import { Configs } from "./Configs"
-import { FormulaInput } from "./FormulaInput"
-import { Title } from "./Title"
+import { Formula } from "./Formula"
 import { createFormula } from "./parser"
+import { Title } from "./Title"
 
 interface Props {
   frameSize: FrameSize
@@ -20,8 +20,6 @@ export function WaveCreator({ frameSize }: Props) {
   const [pos, setPos] = useState(0)
   const formulas = useWavGenStore((s) => s.formulas)
   const addFormula = useWavGenStore((s) => s.addFormula)
-  const updateFormulaAt = useWavGenStore((s) => s.updateFormulaAt)
-  const deleteFormulaAt = useWavGenStore((s) => s.deleteFormulaAt)
 
   let functions: Fn[]
   try {
@@ -72,27 +70,7 @@ export function WaveCreator({ frameSize }: Props) {
           />
         </div>
         <Title className="mt-12 sm:mt-8 mb-5">Formula</Title>
-        <div className="flex flex-col gap-3">
-          {formulas.map(({ id, f }) => {
-            return (
-              <div key={id} className="flex gap-2">
-                <FormulaInput value={f} onChange={(v) => updateFormulaAt(v, id)} />
-                {formulas.length == 1 ? (
-                  <Button disabled size="icon" className="size-8 invisible"></Button>
-                ) : (
-                  <Button
-                    variant="destructive"
-                    size="icon"
-                    className="size-8"
-                    onClick={() => deleteFormulaAt(id)}
-                  >
-                    <LuEraser />
-                  </Button>
-                )}
-              </div>
-            )
-          })}
-        </div>
+        <Formula />
         <div className="mt-3 mx-auto w-fit">
           <Button
             disabled={formulas.length >= MAX_FORMULAS}

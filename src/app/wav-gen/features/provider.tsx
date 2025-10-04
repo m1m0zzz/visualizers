@@ -4,7 +4,7 @@ import { createContext, type ReactNode, useContext, useRef } from "react"
 import { createStore, useStore } from "zustand"
 import { MAX_FRAMES, MIN_FRAMES } from "./const"
 
-type Formula = {
+export type Formula = {
   id: number
   f: string
 }
@@ -31,7 +31,7 @@ type Action = {
 type WavGenStore = State & Action
 
 export const defaultFilename = "wavetable"
-export const defaultFormula = "Math.sin(2 * Math.PI * t)"
+export const defaultFormula = "sin(2 * PI * t)"
 export const MAX_FORMULAS = 16
 
 const defaultInitState: State = {
