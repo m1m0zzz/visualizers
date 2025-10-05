@@ -32,7 +32,7 @@ export function WaveCreator({ frameSize }: Props) {
 
   return (
     <Card className="px-3 py-6 mb-20 text-base">
-      <CardContent>
+      <CardContent className="px-2 sm:px-6">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-12">
           <div className="flex flex-col gap-5 justify-between">
             <Title>Preview</Title>
