@@ -1,14 +1,8 @@
 import Link from "next/link"
 import type { IconType } from "react-icons"
-import {
-  LuAudioWaveform,
-  LuCloud,
-  LuExternalLink,
-  LuGithub,
-  LuInstagram,
-  LuTwitter,
-} from "react-icons/lu"
+import { LuCloud, LuExternalLink, LuGithub, LuInstagram, LuTwitter } from "react-icons/lu"
 // assets
+import wavGenPng from "@/app/assets/wav-gen.png"
 import { Card } from "@/components/ui/Card/"
 import { CardBase } from "@/components/ui/Card/CardBase"
 import { ThemeDropdown } from "@/components/ui/ThemeDropdown"
@@ -87,11 +81,7 @@ export default function Home() {
             </CardBase>
           </Link>
           <Link href="/wav-gen">
-            <CardBase title="WavGen" type="tool">
-              <div className="absolute inset-0 h-full w-full bg-purple-300 flex justify-center items-center">
-                <LuAudioWaveform size={100} />
-              </div>
-            </CardBase>
+            <Card title="WavGen" type="tool" bg={{ src: wavGenPng, alt: "WavGen Thumbnail" }} />
           </Link>
           {/* <Link href="/audio-nodes">
             <Card title="Audio Nodes" type="component" bg="oklch(68.5% 0.169 237.323)" />
