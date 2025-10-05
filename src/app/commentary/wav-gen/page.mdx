@@ -1,0 +1,47 @@
+# WavGen Docs
+
+[日本語版](./ja/wav-gen)
+
+## Usage
+
+Select the number of samples according to the synthesizer you are using.
+
+If you are using Vital or Serum, make sure to turn `lerp` ON.
+
+## Specifications
+
+### Preview
+
+Displays the waveform.
+
+You can change the wavetable position using the slider below.
+
+### Config
+
+* lerp
+
+  Performs linear interpolation.
+
+* normalize
+
+  Normalizes each frame.
+
+* frames
+
+  Only available when `lerp` is ON.
+  Specifies the number of frames after linear interpolation.
+
+* filename
+
+  The filename of the wavetable to be downloaded.
+
+### Formula
+
+Internally uses expr-eval.
+
+You can use all modifiers, functions, and constants available in expr-eval,
+except for variable assignments and the `in` modifier.
+
+For more details, please refer to:
+
+https://github.com/silentmatt/expr-eval

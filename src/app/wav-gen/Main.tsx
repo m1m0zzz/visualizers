@@ -1,5 +1,6 @@
 "use client"
 
+import Link from "next/link"
 import { useSearchParams } from "next/navigation"
 import { useState } from "react"
 import {
@@ -115,7 +116,7 @@ const presetItems: PresetItem[] = [
 export function Main() {
   const [frameSize, setFrameSize] = useState<FrameSize>(1024)
   const searchParams = useSearchParams()
-  const defaultOpen = searchParams.get("tab") == "formula" ? "formula" : "presets"
+  const defaultOpen = (searchParams.get("tab") || "formula") == "formula" ? "formula" : "presets"
 
   return (
     <WavGenProvider searchParams={searchParams}>
@@ -123,7 +124,9 @@ export function Main() {
       <section className="mb-6">
         <div className="text-base text-stone-600 dark:text-stone-300 mb-8">
           <div className="mt-1">wavetable generator. Creating a wavetable from a function.</div>
-          <div className="mt-1">NOTE: Load in Raw mode in Ableton Wavetable.</div>
+          <div className="mt-1">
+            Detailed documentation is <Link href="/commentary/wav-gen">here</Link>.
+          </div>
         </div>
         <div className="mt-1 flex items-center gap-1">
           <span>sample: </span>
@@ -147,19 +150,19 @@ export function Main() {
         </div>
         <Tabs defaultValue={defaultOpen} className="mt-4">
           <TabsList>
-            <TabsTrigger value="presets">Presets</TabsTrigger>
             <TabsTrigger value="formula">Create from formula</TabsTrigger>
+            <TabsTrigger value="presets">Presets</TabsTrigger>
           </TabsList>
+          <TabsContent value="formula">
+            <div className="mt-4 flex flex-col gap-6">
+              <WaveCreator frameSize={frameSize} />
+            </div>
+          </TabsContent>
           <TabsContent value="presets">
             <div className="mt-4 flex flex-col gap-6">
               {presetItems.map((item) => (
                 <PreviewCard key={item.title} item={item} frameSize={frameSize} />
               ))}
-            </div>
-          </TabsContent>
-          <TabsContent value="formula">
-            <div className="mt-4 flex flex-col gap-6">
-              <WaveCreator frameSize={frameSize} />
             </div>
           </TabsContent>
         </Tabs>
