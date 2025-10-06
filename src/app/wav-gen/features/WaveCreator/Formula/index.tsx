@@ -8,13 +8,14 @@ import {
   useSensor,
   useSensors,
 } from "@dnd-kit/core"
-import { restrictToVerticalAxis, restrictToWindowEdges } from "@dnd-kit/modifiers"
+import { restrictToParentElement, restrictToVerticalAxis } from "@dnd-kit/modifiers"
 import {
   arrayMove,
   SortableContext,
   sortableKeyboardCoordinates,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable"
+import { useId } from "react"
 import { useWavGenStore } from "../../provider"
 import { SortableItem } from "./SortableItem"
 
@@ -32,6 +33,8 @@ function getIndex<T extends Record<string, U>, U>(
 }
 
 export function Formula() {
+  const dndId = useId()
+
   const formulas = useWavGenStore((s) => s.formulas)
   const setFormulas = useWavGenStore((s) => s.setFormulas)
 
@@ -61,17 +64,20 @@ export function Formula() {
   }
 
   return (
-    <DndContext
-      modifiers={[restrictToVerticalAxis, restrictToWindowEdges]}
-      sensors={sensors}
-      collisionDetection={closestCenter}
-      onDragEnd={handleDragEnd}
-    >
-      <SortableContext items={formulas} strategy={verticalListSortingStrategy}>
-        {formulas.map(({ id, f }) => (
-          <SortableItem key={id} id={id} f={f} deletable={formulas.length > 1} />
-        ))}
-      </SortableContext>
-    </DndContext>
+    <div>
+      <DndContext
+        id={dndId}
+        modifiers={[restrictToVerticalAxis, restrictToParentElement]}
+        sensors={sensors}
+        collisionDetection={closestCenter}
+        onDragEnd={handleDragEnd}
+      >
+        <SortableContext items={formulas} strategy={verticalListSortingStrategy}>
+          {formulas.map(({ id, f }) => (
+            <SortableItem key={id} id={id} f={f} deletable={formulas.length > 1} />
+          ))}
+        </SortableContext>
+      </DndContext>
+    </div>
   )
 }
