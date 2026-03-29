@@ -57,7 +57,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "2.1.2",
-    "@next/bundle-analyzer": "15.5.4",
+    "@next/bundle-analyzer": "15.5.14",
     "@tailwindcss/postcss": "4.1.13",
     "@tailwindcss/typography": "0.5.19",
     "@types/audioworklet": "0.0.77",
