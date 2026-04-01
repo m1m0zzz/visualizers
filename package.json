@@ -33,7 +33,7 @@
     "@react-three/fiber": "^9.2.0",
     "@sentry/nextjs": "^10.17.0",
     "@tonejs/midi": "^2.0.28",
-    "@tremolo-ui/functions": "^0.1.0",
+    "@tremolo-ui/functions": "^0.2.0",
     "@tremolo-ui/react": "^0.1.0",
     "@vercel/speed-insights": "^1.2.0",
     "@xyflow/react": "^12.8.2",
