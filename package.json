@@ -60,7 +60,7 @@
     "@next/bundle-analyzer": "15.5.15",
     "@tailwindcss/postcss": "4.2.2",
     "@tailwindcss/typography": "0.5.19",
-    "@types/audioworklet": "0.0.97",
+    "@types/audioworklet": "0.0.98",
     "@types/mdx": "2.0.13",
     "@types/node": "20.19.39",
     "@types/react": "19.2.14",
