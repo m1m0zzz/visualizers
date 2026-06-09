@@ -62,7 +62,7 @@
     "@tailwindcss/typography": "0.5.19",
     "@types/audioworklet": "0.0.100",
     "@types/mdx": "2.0.13",
-    "@types/node": "20.19.41",
+    "@types/node": "20.19.42",
     "@types/react": "19.2.16",
     "@types/react-dom": "19.2.3",
     "@types/three": "0.184.1",
