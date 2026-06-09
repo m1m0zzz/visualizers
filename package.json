@@ -61,7 +61,7 @@
     "@tailwindcss/postcss": "4.3.0",
     "@tailwindcss/typography": "0.5.19",
     "@types/audioworklet": "0.0.100",
-    "@types/mdx": "2.0.13",
+    "@types/mdx": "2.0.14",
     "@types/node": "20.19.42",
     "@types/react": "19.2.16",
     "@types/react-dom": "19.2.3",
