@@ -1,5 +1,4 @@
 import { Midi } from "@tonejs/midi"
-import { mod } from "@tremolo-ui/functions"
 import { AnimationCanvas } from "@tremolo-ui/react"
 import { useEffect, useState } from "react"
 import { getTransport } from "tone"
@@ -62,7 +61,7 @@ export function DrumPad({
   return (
     <CanvasWrapper {...props}>
       <AnimationCanvas
-        relativeSize
+        resizable
         draw={(ctx, { width, height }) => {
           const transport = getTransport()
           const elapsedTime = transport.seconds
@@ -80,7 +79,7 @@ export function DrumPad({
             const duration = note.duration * (120 / bpm) // 補正
             if (time <= elapsedTime && elapsedTime <= time + duration) {
               const index = note.midi - midiNumberOffset
-              const x = mod(index, xCount)
+              const x = ((index % xCount) + xCount) % xCount
               const y = Math.floor(index / yCount) + 1
               ctx.fillStyle = lerpColor(
                 "transparent",

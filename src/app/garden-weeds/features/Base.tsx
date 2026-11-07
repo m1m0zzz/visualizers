@@ -1,5 +1,6 @@
+import type { CanvasDrawFunction } from "@tremolo-ui/dom"
 import { clamp, mapValue } from "@tremolo-ui/functions"
-import { AnimationCanvas, type DrawFunction } from "@tremolo-ui/react"
+import { AnimationCanvas } from "@tremolo-ui/react"
 import { useCallback } from "react"
 import { getTransport } from "tone"
 import { lerpColorByCount } from "@/lib/canvas"
@@ -22,7 +23,7 @@ const lerpEnd = 17
 export function Base({ isPlay, setIsPlay }: Props) {
   log("mount Base")
 
-  const draw = useCallback<DrawFunction>(
+  const draw = useCallback<CanvasDrawFunction>(
     (ctx, { width, height }) => {
       const transport = getTransport()
       const elapsedTime = transport.seconds
@@ -45,7 +46,7 @@ export function Base({ isPlay, setIsPlay }: Props) {
     [isPlay, setIsPlay],
   )
 
-  const draNoise = useCallback<DrawFunction>((ctx, { count }) => {
+  const draNoise = useCallback<CanvasDrawFunction>((ctx, { count }) => {
     const w = ctx.canvas.width
     const h = ctx.canvas.height
     const transport = getTransport()

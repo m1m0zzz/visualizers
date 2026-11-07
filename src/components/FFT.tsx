@@ -58,7 +58,7 @@ export function FFTAnimation({
   lineColor = "white",
   barColor = "white",
   ...props
-}: FFTProps & ComponentPropsWithoutRef<"canvas">) {
+}: FFTProps & Omit<ComponentPropsWithoutRef<"canvas">, "width" | "height">) {
   log("mount FFTAnimation")
 
   useEffect(() => {
@@ -76,7 +76,7 @@ export function FFTAnimation({
 
   return (
     <AnimationCanvas
-      relativeSize
+      resizable
       draw={(ctx, { width, height }) => {
         ctx.clearRect(0, 0, width, height)
         ctx.save()

@@ -28,7 +28,7 @@ export function Cover({ className, style, ...props }: ComponentProps<"div">) {
         setBlur(mapValue(now, 0.66 * d, 1 * d, maxBlur * 0.5, 0))
       }
     }
-  }, [])
+  })
 
   return (
     <div
