@@ -7,7 +7,6 @@ import { Toaster } from "@/components/ui/shadcn/sonner"
 import { PreloadResources } from "./preload-resources"
 import { ToneGlobals } from "./ToneGlobals"
 // css
-import "@tremolo-ui/react/styles/index.css"
 import "./globals.css"
 
 // import "@xyflow/react/dist/style.css"

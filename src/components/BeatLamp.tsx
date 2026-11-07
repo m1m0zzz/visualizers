@@ -6,7 +6,7 @@ export function BeatLamp(props: Parameters<typeof CanvasWrapper>[0]) {
   return (
     <CanvasWrapper {...props}>
       <AnimationCanvas
-        relativeSize
+        resizable
         init={(ctx) => {
           ctx.fillStyle = "none"
         }}

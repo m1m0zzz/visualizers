@@ -17,7 +17,7 @@ export function Meter({
   return (
     <CanvasWrapper {...props}>
       <AnimationCanvas
-        relativeSize
+        resizable
         draw={(ctx, { width, height }) => {
           ctx.clearRect(0, 0, width, height)
           // fft.normalRange = true

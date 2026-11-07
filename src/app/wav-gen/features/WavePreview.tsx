@@ -35,7 +35,7 @@ export function WavePreview({
   color,
   pos = 0,
   ...props
-}: Props & Omit<ComponentProps<"canvas">, keyof Props>) {
+}: Props & Omit<ComponentProps<"canvas">, keyof Props | "width" | "height">) {
   const { theme } = useTheme()
 
   const f = lerpFunctions(functions, pos)
@@ -43,7 +43,7 @@ export function WavePreview({
   return (
     <AnimationCanvas
       {...props}
-      relativeSize
+      resizable
       draw={(ctx, { width, height }) => {
         ctx.clearRect(0, 0, width, height)
         ctx.strokeStyle = color || (theme == "light" ? "black" : "white")

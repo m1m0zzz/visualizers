@@ -1,4 +1,5 @@
-import { AnimationCanvas, type DrawFunction } from "@tremolo-ui/react"
+import type { CanvasDrawFunction } from "@tremolo-ui/dom"
+import { AnimationCanvas } from "@tremolo-ui/react"
 import { useCallback } from "react"
 import { randRange } from "@/lib/util"
 import { CanvasWrapper } from "./ui/CanvasWrapper"
@@ -25,7 +26,7 @@ export function Noise({
   style,
   ...props
 }: NoiseProps & Omit<Parameters<typeof CanvasWrapper>[0], keyof NoiseProps>) {
-  const draNoise = useCallback<DrawFunction>(
+  const draNoise = useCallback<CanvasDrawFunction>(
     (ctx, { count }) => {
       const w = ctx.canvas.width
       const h = ctx.canvas.height
@@ -56,7 +57,7 @@ export function Noise({
 
   return (
     <CanvasWrapper style={{ ...style }} {...props}>
-      <AnimationCanvas relativeSize draw={draNoise} />
+      <AnimationCanvas resizable draw={draNoise} />
     </CanvasWrapper>
   )
 }

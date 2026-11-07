@@ -47,7 +47,7 @@ export function LissajousMeter({
       {...props}
     >
       <AnimationCanvas
-        relativeSize
+        resizable
         draw={(ctx, { width, height }) => {
           ctx.fillStyle = `rgba(0, 0, 0, ${1 - clamp(smooth, 0, 1)})`
           ctx.fillRect(0, 0, width, height)

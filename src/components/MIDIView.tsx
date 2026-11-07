@@ -58,7 +58,7 @@ export function MIDIView({
   return (
     <CanvasWrapper {...props}>
       <AnimationCanvas
-        relativeSize
+        resizable
         draw={(ctx, { width, height }) => {
           const transport = getTransport()
           const elapsedTime = transport.seconds
