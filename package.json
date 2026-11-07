@@ -77,6 +77,7 @@
     "npm": ">=11.16.0"
   },
   "allowScripts": {
-    "@sentry/cli": false
+    "@sentry/cli": false,
+    "fsevents": false
   }
 }
