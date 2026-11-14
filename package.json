@@ -31,7 +31,7 @@
     "@radix-ui/react-toggle-group": "^1.1.11",
     "@react-three/drei": "^10.5.1",
     "@react-three/fiber": "^9.2.0",
-    "@sentry/nextjs": "^10.17.0",
+    "@sentry/nextjs": "^11.0.0",
     "@tonejs/midi": "^2.0.28",
     "@tremolo-ui/dom": "^0.9.0",
     "@tremolo-ui/functions": "^0.9.0",
