@@ -37,7 +37,7 @@
     "@tremolo-ui/functions": "^0.9.0",
     "@tremolo-ui/react": "^0.9.0",
     "@vercel/speed-insights": "^2.0.0",
-    "@xyflow/react": "^12.8.2",
+    "@xyflow/react": "^13.0.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "expr-eval": "^2.0.2",
